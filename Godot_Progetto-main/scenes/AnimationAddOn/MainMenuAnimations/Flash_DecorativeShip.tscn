@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://dfvhu177u261k"]
+
+[ext_resource type="Script" uid="uid://drgj7huen5gl7" path="res://Scripts/AnimationsAddOn/MainMenuAnimations/ship_properties.gd" id="1_s5vb1"]
+[ext_resource type="Texture2D" uid="uid://bgihe4opj0och" path="res://Sprites/Spaceships/Players/Flash_Player.png" id="2_6kivd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rpv1t"]
+atlas = ExtResource("2_6kivd")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snu70"]
+atlas = ExtResource("2_6kivd")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uho41"]
+atlas = ExtResource("2_6kivd")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vnp6"]
+atlas = ExtResource("2_6kivd")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fa4jl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rpv1t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_snu70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uho41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vnp6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="DecorativeShip2" type="Node2D"]
+script = ExtResource("1_s5vb1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+rotation = 1.56731
+sprite_frames = SubResource("SpriteFrames_fa4jl")
+autoplay = "default"
+frame_progress = 0.41962
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

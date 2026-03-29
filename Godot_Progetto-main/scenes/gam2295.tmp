@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://cdte5upmfyn1s"]
+
+[ext_resource type="Script" path="res://Scripts/game_mode_waves.gd" id="1_wtxj0"]
+[ext_resource type="Script" path="res://Scripts/enemy_spawner_waves.gd" id="2_2lf3c"]
+[ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/04B_30__.TTF" id="3_070rt"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qgqns"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7543l"]
+normal = Vector2(1, 0)
+distance = -3.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_46004"]
+normal = Vector2(-0.999898, -0.0142843)
+distance = -1152.08
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jnyqv"]
+distance = -648.0
+
+[node name="GameModeWaves" type="Node2D"]
+script = ExtResource("1_wtxj0")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Top" type="CollisionShape2D" parent="Walls"]
+position = Vector2(578, 0)
+shape = SubResource("WorldBoundaryShape2D_qgqns")
+
+[node name="Left" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_7543l")
+
+[node name="Right" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_46004")
+
+[node name="Bottom" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_jnyqv")
+
+[node name="EnemySpawner_Waves" type="Node2D" parent="."]
+script = ExtResource("2_2lf3c")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="WaveLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_070rt")
+theme_override_font_sizes/font_size = 42
+horizontal_alignment = 1
+
+[node name="WaveTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="WaveTimer" to="." method="_on_wave_timer_timeout"]

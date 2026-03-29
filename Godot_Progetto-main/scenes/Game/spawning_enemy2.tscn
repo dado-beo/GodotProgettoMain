@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://8rycn2ekayur"]
+
+[ext_resource type="Script" uid="uid://1kjab4cl4g4v" path="res://Scripts/Game/spawning_enemy_2.gd" id="1_euwig"]
+
+[sub_resource type="Animation" id="Animation_h3cya"]
+resource_name = "spawn"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8iejg"]
+_data = {
+&"spawn": SubResource("Animation_h3cya")
+}
+
+[node name="SpawningEnemy2" type="Node2D"]
+script = ExtResource("1_euwig")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8iejg")
+}

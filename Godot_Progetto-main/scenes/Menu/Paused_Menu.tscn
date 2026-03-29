@@ -1,0 +1,219 @@
+[gd_scene format=3 uid="uid://cgvw14xt7tjt4"]
+
+[ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="1_iy6rb"]
+[ext_resource type="Script" uid="uid://c82owqxjurl6w" path="res://Scripts/Menu/paused_menu.gd" id="2_1ywy5"]
+[ext_resource type="Script" uid="uid://dhd21hwxt6e2r" path="res://Scripts/audio_control.gd" id="3_mgbf7"]
+[ext_resource type="Script" uid="uid://b33wv112jwaoh" path="res://Scripts/Menu/Main/fullscreen_control.gd" id="4_17xw3"]
+
+[sub_resource type="Theme" id="Theme_m35f2"]
+default_font = ExtResource("1_iy6rb")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q3l8u"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sbwlh"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mdlx5"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ityy"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssl74"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_11vn1"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_kcb10"]
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_endom"]
+thickness = 6
+
+[node name="PausedMenu" type="Control" unique_id=1311087529]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_m35f2")
+script = ExtResource("2_1ywy5")
+
+[node name="MainButtons" type="VBoxContainer" parent="." unique_id=749002355]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -163.5
+offset_top = -71.0
+offset_right = 163.5
+offset_bottom = 71.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MainButtons" unique_id=1105992810]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Pausa
+"
+horizontal_alignment = 1
+
+[node name="ResumeBtn" type="Button" parent="MainButtons" unique_id=319328875]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_q3l8u")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sbwlh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mdlx5")
+text = "Riprendi
+"
+
+[node name="SettingsBtn" type="Button" parent="MainButtons" unique_id=82814692]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_q3l8u")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sbwlh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mdlx5")
+text = "Impostazioni"
+
+[node name="QuitBtn" type="Button" parent="MainButtons" unique_id=923474968]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_q3l8u")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sbwlh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mdlx5")
+text = "Abbandona"
+
+[node name="Options" type="Panel" parent="." unique_id=1058135716]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -202.0
+offset_top = -158.0
+offset_right = 200.0
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Options" unique_id=1124061227]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -198.0
+offset_top = -125.5
+offset_right = 184.0
+offset_bottom = -70.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "Opzioni"
+horizontal_alignment = 1
+
+[node name="Back" type="Button" parent="Options" unique_id=1297637197]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -162.5
+offset_top = -42.0
+offset_right = 162.5
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_1ityy")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ssl74")
+theme_override_styles/hover = SubResource("StyleBoxFlat_11vn1")
+text = "Indietro"
+
+[node name="AudioControl" type="HSlider" parent="Options" unique_id=1381989626]
+layout_mode = 0
+offset_left = 58.0
+offset_top = 47.0
+offset_right = 340.0
+offset_bottom = 111.0
+theme_override_styles/slider = SubResource("StyleBoxLine_kcb10")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_endom")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("3_mgbf7")
+audio_bus_name = "Music"
+
+[node name="FullscreenControl" type="CheckButton" parent="Options" unique_id=1502598097]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 121.0
+offset_right = 349.0
+offset_bottom = 170.0
+text = "Schermo intero
+"
+script = ExtResource("4_17xw3")
+
+[connection signal="pressed" from="MainButtons/ResumeBtn" to="." method="_on_resume_btn_pressed"]
+[connection signal="pressed" from="MainButtons/SettingsBtn" to="." method="_on_settings_btn_pressed"]
+[connection signal="pressed" from="MainButtons/QuitBtn" to="." method="_on_quit_btn_pressed"]
+[connection signal="pressed" from="Options/Back" to="." method="_on_back_pressed"]
+[connection signal="value_changed" from="Options/AudioControl" to="Options/AudioControl" method="_on_value_changed"]
+[connection signal="toggled" from="Options/FullscreenControl" to="Options/FullscreenControl" method="_on_toggled"]

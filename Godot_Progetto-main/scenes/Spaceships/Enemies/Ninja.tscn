@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://6s33vlys227s"]
+
+[ext_resource type="Script" uid="uid://b602i6fw0y1jk" path="res://Scripts/Spaceships/Enemies/Ninja.gd" id="1_apg1p"]
+[ext_resource type="Texture2D" uid="uid://bmdvly25plf0x" path="res://Sprites/Spaceships/Enemies/Ninja.png" id="2_vrk4m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wwuj"]
+atlas = ExtResource("2_vrk4m")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fuegp"]
+atlas = ExtResource("2_vrk4m")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7o5h"]
+atlas = ExtResource("2_vrk4m")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_boxim"]
+atlas = ExtResource("2_vrk4m")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6k32v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wwuj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fuegp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g7o5h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_boxim")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Ninja" type="CharacterBody2D" unique_id=975157967]
+script = ExtResource("1_apg1p")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1499954901]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_6k32v")
+autoplay = "default"
+frame_progress = 0.21124557
+
+[node name="Ninja_ShootyPart1" type="Node2D" parent="." unique_id=1165736021]
+texture_filter = 1
+position = Vector2(15, 0)
+
+[node name="Ninja_ShootyPart2" type="Node2D" parent="." unique_id=1745678781]
+texture_filter = 1
+position = Vector2(0, 16)
+
+[node name="Ninja_ShootyPart3" type="Node2D" parent="." unique_id=940830427]
+texture_filter = 1
+position = Vector2(0, -16)
+
+[node name="Ninja_ShootyPart4" type="Node2D" parent="." unique_id=1828532447]
+texture_filter = 1
+position = Vector2(-15, 0)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=239494657]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

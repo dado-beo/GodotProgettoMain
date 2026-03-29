@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://bjivny0kdxc6b"]
+
+[ext_resource type="Script" uid="uid://dbse1umfsoh3r" path="res://Scripts/Game/Game_Endless.gd" id="1_2g3br"]
+[ext_resource type="Texture2D" uid="uid://hc2ha5b3i345" path="res://Sprites/Backgrounds/Game_Endless_SpaceBackground.png" id="1_hofhg"]
+[ext_resource type="PackedScene" uid="uid://c316ek4x22v2p" path="res://scenes/Menu/Main_Menu.tscn" id="1_p3w8h"]
+[ext_resource type="PackedScene" uid="uid://cgvw14xt7tjt4" path="res://scenes/Menu/Paused_Menu.tscn" id="2_cc753"]
+[ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="3_wd4dk"]
+[ext_resource type="Script" uid="uid://sx7lxirvh3vf" path="res://Scripts/Game/enemy_endless_spawner.gd" id="7_dwhnb"]
+[ext_resource type="Script" uid="uid://db33baxe03if3" path="res://Scripts/Game/turtle_spawner.gd" id="8_2mg1e"]
+[ext_resource type="Script" uid="uid://cl0fkviigoipd" path="res://Scripts/Game/asteroid_spawner.gd" id="8_uny1n"]
+[ext_resource type="Script" uid="uid://bjio47c8l06d3" path="res://Scripts/Game/purple_devil_spawner.gd" id="9_25krs"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qeqn8"]
+texture = ExtResource("1_hofhg")
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_h0ke1"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_u3k47"]
+normal = Vector2(1, 0)
+distance = -3.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mymht"]
+normal = Vector2(-0.999898, -0.0142843)
+distance = -1152.08
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_8c075"]
+distance = -648.0
+
+[sub_resource type="Theme" id="Theme_gopwb"]
+default_font = ExtResource("3_wd4dk")
+
+[node name="GameEndless" type="Node2D" unique_id=1897771099]
+script = ExtResource("1_2g3br")
+
+[node name="Panel" type="Panel" parent="." unique_id=1457102626]
+offset_right = 1151.0
+offset_bottom = 657.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_qeqn8")
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=2141565973]
+
+[node name="Top" type="CollisionShape2D" parent="Walls" unique_id=2089209625]
+position = Vector2(578, 0)
+shape = SubResource("WorldBoundaryShape2D_h0ke1")
+
+[node name="Left" type="CollisionShape2D" parent="Walls" unique_id=1683925618]
+shape = SubResource("WorldBoundaryShape2D_u3k47")
+
+[node name="Right" type="CollisionShape2D" parent="Walls" unique_id=1162328482]
+shape = SubResource("WorldBoundaryShape2D_mymht")
+
+[node name="Bottom" type="CollisionShape2D" parent="Walls" unique_id=16813979]
+shape = SubResource("WorldBoundaryShape2D_8c075")
+
+[node name="Menu" type="CanvasLayer" parent="." unique_id=1623613440]
+
+[node name="MainMenu" parent="Menu" unique_id=1218408805 instance=ExtResource("1_p3w8h")]
+visible = false
+script = null
+
+[node name="PausedMenu" parent="Menu" unique_id=981318644 instance=ExtResource("2_cc753")]
+theme = SubResource("Theme_gopwb")
+
+[node name="NinjaSpawner" type="Node2D" parent="." unique_id=728074204]
+script = ExtResource("7_dwhnb")
+
+[node name="Timer" type="Timer" parent="NinjaSpawner" unique_id=975288008]
+wait_time = 10.0
+autostart = true
+
+[node name="TurtleSpawner" type="Node2D" parent="." unique_id=1917273925]
+script = ExtResource("8_2mg1e")
+
+[node name="Timer" type="Timer" parent="TurtleSpawner" unique_id=41928302]
+wait_time = 5.0
+autostart = true
+
+[node name="AsteroidSpawner" type="Node2D" parent="." unique_id=415212560]
+script = ExtResource("8_uny1n")
+
+[node name="EventAsteroidTimer" type="Timer" parent="AsteroidSpawner" unique_id=1168965625]
+wait_time = 15.0
+autostart = true
+
+[node name="PurpleDevilSpawner" type="Node2D" parent="." unique_id=331859440]
+script = ExtResource("9_25krs")
+
+[node name="EventPurpleDevil" type="Timer" parent="PurpleDevilSpawner" unique_id=689633618]
+wait_time = 17.5
+autostart = true
+
+[connection signal="timeout" from="NinjaSpawner/Timer" to="NinjaSpawner" method="_on_timer_timeout"]
+[connection signal="timeout" from="TurtleSpawner/Timer" to="TurtleSpawner" method="_on_timer_timeout"]
+[connection signal="timeout" from="AsteroidSpawner/EventAsteroidTimer" to="AsteroidSpawner" method="_on_event_asteroid_timer_timeout"]
+[connection signal="timeout" from="PurpleDevilSpawner/EventPurpleDevil" to="PurpleDevilSpawner" method="_on_event_purple_devil_timeout"]

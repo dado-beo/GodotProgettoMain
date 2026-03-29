@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://cwwx8ibk4r15i"]
+
+[ext_resource type="Script" uid="uid://b8g867pv2mfet" path="res://Scripts/Spaceships/Players/StarChaser_Player.gd" id="1_a85rf"]
+[ext_resource type="Texture2D" uid="uid://dlq7ua5g3asiw" path="res://Sprites/Spaceships/Players/StarChaser_Player.png" id="1_tiq2k"]
+[ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="3_cgtb6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hf6o8"]
+atlas = ExtResource("1_tiq2k")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d55jl"]
+atlas = ExtResource("1_tiq2k")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_328g2"]
+atlas = ExtResource("1_tiq2k")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y5uqm"]
+atlas = ExtResource("1_tiq2k")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u2ftd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hf6o8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d55jl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_328g2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y5uqm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_csrhv"]
+radius = 11.0
+height = 24.0
+
+[node name="Player" type="CharacterBody2D" unique_id=1154042791]
+texture_filter = 1
+script = ExtResource("1_a85rf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1033016257]
+rotation = 1.57776
+sprite_frames = SubResource("SpriteFrames_u2ftd")
+autoplay = "default"
+frame_progress = 0.404439
+speed_scale = 0.8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=549258155]
+shape = SubResource("CapsuleShape2D_csrhv")
+
+[node name="ShootyPart" type="Node2D" parent="." unique_id=1677754747]
+texture_filter = 1
+position = Vector2(13, 0)
+
+[node name="ShootyPart2" type="Node2D" parent="." unique_id=2009368713]
+texture_filter = 1
+position = Vector2(15, -9)
+
+[node name="ShootyPart3" type="Node2D" parent="." unique_id=1445846201]
+texture_filter = 1
+position = Vector2(15, 9)
+
+[node name="HealtBar" parent="." unique_id=1104485738 instance=ExtResource("3_cgtb6")]
+offset_left = -10.0
+offset_top = -19.0
+offset_right = 11.0
+offset_bottom = -12.0

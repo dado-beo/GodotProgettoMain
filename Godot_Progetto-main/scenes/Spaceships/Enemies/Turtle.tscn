@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://dpyt6g528p3b3"]
+
+[ext_resource type="Script" uid="uid://dsop68oeatg1a" path="res://Scripts/Spaceships/Enemies/Turtle.gd" id="1_11tvr"]
+[ext_resource type="Texture2D" uid="uid://h31d0ju3sw2e" path="res://Sprites/Spaceships/Enemies/Turtle.png" id="1_q5qvb"]
+[ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="2_3hha8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yivtu"]
+atlas = ExtResource("1_q5qvb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rbom5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yivtu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o3d5o"]
+
+[node name="Turtle" type="CharacterBody2D" unique_id=929429671]
+rotation = 7.48802e-05
+script = ExtResource("1_11tvr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1026368883]
+texture_filter = 1
+rotation = 1.57122
+sprite_frames = SubResource("SpriteFrames_rbom5")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=747300890]
+rotation = 1.56428
+shape = SubResource("CapsuleShape2D_o3d5o")
+
+[node name="HealthBar" parent="." unique_id=1904526217 instance=ExtResource("2_3hha8")]
+offset_left = -10.0
+offset_top = -19.0
+offset_right = 11.0
+offset_bottom = -12.0

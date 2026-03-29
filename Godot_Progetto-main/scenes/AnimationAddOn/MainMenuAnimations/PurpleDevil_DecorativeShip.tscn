@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://j61ro872s6jv"]
+
+[ext_resource type="Script" uid="uid://drgj7huen5gl7" path="res://Scripts/AnimationsAddOn/MainMenuAnimations/ship_properties.gd" id="1_fwq57"]
+[ext_resource type="Texture2D" uid="uid://b3bge8nll82wl" path="res://Sprites/Spaceships/Enemies/PurpleDevil.png" id="2_spxon"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_44unp"]
+atlas = ExtResource("2_spxon")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ej0lk"]
+atlas = ExtResource("2_spxon")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2sesp"]
+atlas = ExtResource("2_spxon")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjbcb"]
+atlas = ExtResource("2_spxon")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uqxcu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_44unp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ej0lk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2sesp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjbcb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Devil" type="Node2D"]
+script = ExtResource("1_fwq57")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+rotation = 1.55164
+sprite_frames = SubResource("SpriteFrames_uqxcu")
+autoplay = "default"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+texture_filter = 1
+rotation = 2.39417
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

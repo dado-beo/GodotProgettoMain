@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cpyh3ghboyldq"]
+
+[ext_resource type="Script" uid="uid://c2c8j28aip0o1" path="res://Scripts/AnimationsAddOn/popup_achivment.gd" id="1_wbi62"]
+
+[node name="PopupAchievement" type="CanvasLayer" unique_id=1149685420]
+layer = 100
+script = ExtResource("1_wbi62")
+
+[node name="Contenitore" type="PanelContainer" parent="." unique_id=253053062]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -254.0
+offset_top = -119.0
+offset_right = 1.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Contenitore" unique_id=1528160909]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Contenitore/HBoxContainer" unique_id=90678524]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Contenitore/HBoxContainer" unique_id=1229938163]
+layout_mode = 2
+
+[node name="Titolo" type="Label" parent="Contenitore/HBoxContainer/VBoxContainer" unique_id=1866297408]
+layout_mode = 2
+
+[node name="Descrizione" type="Label" parent="Contenitore/HBoxContainer/VBoxContainer" unique_id=789110876]
+layout_mode = 2

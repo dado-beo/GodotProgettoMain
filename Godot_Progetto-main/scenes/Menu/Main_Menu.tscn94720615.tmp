@@ -1,0 +1,1252 @@
+[gd_scene format=3 uid="uid://c316ek4x22v2p"]
+
+[ext_resource type="Script" uid="uid://cigms1jlsw4t1" path="res://Scripts/Menu/Main/Main_Menu.gd" id="1_8bt37"]
+[ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="2_t8dpg"]
+[ext_resource type="Script" uid="uid://rm3ba3elfhw0" path="res://Scripts/Menu/Main/Repetition.gd" id="3_5664y"]
+[ext_resource type="Texture2D" uid="uid://bc4xmb6vpums4" path="res://Sprites/Backgrounds/Main_Background2.png" id="4_apcd8"]
+[ext_resource type="AudioStream" uid="uid://egg81frtoxxt" path="res://audio/Tame Impala - Nangs (Original Instrumental).mp3" id="5_bbop2"]
+[ext_resource type="Script" uid="uid://dhd21hwxt6e2r" path="res://Scripts/audio_control.gd" id="5_m17uk"]
+[ext_resource type="Script" uid="uid://b33wv112jwaoh" path="res://Scripts/Menu/Main/fullscreen_control.gd" id="6_dnggf"]
+[ext_resource type="Script" uid="uid://b33kh6nsorqq5" path="res://Scripts/Menu/Main/armadietto.gd" id="7_7q4lt"]
+[ext_resource type="Script" uid="uid://blniingo8w2rp" path="res://Scripts/AnimationsAddOn/MainMenuAnimations/ship_spawner.gd" id="8_0edrc"]
+[ext_resource type="Script" uid="uid://bphev5uy11o6" path="res://Scripts/Menu/Main/miglioramenti.gd" id="9_dsoak"]
+[ext_resource type="Texture2D" uid="uid://4w1bvcgvv88n" path="res://Sprites/Buttons/Button_enabled_3x.png" id="10_yx677"]
+[ext_resource type="Texture2D" uid="uid://36bnpyemjad3" path="res://Sprites/Buttons/Button_disabled_3x.png" id="11_pfocr"]
+[ext_resource type="Texture2D" uid="uid://bx3pgdgf1rwwp" path="res://Sprites/Buttons/Button_enabled_spd.png" id="12_x26ma"]
+[ext_resource type="Texture2D" uid="uid://dygm058dn02aq" path="res://Sprites/Buttons/Button_disabled_spd.png" id="13_lwwlo"]
+[ext_resource type="Script" uid="uid://c7jot6njhhrem" path="res://Scripts/Menu/Main/skin.gd" id="16_1xdl7"]
+[ext_resource type="Texture2D" uid="uid://byu5j8qpj1hv8" path="res://Sprites/Buttons/ship1_background.png" id="16_ptjyf"]
+[ext_resource type="Texture2D" uid="uid://5ys73oi10ejs" path="res://Sprites/Buttons/ship2_background(1).png" id="17_5664y"]
+[ext_resource type="Texture2D" uid="uid://tg30pp6mfjo3" path="res://Sprites/Buttons/ship3_background.png" id="19_bbop2"]
+[ext_resource type="Texture2D" uid="uid://cxgl0xyw04b2u" path="res://Sprites/Buttons/Game2_SS.png" id="19_ptjyf"]
+[ext_resource type="Texture2D" uid="uid://dn3yky45vvisx" path="res://Sprites/Buttons/Game1_SS.png" id="20_5664y"]
+[ext_resource type="Script" uid="uid://05gmnp0220wk" path="res://Scripts/Menu/Main/icons.gd" id="20_geude"]
+[ext_resource type="Texture2D" uid="uid://ov7bai3xdisy" path="res://Sprites/Buttons/#TEMP3.png" id="20_nsoon"]
+[ext_resource type="Texture2D" uid="uid://cfv01qyvlvmes" path="res://Sprites/Buttons/Game3_SS.png" id="21_5664y"]
+[ext_resource type="Texture2D" uid="uid://b2jcmg1urslmo" path="res://Sprites/Buttons/#TEMP1.png" id="21_geude"]
+[ext_resource type="Texture2D" uid="uid://s7sb400dg6x5" path="res://Sprites/Buttons/#TEMP2.png" id="22_uj7oi"]
+[ext_resource type="Texture2D" uid="uid://bbyeqi7qtdcrq" path="res://Sprites/Buttons/pngtree-star-pixel-png-image_21050156-removebg-preview.png" id="23_apcd8"]
+[ext_resource type="Script" uid="uid://04j402qqbuqt" path="res://Scripts/Menu/leaderboard_menu.gd" id="25_q3361"]
+[ext_resource type="Texture2D" uid="uid://dyt62ybo172d2" path="res://Sprites/Buttons/Player_icon.png" id="26_bt8s7"]
+
+[sub_resource type="Theme" id="Theme_lrj6p"]
+default_font = ExtResource("2_t8dpg")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d7it8"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i0m7l"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6pknk"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pcxhq"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_wt6vc"]
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_uxoih"]
+color = Color(1, 1, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nmst4"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fqffm"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cc4n5"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3u5k"]
+atlas = ExtResource("20_5664y")
+region = Rect2(0, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovcr3"]
+atlas = ExtResource("20_5664y")
+region = Rect2(333, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ruoky"]
+atlas = ExtResource("20_5664y")
+region = Rect2(666, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_53i6l"]
+atlas = ExtResource("20_5664y")
+region = Rect2(999, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrj5r"]
+atlas = ExtResource("20_5664y")
+region = Rect2(1332, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_btqrr"]
+atlas = ExtResource("20_5664y")
+region = Rect2(1665, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2kdwv"]
+atlas = ExtResource("20_5664y")
+region = Rect2(0, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ry5io"]
+atlas = ExtResource("20_5664y")
+region = Rect2(333, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3bdy"]
+atlas = ExtResource("20_5664y")
+region = Rect2(666, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_blvb8"]
+atlas = ExtResource("20_5664y")
+region = Rect2(999, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07gde"]
+atlas = ExtResource("20_5664y")
+region = Rect2(1332, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7w8b"]
+atlas = ExtResource("20_5664y")
+region = Rect2(1665, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdcap"]
+atlas = ExtResource("20_5664y")
+region = Rect2(0, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eexsu"]
+atlas = ExtResource("20_5664y")
+region = Rect2(333, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oljyk"]
+atlas = ExtResource("20_5664y")
+region = Rect2(666, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4tt4x"]
+atlas = ExtResource("20_5664y")
+region = Rect2(999, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45imo"]
+atlas = ExtResource("20_5664y")
+region = Rect2(1332, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r8b4x"]
+atlas = ExtResource("20_5664y")
+region = Rect2(1665, 1332, 333, 666)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g8qkf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3u5k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovcr3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ruoky")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_53i6l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrj5r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_btqrr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2kdwv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ry5io")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3bdy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_blvb8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07gde")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7w8b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bdcap")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eexsu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oljyk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4tt4x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45imo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r8b4x")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5664y"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(0, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_apcd8"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(333, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bbop2"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(666, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3361"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(999, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bt8s7"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(1332, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3t1e"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(1665, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ppkp"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(0, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nsoon"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(333, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_geude"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(666, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uj7oi"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(999, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjjdh"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(1332, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7ovf"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(1665, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iogir"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(0, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pl4r"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(333, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_32yn3"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(666, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjfmo"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(999, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4fcup"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(1332, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8h0x"]
+atlas = ExtResource("19_ptjyf")
+region = Rect2(1665, 1332, 333, 666)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ruoky"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5664y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_apcd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bbop2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3361")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bt8s7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3t1e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ppkp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nsoon")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_geude")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uj7oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjjdh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7ovf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iogir")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pl4r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_32yn3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjfmo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4fcup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8h0x")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8qkf"]
+atlas = ExtResource("21_5664y")
+region = Rect2(0, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k5d21"]
+atlas = ExtResource("21_5664y")
+region = Rect2(333, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylujd"]
+atlas = ExtResource("21_5664y")
+region = Rect2(666, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rkrwu"]
+atlas = ExtResource("21_5664y")
+region = Rect2(999, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ewuh8"]
+atlas = ExtResource("21_5664y")
+region = Rect2(1332, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gd504"]
+atlas = ExtResource("21_5664y")
+region = Rect2(1665, 0, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7p5k1"]
+atlas = ExtResource("21_5664y")
+region = Rect2(0, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ggcy"]
+atlas = ExtResource("21_5664y")
+region = Rect2(333, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtu0j"]
+atlas = ExtResource("21_5664y")
+region = Rect2(666, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6rqr"]
+atlas = ExtResource("21_5664y")
+region = Rect2(999, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbm8j"]
+atlas = ExtResource("21_5664y")
+region = Rect2(1332, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kmtik"]
+atlas = ExtResource("21_5664y")
+region = Rect2(1665, 666, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bv0q6"]
+atlas = ExtResource("21_5664y")
+region = Rect2(0, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qrww1"]
+atlas = ExtResource("21_5664y")
+region = Rect2(333, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_87wu6"]
+atlas = ExtResource("21_5664y")
+region = Rect2(666, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4q3f"]
+atlas = ExtResource("21_5664y")
+region = Rect2(999, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1sx67"]
+atlas = ExtResource("21_5664y")
+region = Rect2(1332, 1332, 333, 666)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lq8ct"]
+atlas = ExtResource("21_5664y")
+region = Rect2(1665, 1332, 333, 666)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vuxrx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8qkf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k5d21")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylujd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rkrwu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ewuh8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gd504")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7p5k1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ggcy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtu0j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6rqr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wbm8j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kmtik")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bv0q6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qrww1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_87wu6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4q3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1sx67")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lq8ct")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="MainMenu" type="Control" unique_id=1947665875]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_lrj6p")
+script = ExtResource("1_8bt37")
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=2144513771]
+repeat_size = Vector2(1332.2, 0)
+script = ExtResource("3_5664y")
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=308732386]
+texture_filter = 1
+position = Vector2(766.828, 325.624)
+scale = Vector2(0.2420543, 0.24227977)
+texture = ExtResource("4_apcd8")
+
+[node name="MainButtons" type="VBoxContainer" parent="." unique_id=1695438600]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -163.5
+offset_top = -41.0
+offset_right = 163.5
+offset_bottom = 101.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button1" type="Button" parent="MainButtons" unique_id=1285798801]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7it8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i0m7l")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6pknk")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pcxhq")
+text = "Gioca"
+
+[node name="Button2" type="Button" parent="MainButtons" unique_id=1970172077]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7it8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i0m7l")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6pknk")
+text = "Armadietto"
+
+[node name="Button3" type="Button" parent="MainButtons" unique_id=932690230]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7it8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i0m7l")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6pknk")
+text = "Opzioni"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=356308363]
+position = Vector2(0, 30)
+stream = ExtResource("5_bbop2")
+autoplay = true
+bus = &"Music"
+
+[node name="Options" type="Panel" parent="." unique_id=1171406860]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -202.0
+offset_top = -128.0
+offset_right = 200.0
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options" unique_id=1033948118]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -62.5
+offset_right = 115.0
+offset_bottom = 62.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Options/VBoxContainer" unique_id=1671644421]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Opzioni"
+horizontal_alignment = 1
+
+[node name="AudioControl" type="HSlider" parent="Options/VBoxContainer" unique_id=1524789636]
+layout_mode = 2
+theme_override_styles/slider = SubResource("StyleBoxLine_wt6vc")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_uxoih")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("5_m17uk")
+audio_bus_name = "Music"
+
+[node name="FullscreenControl" type="CheckButton" parent="Options/VBoxContainer" unique_id=1056573104]
+layout_mode = 2
+text = "Schermo intero
+"
+script = ExtResource("6_dnggf")
+
+[node name="Armadietto" type="Panel" parent="." unique_id=310373314]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 395.0
+offset_right = 690.0
+offset_bottom = 395.0
+script = ExtResource("7_7q4lt")
+
+[node name="Miglioramenti" type="Panel" parent="Armadietto" unique_id=212013024]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -214.0
+offset_top = -155.5
+offset_right = 214.0
+offset_bottom = 155.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_dsoak")
+
+[node name="Label" type="Label" parent="Armadietto/Miglioramenti" unique_id=235346556]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -196.0
+offset_top = 35.0
+offset_right = 197.0
+offset_bottom = 76.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0.36862746, 0.21176471, 0.49411765, 1)
+theme_override_constants/shadow_offset_x = 9
+theme_override_fonts/font = ExtResource("2_t8dpg")
+theme_override_font_sizes/font_size = 40
+text = "Miglioramenti"
+
+[node name="Upgrade1" type="CheckButton" parent="Armadietto/Miglioramenti" unique_id=735224241]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 78.5
+offset_right = 183.0
+offset_bottom = 214.5
+theme_override_icons/checked = ExtResource("10_yx677")
+theme_override_icons/unchecked = ExtResource("11_pfocr")
+text = "
+"
+
+[node name="Upgrade2" type="CheckButton" parent="Armadietto/Miglioramenti" unique_id=543490884]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 83.0
+offset_right = 385.0
+offset_bottom = 219.0
+theme_override_colors/icon_disabled_color = Color(0.996078, 0, 0, 1)
+theme_override_icons/checked = ExtResource("12_x26ma")
+theme_override_icons/unchecked = ExtResource("13_lwwlo")
+
+[node name="Ritorno" type="Button" parent="Armadietto/Miglioramenti" unique_id=565849994]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -158.0
+offset_top = -77.5
+offset_right = 167.0
+offset_bottom = -35.5
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_nmst4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fqffm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cc4n5")
+text = "Indietro"
+
+[node name="Icons" type="Panel" parent="Armadietto" unique_id=212177481]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -473.0
+offset_top = -204.0
+offset_right = 483.0
+offset_bottom = 153.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("20_geude")
+
+[node name="LabelIcone" type="Label" parent="Armadietto/Icons" unique_id=1157173497]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -76.0
+offset_top = 35.0
+offset_right = 77.0
+offset_bottom = 76.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0.36862746, 0.21176471, 0.49411765, 1)
+theme_override_constants/shadow_offset_x = 9
+theme_override_fonts/font = ExtResource("2_t8dpg")
+theme_override_font_sizes/font_size = 40
+text = "Icone"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Armadietto/Icons" unique_id=1114374522]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -166.0
+offset_top = -54.0
+offset_right = 166.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 117
+alignment = 1
+
+[node name="Btn1" type="Button" parent="Armadietto/Icons/HBoxContainer" unique_id=1322747302]
+layout_mode = 2
+theme_override_icons/icon = ExtResource("21_geude")
+
+[node name="Btn2" type="Button" parent="Armadietto/Icons/HBoxContainer" unique_id=562838]
+layout_mode = 2
+icon = ExtResource("22_uj7oi")
+
+[node name="Btn3" type="Button" parent="Armadietto/Icons/HBoxContainer" unique_id=242260650]
+layout_mode = 2
+icon = ExtResource("20_nsoon")
+
+[node name="Back" type="Button" parent="Armadietto/Icons" unique_id=1610904380]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -155.5
+offset_top = -71.0
+offset_right = 169.5
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_nmst4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fqffm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cc4n5")
+text = "Indietro"
+
+[node name="Sprite2D2" type="Sprite2D" parent="Armadietto/Icons" unique_id=1444296287]
+texture_filter = 1
+position = Vector2(218, 244)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("23_apcd8")
+
+[node name="MoneteLabel3" type="Label" parent="Armadietto/Icons" unique_id=398071999]
+texture_filter = 1
+layout_mode = 0
+offset_left = 231.0
+offset_top = 238.0
+offset_right = 266.0
+offset_bottom = 255.0
+theme_override_colors/font_color = Color(1, 0.81960785, 0.1254902, 1)
+text = ": 5"
+
+[node name="Sprite2D3" type="Sprite2D" parent="Armadietto/Icons" unique_id=2131597290]
+texture_filter = 1
+position = Vector2(443.083, 243.1499)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("23_apcd8")
+
+[node name="MoneteLabel" type="Label" parent="Armadietto/Icons" unique_id=129666776]
+texture_filter = 1
+layout_mode = 0
+offset_left = 455.0
+offset_top = 236.0
+offset_right = 505.0
+offset_bottom = 253.0
+theme_override_colors/font_color = Color(1, 0.81960785, 0.1254902, 1)
+text = ": 20"
+
+[node name="Sprite2D4" type="Sprite2D" parent="Armadietto/Icons" unique_id=1875616596]
+texture_filter = 1
+position = Vector2(667.9951, 244.1499)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("23_apcd8")
+
+[node name="MoneteLabel2" type="Label" parent="Armadietto/Icons" unique_id=1882448830]
+texture_filter = 1
+layout_mode = 0
+offset_left = 681.0
+offset_top = 236.0
+offset_right = 742.0
+offset_bottom = 253.0
+theme_override_colors/font_color = Color(1, 0.81960785, 0.1254902, 1)
+text = ": 100"
+
+[node name="Label" type="Label" parent="Armadietto" unique_id=580380742]
+layout_mode = 0
+offset_left = -46.0
+offset_top = -147.0
+offset_right = 281.0
+offset_bottom = -106.0
+theme_override_font_sizes/font_size = 40
+text = "Armadietto"
+
+[node name="Icone" type="Button" parent="Armadietto" unique_id=422332455]
+layout_mode = 0
+offset_left = -45.0
+offset_top = -34.0
+offset_right = 282.0
+offset_bottom = -5.0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_nmst4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fqffm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cc4n5")
+text = "Icone"
+
+[node name="Costumi" type="Button" parent="Armadietto" unique_id=139431671]
+layout_mode = 0
+offset_left = -47.0
+offset_top = -102.0
+offset_right = 280.0
+offset_bottom = -73.0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_nmst4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fqffm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cc4n5")
+text = "Navicelle"
+
+[node name="Upgrades" type="Button" parent="Armadietto" unique_id=323238705]
+layout_mode = 0
+offset_left = -46.0
+offset_top = -68.0
+offset_right = 281.0
+offset_bottom = -39.0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_nmst4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fqffm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cc4n5")
+text = "Miglioramenti"
+
+[node name="Skin" type="Panel" parent="Armadietto" unique_id=1026666020]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -473.0
+offset_top = -204.0
+offset_right = 483.0
+offset_bottom = 153.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("16_1xdl7")
+
+[node name="LabelNavicelle" type="Label" parent="Armadietto/Skin" unique_id=1077186944]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -76.0
+offset_top = 35.0
+offset_right = 77.0
+offset_bottom = 76.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0.36862746, 0.21176471, 0.49411765, 1)
+theme_override_constants/shadow_offset_x = 9
+theme_override_fonts/font = ExtResource("2_t8dpg")
+theme_override_font_sizes/font_size = 40
+text = "Navicelle"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Armadietto/Skin" unique_id=1899215586]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -166.0
+offset_top = -54.0
+offset_right = 166.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 117
+alignment = 1
+
+[node name="Seleziona" type="Button" parent="Armadietto/Skin/HBoxContainer" unique_id=561472656]
+layout_mode = 2
+theme_override_icons/icon = ExtResource("16_ptjyf")
+
+[node name="Seleziona2" type="Button" parent="Armadietto/Skin/HBoxContainer" unique_id=1278425406]
+layout_mode = 2
+icon = ExtResource("17_5664y")
+
+[node name="Seleziona3" type="Button" parent="Armadietto/Skin/HBoxContainer" unique_id=1947614773]
+layout_mode = 2
+icon = ExtResource("19_bbop2")
+
+[node name="Back" type="Button" parent="Armadietto/Skin" unique_id=111821065]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -155.5
+offset_top = -71.0
+offset_right = 169.5
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_nmst4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fqffm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cc4n5")
+text = "Indietro"
+
+[node name="Sprite2D3" type="Sprite2D" parent="Armadietto/Skin" unique_id=1595444952]
+texture_filter = 1
+position = Vector2(443.083, 243.1499)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("23_apcd8")
+
+[node name="MoneteLabel" type="Label" parent="Armadietto/Skin" unique_id=2054529847]
+texture_filter = 1
+layout_mode = 0
+offset_left = 456.0
+offset_top = 236.0
+offset_right = 506.0
+offset_bottom = 253.0
+theme_override_colors/font_color = Color(1, 0.81960785, 0.1254902, 1)
+text = ": 80"
+
+[node name="Sprite2D4" type="Sprite2D" parent="Armadietto/Skin" unique_id=323966222]
+texture_filter = 1
+position = Vector2(667.9951, 244.1499)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("23_apcd8")
+
+[node name="MoneteLabel2" type="Label" parent="Armadietto/Skin" unique_id=1479430765]
+texture_filter = 1
+layout_mode = 0
+offset_left = 683.0
+offset_top = 239.0
+offset_right = 744.0
+offset_bottom = 256.0
+theme_override_colors/font_color = Color(1, 0.81960785, 0.1254902, 1)
+text = ": 140"
+
+[node name="Gioca" type="Panel" parent="." unique_id=2011787286]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -201.0
+offset_top = -80.0
+offset_right = 181.0
+offset_bottom = 172.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Gioca" unique_id=1613031764]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -266.0
+offset_top = -50.0
+offset_right = 268.0
+offset_bottom = -9.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Seleziona partita"
+
+[node name="Back" type="Button" parent="Gioca" unique_id=32800569]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -157.0
+offset_top = 21.0
+offset_right = 168.0
+offset_bottom = 63.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7it8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i0m7l")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6pknk")
+text = "Indietro"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Gioca" unique_id=1745307490]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Gioca/HBoxContainer" unique_id=1033113763]
+position = Vector2(54, 126)
+scale = Vector2(0.38, 0.38)
+sprite_frames = SubResource("SpriteFrames_g8qkf")
+autoplay = "default"
+
+[node name="Mod1" type="TextureButton" parent="Gioca/HBoxContainer/AnimatedSprite2D" unique_id=1991020150]
+offset_left = -163.1579
+offset_top = -328.94736
+offset_right = 165.78943
+offset_bottom = 328.94736
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Gioca/HBoxContainer" unique_id=1720359926]
+position = Vector2(187, 126.00003)
+scale = Vector2(0.38, 0.38)
+sprite_frames = SubResource("SpriteFrames_ruoky")
+autoplay = "default"
+
+[node name="Mod2" type="TextureButton" parent="Gioca/HBoxContainer/AnimatedSprite2D2" unique_id=1559462338]
+offset_left = -160.5263
+offset_top = -331.579
+offset_right = 163.1579
+offset_bottom = 323.68417
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="Gioca/HBoxContainer" unique_id=1244914620]
+position = Vector2(320, 126)
+scale = Vector2(0.38, 0.38)
+sprite_frames = SubResource("SpriteFrames_vuxrx")
+autoplay = "default"
+
+[node name="Mod3" type="TextureButton" parent="Gioca/HBoxContainer/AnimatedSprite2D3" unique_id=1347105814]
+offset_left = -157.89478
+offset_top = -328.94736
+offset_right = 168.42102
+offset_bottom = 331.57895
+
+[node name="ShipSpawner" type="Node2D" parent="." unique_id=78565655]
+position = Vector2(0, 30)
+script = ExtResource("8_0edrc")
+
+[node name="Timer" type="Timer" parent="ShipSpawner" unique_id=457339942]
+wait_time = 3.0
+autostart = true
+
+[node name="Label2" type="Label" parent="." unique_id=1785242075]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -375.5
+offset_top = 114.0
+offset_right = 389.5
+offset_bottom = 175.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0.36862746, 0.21176471, 0.49411765, 1)
+theme_override_constants/shadow_offset_x = 9
+theme_override_fonts/font = ExtResource("2_t8dpg")
+theme_override_font_sizes/font_size = 60
+text = "Tempera Biscotti"
+
+[node name="LeaderboardMenu" type="Control" parent="." unique_id=33104913]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -177.0
+offset_top = -461.0
+offset_right = 171.0
+offset_bottom = -205.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("25_q3361")
+
+[node name="Panel" type="Panel" parent="LeaderboardMenu" unique_id=179121015]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -179.0
+offset_top = -36.5
+offset_right = 177.0
+offset_bottom = 80.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeaderboardMenu/Panel" unique_id=872283047]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -89.0
+offset_top = -115.0
+offset_right = 89.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Titolo" type="Label" parent="LeaderboardMenu/Panel/VBoxContainer" unique_id=287861322]
+layout_mode = 2
+
+[node name="Lbl_Mode1" type="Label" parent="LeaderboardMenu/Panel/VBoxContainer" unique_id=1622062035]
+layout_mode = 2
+
+[node name="Lbl_Mode2" type="Label" parent="LeaderboardMenu/Panel/VBoxContainer" unique_id=1555108110]
+layout_mode = 2
+
+[node name="Lbl_Mode3" type="Label" parent="LeaderboardMenu/Panel/VBoxContainer" unique_id=1059325941]
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1451309919]
+texture_filter = 1
+position = Vector2(26, 18)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("23_apcd8")
+
+[node name="MoneteLabel" type="Label" parent="." unique_id=629084866]
+texture_filter = 1
+layout_mode = 0
+offset_left = 52.0
+offset_top = 4.0
+offset_right = 166.0
+offset_bottom = 21.0
+scale = Vector2(2, 2)
+theme_override_colors/font_color = Color(1, 0.81960785, 0.1254902, 1)
+text = ": 0"
+
+[node name="Label" type="Label" parent="." unique_id=1722811284]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 382.0
+offset_top = 629.0
+offset_right = 577.0
+offset_bottom = 652.0
+grow_horizontal = 2
+theme_override_constants/shadow_offset_x = 40
+theme_override_fonts/font = ExtResource("2_t8dpg")
+text = "©MEMBERS ONLY"
+
+[node name="PlayerInfo" type="Button" parent="." unique_id=393074336]
+layout_mode = 0
+offset_left = 1066.0
+offset_top = -1.0
+offset_right = 1154.0
+offset_bottom = 87.0
+theme_override_icons/icon = ExtResource("26_bt8s7")
+
+[node name="Back" type="Button" parent="." unique_id=1504927406]
+layout_mode = 0
+offset_left = 414.0
+offset_top = 394.0
+offset_right = 741.0
+offset_bottom = 425.0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_nmst4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fqffm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cc4n5")
+text = "Indietro"
+
+[connection signal="pressed" from="MainButtons/Button1" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="MainButtons/Button2" to="." method="_on_settings2_pressed"]
+[connection signal="pressed" from="MainButtons/Button3" to="." method="_on_settings1_pressed"]
+[connection signal="value_changed" from="Options/VBoxContainer/AudioControl" to="." method="_on_audio_control_value_changed"]
+[connection signal="value_changed" from="Options/VBoxContainer/AudioControl" to="Options/VBoxContainer/AudioControl" method="_on_value_changed"]
+[connection signal="toggled" from="Options/VBoxContainer/FullscreenControl" to="Options/VBoxContainer/FullscreenControl" method="_on_toggled"]
+[connection signal="toggled" from="Armadietto/Miglioramenti/Upgrade1" to="Armadietto/Miglioramenti" method="_on_upgrade_1_toggled"]
+[connection signal="toggled" from="Armadietto/Miglioramenti/Upgrade2" to="Armadietto/Miglioramenti" method="_on_upgrade_2_toggled"]
+[connection signal="pressed" from="Armadietto/Miglioramenti/Ritorno" to="Armadietto/Miglioramenti" method="_on_ritorno_pressed"]
+[connection signal="pressed" from="Armadietto/Icons/HBoxContainer/Btn1" to="Armadietto/Icons" method="_on_btn_1_pressed"]
+[connection signal="pressed" from="Armadietto/Icons/HBoxContainer/Btn2" to="Armadietto/Icons" method="_on_btn_2_pressed"]
+[connection signal="pressed" from="Armadietto/Icons/HBoxContainer/Btn3" to="Armadietto/Icons" method="_on_btn_3_pressed"]
+[connection signal="pressed" from="Armadietto/Icons/Back" to="Armadietto/Icons" method="_on_back_pressed"]
+[connection signal="pressed" from="Armadietto/Icone" to="Armadietto" method="_on_icone_pressed"]
+[connection signal="pressed" from="Armadietto/Costumi" to="Armadietto" method="_on_costumi_pressed"]
+[connection signal="pressed" from="Armadietto/Upgrades" to="Armadietto" method="_on_upgrades_pressed"]
+[connection signal="pressed" from="Armadietto/Skin/HBoxContainer/Seleziona" to="Armadietto/Skin" method="_on_seleziona_pressed"]
+[connection signal="pressed" from="Armadietto/Skin/HBoxContainer/Seleziona2" to="Armadietto/Skin" method="_on_seleziona_2_pressed"]
+[connection signal="pressed" from="Armadietto/Skin/HBoxContainer/Seleziona3" to="Armadietto/Skin" method="_on_seleziona_3_pressed"]
+[connection signal="pressed" from="Armadietto/Skin/HBoxContainer/Seleziona3" to="Armadietto/Skin" method="_on_btn_3_pressed"]
+[connection signal="pressed" from="Armadietto/Skin/Back" to="Armadietto/Skin" method="_on_back_pressed"]
+[connection signal="pressed" from="Gioca/Back" to="." method="_on_back_options_pressed"]
+[connection signal="pressed" from="Gioca/HBoxContainer/AnimatedSprite2D/Mod1" to="." method="_on_mod_1_pressed"]
+[connection signal="pressed" from="Gioca/HBoxContainer/AnimatedSprite2D2/Mod2" to="." method="_on_mod_2_pressed"]
+[connection signal="pressed" from="Gioca/HBoxContainer/AnimatedSprite2D3/Mod3" to="." method="_on_mod_3_pressed"]
+[connection signal="pressed" from="PlayerInfo" to="." method="_on_player_info_pressed"]
+[connection signal="pressed" from="Back" to="." method="_on_back_options_pressed"]

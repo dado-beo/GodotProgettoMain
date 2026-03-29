@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://dwjb3k1jlfsi5"]
+
+[ext_resource type="Script" path="res://Scripts/game.gd" id="1_sx84e"]
+[ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="2_eskq0"]
+[ext_resource type="PackedScene" uid="uid://cgvw14xt7tjt4" path="res://scenes/paused_menu.tscn" id="3_c8kex"]
+[ext_resource type="PackedScene" uid="uid://c316ek4x22v2p" path="res://scenes/main_menu.tscn" id="3_vbn3v"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3xcid"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_v82ls"]
+normal = Vector2(1, 0)
+distance = -3.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nepgs"]
+normal = Vector2(-0.999898, -0.0142843)
+distance = -1152.08
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6w8qg"]
+distance = -648.0
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_sx84e")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Top" type="CollisionShape2D" parent="Walls"]
+position = Vector2(578, 0)
+shape = SubResource("WorldBoundaryShape2D_3xcid")
+
+[node name="Left" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_v82ls")
+
+[node name="Right" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_nepgs")
+
+[node name="Bottom" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_6w8qg")
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+position = Vector2(-1, 1)
+script = ExtResource("2_eskq0")
+
+[node name="Timer" type="Timer" parent="EnemySpawner"]
+wait_time = 0.5
+
+[node name="Menu" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" parent="Menu" instance=ExtResource("3_vbn3v")]
+visible = false
+
+[node name="PausedMenu" parent="Menu" instance=ExtResource("3_c8kex")]
+
+[node name="GameTimer" type="Timer" parent="."]
+
+[node name="TimeLabel" type="Label" parent="GameTimer"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]

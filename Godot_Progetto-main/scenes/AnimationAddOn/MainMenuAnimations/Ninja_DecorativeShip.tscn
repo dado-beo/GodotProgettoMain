@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://yaquicgjd580"]
+
+[ext_resource type="Script" uid="uid://drgj7huen5gl7" path="res://Scripts/AnimationsAddOn/MainMenuAnimations/ship_properties.gd" id="1_by4wx"]
+[ext_resource type="Texture2D" uid="uid://bmdvly25plf0x" path="res://Sprites/Spaceships/Enemies/Ninja.png" id="2_p4yjf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6b0sc"]
+atlas = ExtResource("2_p4yjf")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4lggs"]
+atlas = ExtResource("2_p4yjf")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rcau"]
+atlas = ExtResource("2_p4yjf")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_su7o4"]
+atlas = ExtResource("2_p4yjf")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0ctnh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6b0sc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4lggs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1rcau")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_su7o4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="NinjaDecorativeShip" type="Node2D"]
+script = ExtResource("1_by4wx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_0ctnh")
+autoplay = "default"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

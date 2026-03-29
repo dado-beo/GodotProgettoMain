@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://pbpm7y6ifvym"]
+
+[ext_resource type="Script" uid="uid://dde5qomyi10j8" path="res://Scripts/Spaceships/Enemies/Ufo.gd" id="1_g4an1"]
+[ext_resource type="Texture2D" uid="uid://oax0okr5ithn" path="res://Sprites/Spaceships/Enemies/Ufo_Enemy.png" id="2_1lq2n"]
+[ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="3_bpf5a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lfe5p"]
+atlas = ExtResource("2_1lq2n")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eo5id"]
+atlas = ExtResource("2_1lq2n")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0m5mc"]
+atlas = ExtResource("2_1lq2n")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rgdwi"]
+atlas = ExtResource("2_1lq2n")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nhano"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lfe5p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eo5id")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0m5mc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rgdwi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ydpxu"]
+radius = 12.1655
+
+[node name="Enemy_Ufo" type="CharacterBody2D" unique_id=822089251]
+script = ExtResource("1_g4an1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1738272896]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_nhano")
+autoplay = "default"
+frame_progress = 0.372069
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=60722127]
+shape = SubResource("CircleShape2D_ydpxu")
+
+[node name="HealtBar" parent="." unique_id=361155408 instance=ExtResource("3_bpf5a")]
+offset_left = -10.0
+offset_top = -22.0
+offset_right = 11.0
+offset_bottom = -15.0

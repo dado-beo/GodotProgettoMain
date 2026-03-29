@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3dj7xyf2qnss"]
+
+[ext_resource type="Script" uid="uid://diis5jlux37cw" path="res://Scripts/AnimationsAddOn/HealtBar.gd" id="1_lgm81"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1lqbr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fqgbg"]
+bg_color = Color(0.369632, 0, 0.0459455, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_176h8"]
+bg_color = Color(0, 0, 0, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color(0, 0, 0, 0.27451)
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5gg5w"]
+bg_color = Color(0.590453, 0, 0.281986, 1)
+
+[node name="HealtBar" type="ProgressBar"]
+z_index = 1
+offset_right = 240.0
+offset_bottom = 27.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_1lqbr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fqgbg")
+value = 60.0
+show_percentage = false
+script = ExtResource("1_lgm81")
+
+[node name="DamageBar" type="ProgressBar" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_176h8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5gg5w")
+value = 80.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

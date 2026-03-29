@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://b847kjeyw3i0s"]
+
+[ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="1_bfw6y"]
+
+[node name="EntryAchievement" type="HBoxContainer" unique_id=1560900246]
+custom_minimum_size = Vector2(0, 80)
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="Icona" type="TextureRect" parent="." unique_id=1262597474]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Testi" type="VBoxContainer" parent="." unique_id=419263911]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Titolo" type="Label" parent="Testi" unique_id=874099220]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_bfw6y")
+theme_override_font_sizes/font_size = 24
+
+[node name="Descrizione" type="Label" parent="Testi" unique_id=111592432]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_bfw6y")
+theme_override_font_sizes/font_size = 16

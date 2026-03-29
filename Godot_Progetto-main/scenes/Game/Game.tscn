@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://dwjb3k1jlfsi5"]
+
+[ext_resource type="Script" uid="uid://5jyfckcplbe2" path="res://Scripts/Game/Game.gd" id="1_0a0c1"]
+[ext_resource type="Texture2D" uid="uid://c40em1o7pf4xc" path="res://Sprites/Backgrounds/Space Background.png" id="2_drrmr"]
+[ext_resource type="Script" uid="uid://cx4e78qyg2j0s" path="res://Scripts/Game/enemy_spawner.gd" id="2_w0w6r"]
+[ext_resource type="PackedScene" uid="uid://c316ek4x22v2p" path="res://scenes/Menu/Main_Menu.tscn" id="3_8mpqd"]
+[ext_resource type="PackedScene" uid="uid://cgvw14xt7tjt4" path="res://scenes/Menu/Paused_Menu.tscn" id="4_hy3bo"]
+[ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="5_nt44d"]
+[ext_resource type="AudioStream" uid="uid://egg81frtoxxt" path="res://audio/Tame Impala - Nangs (Original Instrumental).mp3" id="9_i6kj0"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_322ga"]
+texture = ExtResource("2_drrmr")
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3xcid"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_v82ls"]
+normal = Vector2(1, 0)
+distance = -3.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nepgs"]
+normal = Vector2(-0.999898, -0.0142843)
+distance = -1152.08
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6w8qg"]
+distance = -648.0
+
+[sub_resource type="Theme" id="Theme_m35f2"]
+default_font = ExtResource("5_nt44d")
+
+[sub_resource type="Theme" id="Theme_6w0bs"]
+default_font = ExtResource("5_nt44d")
+
+[node name="Game" type="Node2D" unique_id=565761361]
+script = ExtResource("1_0a0c1")
+
+[node name="Background" type="Panel" parent="." unique_id=1867422023]
+offset_right = 1154.0
+offset_bottom = 648.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_322ga")
+
+[node name="MoneteLabel" type="Label" parent="." unique_id=805567503]
+visible = false
+offset_right = 61.0
+offset_bottom = 23.0
+text = "Stelle: 0"
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=66446979]
+
+[node name="Top" type="CollisionShape2D" parent="Walls" unique_id=574324037]
+position = Vector2(578, 0)
+shape = SubResource("WorldBoundaryShape2D_3xcid")
+
+[node name="Left" type="CollisionShape2D" parent="Walls" unique_id=358753748]
+shape = SubResource("WorldBoundaryShape2D_v82ls")
+
+[node name="Right" type="CollisionShape2D" parent="Walls" unique_id=2069913673]
+shape = SubResource("WorldBoundaryShape2D_nepgs")
+
+[node name="Bottom" type="CollisionShape2D" parent="Walls" unique_id=1610692579]
+shape = SubResource("WorldBoundaryShape2D_6w8qg")
+
+[node name="EnemySpawner" type="Node2D" parent="." unique_id=196199231]
+position = Vector2(-1, 1)
+script = ExtResource("2_w0w6r")
+
+[node name="Timer" type="Timer" parent="EnemySpawner" unique_id=990050060]
+wait_time = 0.5
+
+[node name="Menu" type="CanvasLayer" parent="." unique_id=1589556102]
+
+[node name="MainMenu" parent="Menu" unique_id=2038225280 instance=ExtResource("3_8mpqd")]
+visible = false
+script = null
+
+[node name="PausedMenu" parent="Menu" unique_id=270038747 instance=ExtResource("4_hy3bo")]
+theme = SubResource("Theme_m35f2")
+
+[node name="GameTimer" type="Timer" parent="." unique_id=1218304014]
+
+[node name="TimeLabel" type="Label" parent="GameTimer" unique_id=1426811847]
+offset_right = 40.0
+offset_bottom = 23.0
+theme = SubResource("Theme_6w0bs")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1348224803]
+stream = ExtResource("9_i6kj0")
+
+[connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]

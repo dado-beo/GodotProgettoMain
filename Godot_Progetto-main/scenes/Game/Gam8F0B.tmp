@@ -1,0 +1,69 @@
+[gd_scene load_steps=14 format=3 uid="uid://bjivny0kdxc6b"]
+
+[ext_resource type="Script" path="res://Scripts/Game/Game_Endless.gd" id="1_2g3br"]
+[ext_resource type="Texture2D" uid="uid://hc2ha5b3i345" path="res://Sprites/Backgrounds/Game_Endless_SpaceBackground.png" id="1_hofhg"]
+[ext_resource type="PackedScene" uid="uid://c316ek4x22v2p" path="res://scenes/Menu/Main_Menu.tscn" id="1_p3w8h"]
+[ext_resource type="PackedScene" uid="uid://cgvw14xt7tjt4" path="res://scenes/Menu/Paused_Menu.tscn" id="2_cc753"]
+[ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="3_wd4dk"]
+[ext_resource type="Script" path="res://Scripts/Menu/paused_menu.gd" id="4_acuf4"]
+[ext_resource type="Script" path="res://Scripts/Game/enemy_endless_spawner.gd" id="7_dwhnb"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qeqn8"]
+texture = ExtResource("1_hofhg")
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_h0ke1"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_u3k47"]
+normal = Vector2(1, 0)
+distance = -3.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mymht"]
+normal = Vector2(-0.999898, -0.0142843)
+distance = -1152.08
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_8c075"]
+distance = -648.0
+
+[sub_resource type="Theme" id="Theme_gopwb"]
+default_font = ExtResource("3_wd4dk")
+
+[node name="GameEndless" type="Node2D"]
+script = ExtResource("1_2g3br")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 1151.0
+offset_bottom = 657.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_qeqn8")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Top" type="CollisionShape2D" parent="Walls"]
+position = Vector2(578, 0)
+shape = SubResource("WorldBoundaryShape2D_h0ke1")
+
+[node name="Left" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_u3k47")
+
+[node name="Right" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_mymht")
+
+[node name="Bottom" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_8c075")
+
+[node name="Menu" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" parent="Menu" instance=ExtResource("1_p3w8h")]
+visible = false
+script = null
+
+[node name="PausedMenu" parent="Menu" instance=ExtResource("2_cc753")]
+theme = SubResource("Theme_gopwb")
+script = ExtResource("4_acuf4")
+
+[node name="EnemySpawner_Enddless" type="Node2D" parent="."]
+script = ExtResource("7_dwhnb")
+
+[node name="Timer" type="Timer" parent="EnemySpawner_Enddless"]
+wait_time = 10.0
+autostart = true

@@ -1,0 +1,402 @@
+[gd_scene load_steps=20 format=3 uid="uid://c316ek4x22v2p"]
+
+[ext_resource type="Script" path="res://Scripts/Menu/Main/Main_Menu.gd" id="1_8bt37"]
+[ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="2_t8dpg"]
+[ext_resource type="Texture2D" uid="uid://c11h04f5p83ry" path="res://Sprites/Backgrounds/MainSpace_Background.png" id="3_21vot"]
+[ext_resource type="AudioStream" uid="uid://egg81frtoxxt" path="res://audio/Tame Impala - Nangs (Original Instrumental).mp3" id="4_ec0ct"]
+[ext_resource type="Script" path="res://Scripts/Menu/Main/audio_control.gd" id="5_m17uk"]
+[ext_resource type="Script" path="res://Scripts/Menu/Main/fullscreen_control.gd" id="6_dnggf"]
+[ext_resource type="Script" path="res://Scripts/Menu/Main/armadietto.gd" id="7_jr8ar"]
+[ext_resource type="Script" path="res://Scripts/AnimationsAddOn/ship_spawner.gd" id="8_0edrc"]
+[ext_resource type="Texture2D" uid="uid://djn4upbon1o26" path="res://Sprites/Buttons/game1.png" id="8_vx55k"]
+[ext_resource type="Texture2D" uid="uid://271bqqkgliq5" path="res://Sprites/Buttons/game2.png" id="9_mi1sd"]
+[ext_resource type="Texture2D" uid="uid://dobsahcqhupdu" path="res://Sprites/Buttons/game3.png" id="10_0ss7m"]
+
+[sub_resource type="Theme" id="Theme_lrj6p"]
+default_font = ExtResource("2_t8dpg")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wtbl3"]
+texture = ExtResource("3_21vot")
+modulate_color = Color(0.707967, 0.707967, 0.707967, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pcxhq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6pknk"]
+bg_color = Color(0.0467422, 0.398286, 0.496106, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i0m7l"]
+bg_color = Color(0.0103343, 0.182604, 0.233814, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d7it8"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_wt6vc"]
+color = Color(1, 1, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_uxoih"]
+thickness = 6
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_lrj6p")
+script = ExtResource("1_8bt37")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_wtbl3")
+
+[node name="MainButtons" type="VBoxContainer" parent="."]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -163.5
+offset_top = -71.0
+offset_right = 163.5
+offset_bottom = 71.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button1" type="Button" parent="MainButtons"]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pcxhq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6pknk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i0m7l")
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7it8")
+text = "Gioca"
+
+[node name="Button2" type="Button" parent="MainButtons"]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/hover = SubResource("StyleBoxFlat_6pknk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i0m7l")
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7it8")
+text = "Armadietto"
+
+[node name="Button3" type="Button" parent="MainButtons"]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/hover = SubResource("StyleBoxFlat_6pknk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i0m7l")
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7it8")
+text = "Opzioni"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -62.0
+offset_top = 50.0
+offset_right = 69.0
+offset_bottom = 73.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 40
+theme_override_fonts/font = ExtResource("2_t8dpg")
+theme_override_font_sizes/font_size = 60
+text = "Tempera Biscotti"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_ec0ct")
+autoplay = true
+bus = &"Music"
+
+[node name="Options" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -202.0
+offset_top = -158.0
+offset_right = 200.0
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -62.5
+offset_right = 115.0
+offset_bottom = 62.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Options/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Opzioni"
+horizontal_alignment = 1
+
+[node name="AudioControl" type="HSlider" parent="Options/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/slider = SubResource("StyleBoxLine_wt6vc")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_uxoih")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("5_m17uk")
+audio_bus_name = "Music"
+
+[node name="FullscreenControl" type="CheckButton" parent="Options/VBoxContainer"]
+layout_mode = 2
+text = "Schermo intero
+"
+script = ExtResource("6_dnggf")
+
+[node name="Back" type="Button" parent="Options/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/hover = SubResource("StyleBoxFlat_6pknk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i0m7l")
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7it8")
+text = "Indietro"
+
+[node name="Armadietto" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -201.0
+offset_top = -158.0
+offset_right = 201.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_jr8ar")
+
+[node name="Label" type="Label" parent="Armadietto"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 9.0
+offset_right = 162.0
+offset_bottom = 50.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Armadietto"
+
+[node name="Seleziona1" type="Button" parent="Armadietto"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -151.0
+offset_top = -54.0
+offset_right = -29.0
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Seleziona"
+
+[node name="Upgrade1" type="CheckButton" parent="Armadietto"]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 96.0
+offset_right = 139.0
+offset_bottom = 145.0
+text = "
+"
+
+[node name="Upgrade2" type="CheckButton" parent="Armadietto"]
+layout_mode = 0
+offset_left = 97.0
+offset_top = 135.0
+offset_right = 141.0
+offset_bottom = 159.0
+
+[node name="Seleziona2" type="Button" parent="Armadietto"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -55.0
+offset_right = 142.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Seleziona"
+
+[node name="Back" type="Button" parent="Armadietto"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -162.5
+offset_top = -42.0
+offset_right = 162.5
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/hover = SubResource("StyleBoxFlat_6pknk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i0m7l")
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7it8")
+text = "Indietro"
+
+[node name="Gioca" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -201.0
+offset_top = -158.0
+offset_right = 201.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Gioca"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -266.0
+offset_top = -50.0
+offset_right = 268.0
+offset_bottom = -9.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Seleziona partita"
+
+[node name="Back" type="Button" parent="Gioca"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -164.0
+offset_top = -6.0
+offset_right = 161.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/hover = SubResource("StyleBoxFlat_6pknk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i0m7l")
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7it8")
+text = "Indietro"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Gioca"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Mod1" type="TextureButton" parent="Gioca/HBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("8_vx55k")
+
+[node name="Mod2" type="TextureButton" parent="Gioca/HBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("9_mi1sd")
+
+[node name="Mod3" type="TextureButton" parent="Gioca/HBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("10_0ss7m")
+
+[node name="ShipSpawner" type="Node2D" parent="."]
+script = ExtResource("8_0edrc")
+
+[node name="Timer" type="Timer" parent="ShipSpawner"]
+wait_time = 3.0
+autostart = true
+
+[node name="MoneteLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 17.0
+text = "Stelle: 0"
+
+[connection signal="pressed" from="MainButtons/Button1" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="MainButtons/Button2" to="." method="_on_settings2_pressed"]
+[connection signal="pressed" from="MainButtons/Button3" to="." method="_on_settings1_pressed"]
+[connection signal="value_changed" from="Options/VBoxContainer/AudioControl" to="Options/VBoxContainer/AudioControl" method="_on_value_changed"]
+[connection signal="toggled" from="Options/VBoxContainer/FullscreenControl" to="Options/VBoxContainer/FullscreenControl" method="_on_toggled"]
+[connection signal="pressed" from="Options/VBoxContainer/Back" to="." method="_on_back_options_pressed"]
+[connection signal="pressed" from="Armadietto/Seleziona1" to="Armadietto" method="_on_seleziona_1_pressed"]
+[connection signal="toggled" from="Armadietto/Upgrade1" to="Armadietto" method="_on_upgrade_1_toggled"]
+[connection signal="toggled" from="Armadietto/Upgrade2" to="Armadietto" method="_on_upgrade_2_toggled"]
+[connection signal="pressed" from="Armadietto/Seleziona2" to="Armadietto" method="_on_seleziona_2_pressed"]
+[connection signal="pressed" from="Armadietto/Back" to="." method="_on_back_options_pressed"]
+[connection signal="pressed" from="Gioca/Back" to="." method="_on_back_options_pressed"]
+[connection signal="pressed" from="Gioca/HBoxContainer/Mod1" to="." method="_on_mod_1_pressed"]
+[connection signal="pressed" from="Gioca/HBoxContainer/Mod2" to="." method="_on_mod_2_pressed"]
+[connection signal="pressed" from="Gioca/HBoxContainer/Mod3" to="." method="_on_mod_3_pressed"]

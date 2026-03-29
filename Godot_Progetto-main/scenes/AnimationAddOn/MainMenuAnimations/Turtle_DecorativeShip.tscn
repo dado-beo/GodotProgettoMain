@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://dllxrooa76e43"]
+
+[ext_resource type="Script" uid="uid://drgj7huen5gl7" path="res://Scripts/AnimationsAddOn/MainMenuAnimations/ship_properties.gd" id="1_apnxd"]
+[ext_resource type="Texture2D" uid="uid://h31d0ju3sw2e" path="res://Sprites/Spaceships/Enemies/Turtle.png" id="2_bjsqy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ck5f0"]
+atlas = ExtResource("2_bjsqy")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bhbwm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ck5f0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_apnxd")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+rotation = 1.58327
+sprite_frames = SubResource("SpriteFrames_bhbwm")
+autoplay = "default"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

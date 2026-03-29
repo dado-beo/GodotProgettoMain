@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://c585n11h0wuak"]
+
+[ext_resource type="Script" uid="uid://blssxmh2y8tqk" path="res://Scripts/Spaceships/Enemies/Kamikaze.gd" id="1_1j6np"]
+[ext_resource type="Texture2D" uid="uid://gdyoyn1kon7o" path="res://Sprites/Spaceships/Enemies/Evil ass skeleton.png" id="2_3akwe"]
+[ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="3_ww3mc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ccfwl"]
+atlas = ExtResource("2_3akwe")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_60txf"]
+atlas = ExtResource("2_3akwe")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pldql"]
+atlas = ExtResource("2_3akwe")
+region = Rect2(0, 100, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0g6ak"]
+atlas = ExtResource("2_3akwe")
+region = Rect2(100, 100, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_585wl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ccfwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_60txf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pldql")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0g6ak")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kqgm4"]
+
+[node name="Enemy" type="CharacterBody2D" unique_id=724344041 groups=["enemies"]]
+script = ExtResource("1_1j6np")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2094464245]
+texture_filter = 1
+position = Vector2(0.5, 0)
+rotation = -1.5707964
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_585wl")
+autoplay = "default"
+frame_progress = 0.75145
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2137765553]
+position = Vector2(1, 0)
+rotation = 1.57079
+scale = Vector2(1, 1.1)
+shape = SubResource("CapsuleShape2D_kqgm4")
+
+[node name="HealtBar" parent="." unique_id=648210164 instance=ExtResource("3_ww3mc")]
+offset_left = -10.0
+offset_top = -19.0
+offset_right = 11.0
+offset_bottom = -12.0

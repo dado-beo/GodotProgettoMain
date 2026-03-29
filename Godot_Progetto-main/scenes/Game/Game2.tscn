@@ -1,0 +1,74 @@
+[gd_scene load_steps=12 format=3 uid="uid://cdte5upmfyn1s"]
+
+[ext_resource type="Script" uid="uid://dd1cgl67huy1q" path="res://Scripts/Game/game_mode_waves.gd" id="1_wtxj0"]
+[ext_resource type="Texture2D" uid="uid://cl4s3i7datxqi" path="res://Sprites/Backgrounds/Game2_SpaceBackground.png" id="2_3f3yh"]
+[ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="3_070rt"]
+[ext_resource type="PackedScene" uid="uid://c316ek4x22v2p" path="res://scenes/main_menu.tscn" id="4_m6p30"]
+[ext_resource type="PackedScene" uid="uid://cgvw14xt7tjt4" path="res://scenes/Menu/Paused_Menu.tscn" id="5_qt4lh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5d5wl"]
+texture = ExtResource("2_3f3yh")
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qgqns"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7543l"]
+normal = Vector2(1, 0)
+distance = -3.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_46004"]
+normal = Vector2(-0.999898, -0.0142843)
+distance = -1152.08
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jnyqv"]
+distance = -648.0
+
+[sub_resource type="Theme" id="Theme_m35f2"]
+default_font = ExtResource("3_070rt")
+
+[node name="GameModeWaves" type="Node2D"]
+script = ExtResource("1_wtxj0")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 1162.0
+offset_bottom = 654.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_5d5wl")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Top" type="CollisionShape2D" parent="Walls"]
+position = Vector2(578, 0)
+shape = SubResource("WorldBoundaryShape2D_qgqns")
+
+[node name="Left" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_7543l")
+
+[node name="Right" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_46004")
+
+[node name="Bottom" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_jnyqv")
+
+[node name="Menu" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" parent="Menu" instance=ExtResource("4_m6p30")]
+visible = false
+script = null
+
+[node name="PausedMenu" parent="Menu" instance=ExtResource("5_qt4lh")]
+theme = SubResource("Theme_m35f2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="WaveLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_070rt")
+theme_override_font_sizes/font_size = 42
+horizontal_alignment = 1
