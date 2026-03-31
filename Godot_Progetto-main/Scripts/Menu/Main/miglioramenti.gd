@@ -7,16 +7,16 @@ extends Panel
 # Dizionario unico: contiene Nomi, Costi, Chiavi Salvataggio e Icone
 var ship_data = {
 	0: {
-		"u1": {"nome": "Triple Shot", "costo": 500, "key": "triple_shot", "icon": preload("res://Sprites/Buttons/Button_disabled_3x.png")},
-		"u2": {"nome": "Speed Boost", "costo": 750, "key": "speed_boost", "icon": preload("res://Sprites/Buttons/Button_disabled_spd.png")}
+		"u1": {"nome": "Triple Shot", "costo": 500, "key": "triple_shot", "icon": preload("res://Sprites/Buttons/triple_shoot_off.png")},
+		"u2": {"nome": "Speed Boost", "costo": 750, "key": "speed_boost", "icon": preload("res://Sprites/Buttons/speed_boost_off.png")}
 	},
 	1: {
-		"u1": {"nome": "Homing", "costo": 500, "key": "homing", "icon": preload("res://Sprites/Buttons/#TEMP1.png")},
-		"u2": {"nome": "Big Bullet", "costo": 750, "key": "big_bullet", "icon": preload("res://Sprites/Buttons/#TEMP2.png")}
+		"u1": {"nome": "Homing", "costo": 500, "key": "homing", "icon": preload("res://Sprites/Buttons/homing_target_off.png")},
+		"u2": {"nome": "Big Bullet", "costo": 750, "key": "big_bullet", "icon": preload("res://Sprites/Buttons/charged_shot_off.png")}
 	},
 	2: {
-		"u1": {"nome": "Shield", "costo": 500, "key": "shield", "icon": preload("res://Sprites/Buttons/#TEMP3.png")},
-		"u2": {"nome": "Super Shield", "costo": 750, "key": "super_shield", "icon": preload("res://Sprites/Buttons/#TEMP4.png")}
+		"u1": {"nome": "Shield", "costo": 500, "key": "shield", "icon": preload("res://Sprites/Buttons/shield_off.png")},
+		"u2": {"nome": "Super Shield", "costo": 750, "key": "super_shield", "icon": preload("res://Sprites/Buttons/bouncing_shield_off.png")}
 	}
 }
 
@@ -42,6 +42,7 @@ func _on_button_2_pressed() -> void:
 # Quando configuri i bottoni a schermo:
 func _setup_button(btn, info: Dictionary):
 	btn.icon = info["icon"]
+	btn.expand_icon = true
 	var key = info["key"] # es: "triple_shot"
 	btn.button_pressed = GameData.upgrades[key]["enabled"]
 	btn.disabled = not GameData.upgrades[key]["purchased"]

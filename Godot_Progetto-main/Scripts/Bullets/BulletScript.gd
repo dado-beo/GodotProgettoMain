@@ -45,7 +45,15 @@ func _ready() -> void:
 	
 	# Orienta graficamente il proiettile alla partenza
 	rotation = direction.angle()
-
+	
+	# Se il proiettile NON è del player, aggiungilo in automatico al gruppo!
+	if is_it_player == false:
+		add_to_group("enemy_bullets")
+	# ----------------------------------------
+	
+	# Orienta graficamente il proiettile alla partenza
+	rotation = direction.angle()
+	
 func set_parameters(spd: int, dmg: int):
 	speed = spd
 	damage = dmg

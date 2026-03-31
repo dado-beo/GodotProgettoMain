@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cxj1muflo6mfi" path="res://Sprites/Spaceships/Players/Acqua.png" id="2_nw3hb"]
 [ext_resource type="Texture2D" uid="uid://bsi1nabqmg0k5" path="res://Sprites/Bullets/Aqua_Shield_SS.png" id="3_u8rru"]
 [ext_resource type="Texture2D" uid="uid://dkipnd5heyg2a" path="res://Sprites/Bullets/Aqua_Shield.png" id="4_ilcya"]
+[ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="5_cleqx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_smeeq"]
 atlas = ExtResource("3_u8rru")
@@ -226,9 +227,12 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j20sa"]
-radius = 11.045361
+radius = 12.0
 
-[node name="NavicellaExtra2" type="CharacterBody2D" unique_id=696237405]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ilcya"]
+radius = 10.049875
+
+[node name="Aqua" type="CharacterBody2D" unique_id=696237405]
 script = ExtResource("1_ilcya")
 
 [node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="." unique_id=166328032]
@@ -263,6 +267,20 @@ autoplay = "default"
 texture_filter = 1
 position = Vector2(10, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1506226620]
+[node name="Area2D" type="Area2D" parent="." unique_id=1227982651]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1506226620]
 position = Vector2(-2, 0)
 shape = SubResource("CircleShape2D_j20sa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1143846571]
+position = Vector2(-2, 0)
+shape = SubResource("CircleShape2D_ilcya")
+
+[node name="HealtBar" parent="." unique_id=56531350 instance=ExtResource("5_cleqx")]
+offset_left = -12.0
+offset_top = -20.0
+offset_right = 9.0
+offset_bottom = -13.0
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

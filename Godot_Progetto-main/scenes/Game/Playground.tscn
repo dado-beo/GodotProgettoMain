@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cw2wxj4rr5klh"]
+
+[ext_resource type="PackedScene" uid="uid://emfaswtb2xs8" path="res://scenes/Spaceships/Enemies/Dummy.tscn" id="1_v4x4c"]
+[ext_resource type="PackedScene" uid="uid://cwwx8ibk4r15i" path="res://scenes/Spaceships/Players/StarChaser_Player.tscn" id="2_8j6ym"]
+
+[node name="Playground" type="Node2D" unique_id=1916474040]
+
+[node name="CharacterBody2D" parent="." unique_id=986248363 instance=ExtResource("1_v4x4c")]
+position = Vector2(399, 271)
+
+[node name="CharacterBody2D2" parent="." unique_id=568767606 instance=ExtResource("1_v4x4c")]
+position = Vector2(612, 274)
+
+[node name="CharacterBody2D3" parent="." unique_id=793300218 instance=ExtResource("1_v4x4c")]
+position = Vector2(495, 273)
+
+[node name="Player" parent="." unique_id=1154042791 instance=ExtResource("2_8j6ym")]
+position = Vector2(208, 275)

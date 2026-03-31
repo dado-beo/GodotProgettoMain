@@ -35,10 +35,6 @@ func _spawn_player() -> void:
 		player.tree_exited.connect(_on_player_died)
 
 func _on_player_died():
-	#$AudioStreamPlayer.pitch_scale=0.4
-	Engine.time_scale=0.1
-	await $".".create_timer(3*Engine.time_scale).timeout
-	Engine.time_scale=1
 	_game_over()
 
 func _game_over():

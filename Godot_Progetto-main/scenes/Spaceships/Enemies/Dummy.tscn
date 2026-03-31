@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://emfaswtb2xs8"]
+
+[ext_resource type="Texture2D" uid="uid://cuky44cvcnb8f" path="res://Sprites/Spaceships/Enemies/Evil ass nigger.png" id="1_7xkk2"]
+[ext_resource type="Script" uid="uid://buht2d75r0let" path="res://Scripts/Spaceships/Enemies/Dummy.gd" id="1_ibsxq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ibsxq"]
+size = Vector2(47, 66)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=986248363]
+script = ExtResource("1_ibsxq")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=897399439]
+position = Vector2(0, -1)
+texture = ExtResource("1_7xkk2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=832240861]
+position = Vector2(1.5, -1)
+shape = SubResource("RectangleShape2D_ibsxq")
