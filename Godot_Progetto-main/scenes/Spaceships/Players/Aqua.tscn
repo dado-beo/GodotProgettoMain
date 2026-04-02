@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://bsi1nabqmg0k5" path="res://Sprites/Bullets/Aqua_Shield_SS.png" id="3_u8rru"]
 [ext_resource type="Texture2D" uid="uid://dkipnd5heyg2a" path="res://Sprites/Bullets/Aqua_Shield.png" id="4_ilcya"]
 [ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="5_cleqx"]
+[ext_resource type="Texture2D" uid="uid://dbf23gie0dvx" path="res://Sprites/Buttons/Charge_Circle_Empty.png" id="6_hwmf2"]
+[ext_resource type="Texture2D" uid="uid://cbect8ffh86fe" path="res://Sprites/Buttons/Charge_Circle_Full.png" id="7_2xn2y"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_smeeq"]
 atlas = ExtResource("3_u8rru")
@@ -235,6 +237,12 @@ radius = 10.049875
 [node name="Aqua" type="CharacterBody2D" unique_id=696237405]
 script = ExtResource("1_ilcya")
 
+[node name="HealtBar" parent="." unique_id=56531350 instance=ExtResource("5_cleqx")]
+offset_left = -12.0
+offset_top = -20.0
+offset_right = 9.0
+offset_bottom = -13.0
+
 [node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="." unique_id=166328032]
 visible = false
 position = Vector2(-2, 0)
@@ -267,6 +275,21 @@ autoplay = "default"
 texture_filter = 1
 position = Vector2(10, 0)
 
+[node name="Timer" type="Timer" parent="." unique_id=1052787496]
+one_shot = true
+
+[node name="GhostTimer" type="Node2D" parent="." unique_id=1166034864]
+
+[node name="ShieldCooldownUI" type="TextureProgressBar" parent="." unique_id=1185773557]
+offset_left = 4.9999995
+offset_top = 14.0
+offset_right = 37.0
+offset_bottom = 46.0
+scale = Vector2(0.35, 0.35)
+fill_mode = 4
+texture_under = ExtResource("6_hwmf2")
+texture_progress = ExtResource("7_2xn2y")
+
 [node name="Area2D" type="Area2D" parent="." unique_id=1227982651]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1506226620]
@@ -276,11 +299,5 @@ shape = SubResource("CircleShape2D_j20sa")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1143846571]
 position = Vector2(-2, 0)
 shape = SubResource("CircleShape2D_ilcya")
-
-[node name="HealtBar" parent="." unique_id=56531350 instance=ExtResource("5_cleqx")]
-offset_left = -12.0
-offset_top = -20.0
-offset_right = 9.0
-offset_bottom = -13.0
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

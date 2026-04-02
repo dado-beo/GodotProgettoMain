@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7wv6hhchfuhc"
-path="res://.godot/imported/speed_bost_on.png-850369168e7f06a23dab08d245972f29.ctex"
+uid="uid://iwce7f4afaae"
+path="res://.godot/imported/esorcista.png-3102cc58116f20853ba8db14b9591a54.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Buttons/speed_bost_on.png"
-dest_files=["res://.godot/imported/speed_bost_on.png-850369168e7f06a23dab08d245972f29.ctex"]
+source_file="res://Sprites/Achivments/esorcista.png"
+dest_files=["res://.godot/imported/esorcista.png-3102cc58116f20853ba8db14b9591a54.ctex"]
 
 [params]
 

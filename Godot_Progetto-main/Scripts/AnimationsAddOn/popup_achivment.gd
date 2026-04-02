@@ -5,29 +5,18 @@ extends CanvasLayer
 @onready var lbl_descrizione = $Contenitore/HBoxContainer/VBoxContainer/Descrizione
 @onready var icona_achievement = $Contenitore/HBoxContainer/TextureRect
 
-# dizionario
+# Dizionario AGGIORNATO (copiato dalla tua leaderboard con tutte le icone caricate!)
 var testi_achievements = {
-
-"primo_sparo": {"titolo": "Pew Pew!", "desc": "Hai sparato il tuo primo proiettile!", "icona": null},
-
-"killer_kamikaze": {"titolo": "Esplosivo", "desc": "Hai eliminato 10 Kamikaze!", "icona": preload("res://Sprites/Buttons/#TEMP2.png")},
-
-"killer_ufo": {"titolo": "Area 51", "desc": "Hai distrutto 10 UFO!", "icona": null},
-
-"killer_tartarughe": {"titolo": "Donatello", "desc": "Hai eliminato 10 Tartarughe spaziali!", "icona": null},
-
-"killer_purpleDevil": {"titolo": "Esorcista Spaziale", "desc": "Hai rimandato a casa 10 Purple Devil!", "icona": null},
-
-"secondaMod_MaiColpito": {"titolo": "Intoccabile", "desc": "Hai completato le Ondate senza subire danni!", "icona": null},
-
-"stella_diamante": {"titolo": "Zio Paperone", "desc": "Hai raccolto 1000 Stelle totali!", "icona": null},
-
-"primoAcquisto": {"titolo": "Dollaroni", "desc": "Hai fatto il tuo primo acquisto nel negozio!", "icona": null},
-
-"tutteLeNavicelle": {"titolo": "Concessionario Stellare", "desc": "Hai sbloccato tutte le navicelle!", "icona": null},
-
-"tutteLeIcone": {"titolo": "Profilato", "desc": "Hai sbloccato tutte le icone profilo!", "icona": null}
-
+	"primo_sparo": {"titolo": "Pew Pew!", "desc": "Hai sparato il tuo primo proiettile!","icona": preload("res://Sprites/Achivments/primo_di_molti.png")}, 
+	"killer_kamikaze": {"titolo": "Esplosivo", "desc": "Hai eliminato 10 Kamikaze!","icona": preload("res://Sprites/Buttons/#TEMP4.png")},
+	"killer_ufo": {"titolo": "Area 51", "desc": "Hai distrutto 10 UFO!","icona": preload("res://Sprites/Buttons/pptout.png")},
+	"killer_tartarughe": {"titolo": "Donatello", "desc": "Hai eliminato 10 Tartarughe spaziali!","icona": preload("res://Sprites/Buttons/pptout.png")},
+	"killer_purpleDevil": {"titolo": "Esorcista Spaziale", "desc": "Hai rimandato a casa 10 Purple Devil!","icona": preload("res://Sprites/Achivments/esorcista.png")}, 
+	"secondaMod_MaiColpito": {"titolo": "Intoccabile", "desc": "Hai completato le Ondate senza subire danni!","icona": preload("res://Sprites/Achivments/intoccabile.png")}, 
+	"stella_diamante": {"titolo": "Zio Paperone", "desc": "Hai raccolto 1000 Stelle totali!","icona": preload("res://Sprites/Achivments/astrofilo.png")}, 
+	"primoAcquisto": {"titolo": "Dollaroni", "desc": "Hai fatto il tuo primo acquisto nel negozio!","icona": preload("res://Sprites/Achivments/spendaccione.png")}, 
+	"tutteLeNavicelle": {"titolo": "Concessionario Stellare", "desc": "Hai sbloccato tutte le navicelle!","icona": preload("res://Sprites/Buttons/pptout.png")}, 
+	"tutteLeIcone": {"titolo": "Profilato", "desc": "Hai sbloccato tutte le icone profilo!","icona": preload("res://Sprites/Achivments/galleria_d_arte.png")} 
 }
 
 func _ready():
@@ -48,7 +37,6 @@ func mostra_popup(id_achievement: String):
 		# Un'immagine di default nel caso ci scordassimo di metterla nel dizionario
 		icona_achievement.texture = null 
 		
-	# ... (il resto del codice con l'animazione tween rimane UGUALE a prima)
 	contenitore.visible = true
 	var tween = create_tween()
 	tween.tween_property(contenitore, "modulate:a", 1.0, 0.5)

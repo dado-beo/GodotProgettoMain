@@ -17,7 +17,8 @@ var selected_ship_index: int = 0
 
 # --- GESTIONE SKIN E NAVI ---
 var current_icon_index: int = 0
-var unlocked_icons: Array = [true, false, false, false, false] 
+# FIX: Portato a 4 elementi invece di 5
+var unlocked_icons: Array = [true, false, false, false] 
 
 var unlocked_ships: Array = [true, false, false] 
 
@@ -52,7 +53,7 @@ var achievements = {
 	"stella_diamante": false,  
 	"primoAcquisto": false,
 	"tutteLeNavicelle": false, 
-	"tutteLeIcone": false # Corretto il testo che dava errore
+	"tutteLeIcone": false 
 }
 
 func _ready():
@@ -144,6 +145,26 @@ func sblocca_achievement(id_achievement: String):
 		save_data() 
 		emit_signal("achievement_sbloccato", id_achievement)
 		print("🏆 ACHIEVEMENT SBLOCCATO: ", id_achievement, "!")
+
+# NUOVA FUNZIONE: Controlla se hai tutte le icone o le navicelle
+func check_completamento_acquisti():
+	# 1. Controlla le Icone (Devono essere 4 in totale)
+	var icone_sbloccate = 0
+	for icona in unlocked_icons:
+		if icona == true:
+			icone_sbloccate += 1
+			
+	if icone_sbloccate >= 4:
+		sblocca_achievement("tutteLeIcone")
+
+	# 2. Controlla le Navicelle (Devono essere 3 in totale)
+	var navi_sbloccate = 0
+	for nave in unlocked_ships:
+		if nave == true:
+			navi_sbloccate += 1
+			
+	if navi_sbloccate >= 3:
+		sblocca_achievement("tutteLeNavicelle")
 
 # Funzione Universale per le Kill
 func aggiungi_kill(tipo_nemico: String):

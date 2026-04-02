@@ -41,15 +41,8 @@ func _on_btn_pressed(id: int) -> void:
 			update_ui_state()
 			_equip_icon(id)
 			
-			# --- NUOVO: CONTROLLO ACHIEVEMENT ICONE ---
-			var tutte_sbloccate = true
-			for sbloccata in GameData.unlocked_icons:
-				if sbloccata == false:
-					tutte_sbloccate = false
-					break # Trovata una bloccata, smette di cercare
-					
-			if tutte_sbloccate:
-				GameData.sblocca_achievement("tutteLeIcone")
+			# AGGIUNTA: Chiamata alla funzione universale che controlla sia le navi che le icone!
+			GameData.check_completamento_acquisti()
 
 func _equip_icon(id: int):
 	GameData.current_icon_index = id

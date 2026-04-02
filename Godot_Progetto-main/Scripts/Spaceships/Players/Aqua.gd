@@ -1,57 +1,56 @@
 extends CharacterBody2D
 
+# ==========================================
+# COSTANTI E PARAMETRI
+# ==========================================
 const SPEED = 450
-var bullet_scene = preload("res://scenes/Bullets/Player/Bullet_Yellow_StarChaser.tscn")
-var health: int = 12
+const CHARGE_DELAY: float = 0.30  # Tempo per distinguere "click" da "tieni premuto"
+const SHIELD_DURATION: float = 4.0 # Quanto dura lo scudo acceso
+const SHIELD_COOLDOWN: float = 12.0 # Tempo di ricarica dello scudo
 
+# ==========================================
+# VARIABILI DI STATO
+# ==========================================
+var health: int = 12
+var is_preparing_charge: bool = false
+var is_charging: bool = false
+var charge_timer: float = 0.0
+var is_shield_active: bool = false
+
+var bullet_scene = preload("res://scenes/Bullets/Player/Bullet_Yellow_StarChaser.tscn")
+
+# ==========================================
+# NODI (Onready)
+# ==========================================
 @onready var Shooty_part = $ShootyPart
 @onready var collisione_scudo = $Area2D/CollisionShape2D 
 @onready var healthbar = $HealtBar
 
-# Variabile per controllare se l'upgrade è attivo
-var upgrade_scudo_riflettente_sbloccato = true 
+# Nodi visivi dello scudo
+@onready var anim_start = $AnimatedSprite2D2
+@onready var sprite_scudo = $Sprite2D
+@onready var anim_end = $AnimatedSprite2D3
 
+# Nodi Timer e UI
+@onready var cooldown_timer: Timer = $Timer
+@onready var shield_ui: TextureProgressBar = $ShieldCooldownUI
+
+# ==========================================
+# FUNZIONI DI SISTEMA GODOT
+# ==========================================
 func _ready():
-	call_deferred("_gestisci_ciclo_animazione")
 	add_to_group("player")
-
-func _gestisci_ciclo_animazione():
-	await get_tree().create_timer(0.1).timeout
 	
-	# Scudo fisico disattivato all'inizio
+	# Assicuriamoci che lo scudo sia spento all'avvio
 	collisione_scudo.set_deferred("disabled", true)
+	anim_start.visible = false
+	sprite_scudo.visible = false
+	anim_end.visible = false
 	
-	while true:
-		$AnimatedSprite2D2.visible = false
-		$Sprite2D.visible = false
-		
-		await get_tree().create_timer(15.0).timeout 
-		
-		$AnimatedSprite2D2.visible = true
-		$AnimatedSprite2D2.frame = 0
-		$AnimatedSprite2D2.play("default")
-		
-		await $AnimatedSprite2D2.animation_finished
-		
-		$AnimatedSprite2D2.visible = false
-		$Sprite2D.visible = true
-		
-		# ATTIVA LO SCUDO FISICO
-		collisione_scudo.set_deferred("disabled", false)
-		
-		await get_tree().create_timer(4.0).timeout
-		
-		$Sprite2D.visible = false
-		
-		# DISATTIVA LO SCUDO FISICO
-		collisione_scudo.set_deferred("disabled", true)
-		
-		$AnimatedSprite2D3.visible = true
-		$AnimatedSprite2D3.frame = 0
-		$AnimatedSprite2D3.play("default")
-		
-		await get_tree().create_timer(0.5).timeout
-
+	healthbar.init_healt(health)
+	
+	# Impostiamo il timer per non essere ciclico (One Shot)
+	cooldown_timer.one_shot = true
 
 func _physics_process(_delta: float) -> void:
 	look_at(get_global_mouse_position())
@@ -62,25 +61,130 @@ func _physics_process(_delta: float) -> void:
 	).normalized()
 
 	velocity = lerp(get_real_velocity(), input_vector * SPEED, 0.1)
-	
-	if Input.is_action_just_pressed("shoot"):
-		var bullet = bullet_scene.instantiate()
-		bullet.global_position = Shooty_part.global_position
-		bullet.direction = transform.x.normalized()
-		get_tree().get_current_scene().add_child(bullet)
-
 	move_and_slide()
 
+func _process(delta: float) -> void:
+	# Controlla se il giocatore ha comprato il primo potenziamento
+	var can_shield = GameData.upgrades["shield"]["enabled"]
+	
+	# Mostra/Nascondi l'indicatore UI in base all'acquisto
+	if shield_ui:
+		shield_ui.visible = can_shield
+	
+	# 1. INPUT APPENA PREMUTO (Sparo)
+	if Input.is_action_just_pressed("shoot"):
+		fire()
+		
+		# Se hai lo scudo, il timer è fermo, e lo scudo NON è già attivo, inizia a prepararlo
+		if can_shield and cooldown_timer.is_stopped() and not is_shield_active:
+			is_preparing_charge = true
+			charge_timer = 0.0
 
-# SCUDO RIFLETTENTE
+	# ==========================================
+	# LOGICA ATTIVAZIONE SCUDO (Hold to cast)
+	# ==========================================
+	if can_shield:
+		# 2. TENERE PREMUTO
+		if Input.is_action_pressed("shoot") and is_preparing_charge:
+			charge_timer += delta
+			if charge_timer >= CHARGE_DELAY and not is_charging:
+				start_charging()
+
+		# 3. RILASCIO DEL TASTO (Esecuzione Scudo)
+		if Input.is_action_just_released("shoot"):
+			if is_charging:
+				activate_shield()
+			
+			is_preparing_charge = false
+			is_charging = false
+			charge_timer = 0.0
+			
+		# 4. AGGIORNAMENTO UI COOLDOWN
+		if shield_ui:
+			if is_shield_active:
+				# Se lo scudo è attualmente acceso, UI mostra che è in uso (vuoto o rosso)
+				shield_ui.value = 0
+				shield_ui.tint_progress = Color(0.8, 0.2, 0.2, 1.0) 
+			elif not cooldown_timer.is_stopped():
+				# In Ricarica
+				shield_ui.max_value = cooldown_timer.wait_time
+				shield_ui.value = cooldown_timer.wait_time - cooldown_timer.time_left
+				shield_ui.tint_progress = Color(0.2, 0.8, 1.0, 1.0)
+			else:
+				# Pronto all'uso
+				shield_ui.max_value = 1.0
+				shield_ui.value = 1.0 
+				shield_ui.tint_progress = Color(0.2, 0.8, 1.0, 1.0)
+	else:
+		# Reset di sicurezza
+		is_preparing_charge = false
+		is_charging = false
+
+
+# ==========================================
+# SISTEMA ARMI E SCUDO
+# ==========================================
+func fire() -> void:
+	var bullet = bullet_scene.instantiate()
+	bullet.global_position = Shooty_part.global_position
+	bullet.direction = transform.x.normalized()
+	get_tree().get_current_scene().add_child(bullet)
+
+func start_charging() -> void:
+	is_charging = true
+	# Piccolo effetto visivo (lampeggio) per far capire che lo scudo è pronto ad essere lanciato
+	modulate = Color(2, 2, 2) 
+	create_tween().tween_property(self, "modulate", Color(1, 1, 1), 0.1)
+
+func activate_shield() -> void:
+	is_shield_active = true
+	
+	# 1. Animazione di Avvio
+	anim_start.visible = true
+	anim_start.frame = 0
+	anim_start.play("default")
+	await anim_start.animation_finished
+	
+	# 2. Scudo Attivo e collisioni accese
+	if not is_instance_valid(self): return # Previene crash se il player muore nel frattempo
+	anim_start.visible = false
+	sprite_scudo.visible = true
+	collisione_scudo.set_deferred("disabled", false)
+	
+	# 3. Attesa della durata dello scudo
+	await get_tree().create_timer(SHIELD_DURATION).timeout
+	if not is_instance_valid(self): return
+	
+	# 4. Spegnimento scudo
+	sprite_scudo.visible = false
+	collisione_scudo.set_deferred("disabled", true)
+	
+	# 5. Animazione di Chiusura
+	anim_end.visible = true
+	anim_end.frame = 0
+	anim_end.play("default")
+	await get_tree().create_timer(0.5).timeout
+	
+	if not is_instance_valid(self): return
+	anim_end.visible = false
+	is_shield_active = false
+	
+	# 6. Facciamo partire il cooldown SOLO DOPO che lo scudo si è spento
+	cooldown_timer.start(SHIELD_COOLDOWN)
+
+
+# ==========================================
+# SCUDO RIFLETTENTE (Logica Collisione)
+# ==========================================
 func _on_area_2d_area_entered(area):
-	# Se quello che ci ha colpito è un proiettile nemico
+	# Se quello che ci ha colpito è un proiettile nemico...
 	if area.is_in_group("enemy_bullets"):
-		if upgrade_scudo_riflettente_sbloccato:
+		
+		# Controlliamo il SECONDO upgrade (lo scudo che riflette)
+		if GameData.upgrades["super_shield"]["enabled"]:
 			var reflected_bullet = bullet_scene.instantiate()
 			reflected_bullet.global_position = area.global_position
 			
-			# Accendiamo l'inseguimento SOLO per questo colpo riflesso
 			reflected_bullet.is_homing_active = true
 			reflected_bullet.turn_speed = 10.0
 			
@@ -95,11 +199,11 @@ func _on_area_2d_area_entered(area):
 			
 			call_deferred("_spawna_proiettile", reflected_bullet)
 		
-		# Il proiettile nemico viene distrutto (assorbito dallo scudo)
+		# Il proiettile nemico viene SEMPRE distrutto se tocca lo scudo
 		area.queue_free()
 
 func _spawna_proiettile(proiettile):
-	get_parent().add_child(proiettile)
+	get_tree().get_current_scene().add_child(proiettile)
 
 func _trova_nemico_piu_vicino() -> Node2D:
 	var nemici = get_tree().get_nodes_in_group("enemies")
@@ -120,7 +224,8 @@ func _trova_nemico_piu_vicino() -> Node2D:
 # ==========================================
 func take_damage(amount: int) -> void:
 	health -= amount
-	healthbar.health = health 
+	if healthbar:
+		healthbar.health = health 
 	if health <= 0:
 		die()
 

@@ -1,10 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1eygyia0jl6p"]
+[gd_scene format=3 uid="uid://b1eygyia0jl6p"]
 
 [sub_resource type="Curve" id="Curve_xlitq"]
 _data = [Vector2(0.00561798, 1), 0.0, 0.0, 0, 0, Vector2(0.988764, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="CPUParticles2D" type="CPUParticles2D"]
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=1545923627]
 emitting = false
 amount = 50
 lifetime = 0.6

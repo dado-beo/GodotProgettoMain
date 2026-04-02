@@ -32,6 +32,9 @@ var time_tween: Tween
 var charge_timer: float = 0.0
 var is_preparing_charge: bool = false
 
+# Variabile per l'achievement
+var primo_colpo_effettuato: bool = false
+
 # Caricamento della scena del proiettile
 var bullet_scene: PackedScene = preload("res://scenes/Bullets/Player/Bullet_Yellow_StarChaser.tscn")
 
@@ -135,6 +138,14 @@ func _process(delta: float) -> void:
 # SISTEMA DI ARMI
 # ==========================================
 func fire() -> void:
+	# --- ACHIEVEMENT PRIMO COLPO ---
+	if not primo_colpo_effettuato:
+		primo_colpo_effettuato = true
+		if GameData.has_method("sblocca_obiettivo"):
+			# NOTA: Cambia "primo_sparo" con l'ID esatto del tuo obiettivo se è diverso!
+			GameData.sblocca_obiettivo("primo_sparo")
+	# -------------------------------
+
 	spawn_bullet(shooty_part)
 
 	# OTTIMIZZAZIONE: Accesso sicuro al dizionario GameData

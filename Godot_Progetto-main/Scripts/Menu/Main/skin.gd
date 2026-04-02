@@ -18,16 +18,18 @@ func update_ui_state():
 		var is_unlocked = GameData.unlocked_ships[i]
 		
 		if is_unlocked:
+			# Se è sbloccata, nascondi lucchetto e prezzo (SE esistono)
 			if slot.lock: slot.lock.visible = false
 			if slot.price_label: slot.price_label.visible = false
 			slot.btn.disabled = false
 		else:
-			slot.lock.visible = true
-			slot.price_label.visible = true
+			# Se è bloccata, mostra lucchetto e prezzo (SE esistono)
+			if slot.lock: slot.lock.visible = true
+			if slot.price_label: slot.price_label.visible = true
+			
 			# Disabilita se non hai abbastanza monete
 			slot.btn.disabled = (GameData.monete_stella < slot.cost)
 
-# Unica funzione per tutti i tasti (passa l'indice dall'Editor)
 # Unica funzione per tutti i tasti (passa l'indice dall'Editor)
 func _on_seleziona_generic(index: int) -> void:
 	var slot = ship_slots[index]
@@ -40,15 +42,9 @@ func _on_seleziona_generic(index: int) -> void:
 			update_ui_state()
 			GameData.set_player_ship(index)
 			
-			# ACHIEVEMENT NAVICELLE
-			var tutte_sbloccate = true
-			for sbloccata in GameData.unlocked_ships:
-				if sbloccata == false:
-					tutte_sbloccate = false
-					break # Trovata una bloccata, smette di cercare
-					
-			if tutte_sbloccate:
-				GameData.sblocca_achievement("tutteLeNavicelle")
+			# AGGIUNTA: Chiamata alla funzione universale che controlla sia le navi che le icone!
+			GameData.check_completamento_acquisti()
+
 func _on_back_pressed() -> void:
 	# Chiama la funzione del genitore per chiudere il pannello
 	if nodo.has_method("turn_on"):
