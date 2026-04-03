@@ -130,6 +130,17 @@ func _on_body_entered(body: Node2D) -> void:
 func apply_damage_and_destroy(hit_target):
 	if hit_target.has_method("take_damage"):
 		hit_target.take_damage(damage)
+		
+		# --- SISTEMA CURA PER AQUA ---
+		# Se questo è un proiettile del player e ha appena colpito un nemico
+		if is_it_player and hit_target.is_in_group("enemies"):
+			var players = get_tree().get_nodes_in_group("player")
+			if players.size() > 0:
+				var player = players[0]
+				# Se il player ha la funzione per contare i colpi (cioè è Aqua), avvisalo!
+				if player.has_method("register_enemy_hit"):
+					player.register_enemy_hit()
+		# ------------------------------------
 	
 	create_explosion()
 	call_deferred("queue_free")

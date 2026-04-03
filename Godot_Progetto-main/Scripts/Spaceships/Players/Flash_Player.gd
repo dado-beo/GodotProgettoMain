@@ -3,14 +3,17 @@ extends CharacterBody2D
 const SPEED = 500
 var bullet_scene = preload("res://scenes/Bullets/Player/Bullet_Green_Flesh.tscn")
 @onready var Shooty_part = $ShootyPart
+@onready var healthbar = $HealtBar
 
 var counter = 0
 var charge_time: float = 0.0
 const CHARGE_DURATION: float = 1
 var is_charged_ready: bool = false # Per sapere se il colpo è pronto
+var health: int = 12
 
 func _ready():
 	add_to_group("player")
+	healthbar.init_healt(health)
 
 func _physics_process(delta: float) -> void: # Nota: rinominato _delta in delta perché lo usiamo
 	# --- MOVIMENTO E ROTAZIONE ---
@@ -84,3 +87,13 @@ func fire_charged_shot():
 	# Trasformazione in colpo gigante
 	if bullet.has_method("setup_charged_shot"):
 		bullet.setup_charged_shot()
+
+
+func take_damage(amount: int) -> void:
+	health -= amount
+	healthbar.health = health 
+	if health <= 0:
+		die()
+		
+func die() -> void:
+	get_tree().call_deferred("change_scene_to_file", "res://scenes/Menu/Main_Menu.tscn")

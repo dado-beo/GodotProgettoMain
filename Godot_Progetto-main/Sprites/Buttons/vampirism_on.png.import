@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chyvrk3j0gv6a"
-path="res://.godot/imported/shield_off.png-2c1554a53ba6b111e6489cdf6a80b88d.ctex"
+uid="uid://df22thvutmf6j"
+path="res://.godot/imported/vampirism_on.png-3bca573601a4c738cdd7335cccf96d91.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Buttons/shield_off.png"
-dest_files=["res://.godot/imported/shield_off.png-2c1554a53ba6b111e6489cdf6a80b88d.ctex"]
+source_file="res://Sprites/Buttons/vampirism_on.png"
+dest_files=["res://.godot/imported/vampirism_on.png-3bca573601a4c738cdd7335cccf96d91.ctex"]
 
 [params]
 

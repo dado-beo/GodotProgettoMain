@@ -73,7 +73,7 @@ autostart = true
 script = ExtResource("8_2mg1e")
 
 [node name="Timer" type="Timer" parent="TurtleSpawner" unique_id=41928302]
-wait_time = 2.0
+wait_time = 3.0
 autostart = true
 
 [node name="AsteroidSpawner" type="Node2D" parent="." unique_id=415212560]

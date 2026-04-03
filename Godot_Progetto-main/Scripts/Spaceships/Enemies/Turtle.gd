@@ -9,7 +9,7 @@ var health: int = 12
 # Movimento e sparo
 var player: Node2D = null
 const SPEED = 75
-const FIRE_RATE = 2
+const FIRE_RATE = 1.5
 var time_since_last_shot := 0.0
 
 # Proiettile

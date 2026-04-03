@@ -5,17 +5,21 @@ extends CharacterBody2D
 # ==========================================
 const SPEED = 450
 const CHARGE_DELAY: float = 0.30  # Tempo per distinguere "click" da "tieni premuto"
-const SHIELD_DURATION: float = 4.0 # Quanto dura lo scudo acceso
-const SHIELD_COOLDOWN: float = 12.0 # Tempo di ricarica dello scudo
+const SHIELD_DURATION: float = 8.0 # Quanto dura lo scudo acceso
+const SHIELD_COOLDOWN: float = 8.0 # Tempo di ricarica dello scudo
+const MAX_HEALTH: int = 22 # Vita massima per non curarsi all'infinito
 
 # ==========================================
 # VARIABILI DI STATO
 # ==========================================
-var health: int = 12
+var health: int = MAX_HEALTH
 var is_preparing_charge: bool = false
 var is_charging: bool = false
 var charge_timer: float = 0.0
 var is_shield_active: bool = false
+
+# Contatore per la prima abilità (Cura)
+var hit_counter: int = 0
 
 var bullet_scene = preload("res://scenes/Bullets/Player/Bullet_Yellow_StarChaser.tscn")
 
@@ -64,10 +68,10 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func _process(delta: float) -> void:
-	# Controlla se il giocatore ha comprato il primo potenziamento
-	var can_shield = GameData.upgrades["shield"]["enabled"]
+	# ORA LO SCUDO È LEGATO AL SECONDO UPGRADE ("super_shield")
+	var can_shield = GameData.upgrades["super_shield"]["enabled"]
 	
-	# Mostra/Nascondi l'indicatore UI in base all'acquisto
+	# Mostra/Nascondi l'indicatore UI in base all'acquisto della SECONDA mod
 	if shield_ui:
 		shield_ui.visible = can_shield
 	
@@ -102,7 +106,7 @@ func _process(delta: float) -> void:
 		# 4. AGGIORNAMENTO UI COOLDOWN
 		if shield_ui:
 			if is_shield_active:
-				# Se lo scudo è attualmente acceso, UI mostra che è in uso (vuoto o rosso)
+				# Se lo scudo è attualmente acceso, UI mostra che è in uso
 				shield_ui.value = 0
 				shield_ui.tint_progress = Color(0.8, 0.2, 0.2, 1.0) 
 			elif not cooldown_timer.is_stopped():
@@ -132,34 +136,28 @@ func fire() -> void:
 
 func start_charging() -> void:
 	is_charging = true
-	# Piccolo effetto visivo (lampeggio) per far capire che lo scudo è pronto ad essere lanciato
 	modulate = Color(2, 2, 2) 
 	create_tween().tween_property(self, "modulate", Color(1, 1, 1), 0.1)
 
 func activate_shield() -> void:
 	is_shield_active = true
 	
-	# 1. Animazione di Avvio
 	anim_start.visible = true
 	anim_start.frame = 0
 	anim_start.play("default")
 	await anim_start.animation_finished
 	
-	# 2. Scudo Attivo e collisioni accese
-	if not is_instance_valid(self): return # Previene crash se il player muore nel frattempo
+	if not is_instance_valid(self): return
 	anim_start.visible = false
 	sprite_scudo.visible = true
 	collisione_scudo.set_deferred("disabled", false)
 	
-	# 3. Attesa della durata dello scudo
 	await get_tree().create_timer(SHIELD_DURATION).timeout
 	if not is_instance_valid(self): return
 	
-	# 4. Spegnimento scudo
 	sprite_scudo.visible = false
 	collisione_scudo.set_deferred("disabled", true)
 	
-	# 5. Animazione di Chiusura
 	anim_end.visible = true
 	anim_end.frame = 0
 	anim_end.play("default")
@@ -169,7 +167,6 @@ func activate_shield() -> void:
 	anim_end.visible = false
 	is_shield_active = false
 	
-	# 6. Facciamo partire il cooldown SOLO DOPO che lo scudo si è spento
 	cooldown_timer.start(SHIELD_COOLDOWN)
 
 
@@ -177,29 +174,27 @@ func activate_shield() -> void:
 # SCUDO RIFLETTENTE (Logica Collisione)
 # ==========================================
 func _on_area_2d_area_entered(area):
-	# Se quello che ci ha colpito è un proiettile nemico...
 	if area.is_in_group("enemy_bullets"):
 		
-		# Controlliamo il SECONDO upgrade (lo scudo che riflette)
-		if GameData.upgrades["super_shield"]["enabled"]:
-			var reflected_bullet = bullet_scene.instantiate()
-			reflected_bullet.global_position = area.global_position
-			
-			reflected_bullet.is_homing_active = true
-			reflected_bullet.turn_speed = 10.0
-			
-			var bersaglio = _trova_nemico_piu_vicino()
-			
-			if bersaglio != null:
-				var direzione_verso_nemico = (bersaglio.global_position - reflected_bullet.global_position).normalized()
-				reflected_bullet.direction = direzione_verso_nemico
-				reflected_bullet.rotation = direzione_verso_nemico.angle()
-			else:
-				reflected_bullet.direction = Vector2.UP 
-			
-			call_deferred("_spawna_proiettile", reflected_bullet)
+		# Ora lo scudo si attiva SOLO se hai la SECONDA mod ("super_shield"),
+		# quindi se siamo qui, l'effetto riflettente parte in automatico!
+		var reflected_bullet = bullet_scene.instantiate()
+		reflected_bullet.global_position = area.global_position
 		
-		# Il proiettile nemico viene SEMPRE distrutto se tocca lo scudo
+		reflected_bullet.is_homing_active = true
+		reflected_bullet.turn_speed = 10.0
+		
+		var bersaglio = _trova_nemico_piu_vicino()
+		
+		if bersaglio != null:
+			var direzione_verso_nemico = (bersaglio.global_position - reflected_bullet.global_position).normalized()
+			reflected_bullet.direction = direzione_verso_nemico
+			reflected_bullet.rotation = direzione_verso_nemico.angle()
+		else:
+			reflected_bullet.direction = Vector2.UP 
+		
+		call_deferred("_spawna_proiettile", reflected_bullet)
+		
 		area.queue_free()
 
 func _spawna_proiettile(proiettile):
@@ -220,9 +215,35 @@ func _trova_nemico_piu_vicino() -> Node2D:
 	return nemico_piu_vicino
 
 # ==========================================
-# SISTEMA VITA E DANNI
+# SISTEMA CURA (PRIMA ABILITÀ) E DANNI
 # ==========================================
+
+# ==========================================
+# SISTEMA CURA (PRIMA ABILITÀ) E DANNI
+# ==========================================
+
+func register_enemy_hit() -> void:
+	if GameData.upgrades["shield"]["enabled"]:
+		hit_counter += 1
+		if hit_counter >= 6:
+			hit_counter = 0
+			heal(1)
+
+func heal(amount: int) -> void:
+	health += amount
+	if health > MAX_HEALTH:
+		health = MAX_HEALTH
+		
+	if healthbar:
+		healthbar.health = health
+
 func take_damage(amount: int) -> void:
+	# --- FIX CRUCIALE: INVULNERABILITÀ ---
+	# Se lo scudo è attivo, qualsiasi danno viene annullato sul nascere!
+	if is_shield_active:
+		return 
+	# -------------------------------------
+
 	health -= amount
 	if healthbar:
 		healthbar.health = health 

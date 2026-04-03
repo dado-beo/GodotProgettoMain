@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bgihe4opj0och" path="res://Sprites/Spaceships/Players/Flash_Player.png" id="1_7chrc"]
 [ext_resource type="Script" uid="uid://bixqfy2lc8hma" path="res://Scripts/Spaceships/Players/Flash_Player.gd" id="1_bvtfc"]
+[ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="2_h1dio"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ksvxd"]
 atlas = ExtResource("1_7chrc")
@@ -41,7 +42,7 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j20sa"]
 
-[node name="NavicellaExtra1" type="CharacterBody2D" unique_id=1075683889]
+[node name="Flash_Player" type="CharacterBody2D" unique_id=1075683889]
 script = ExtResource("1_bvtfc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1640175725]
@@ -57,3 +58,9 @@ position = Vector2(11, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=641841565]
 shape = SubResource("CircleShape2D_j20sa")
+
+[node name="HealtBar" parent="." unique_id=542158289 instance=ExtResource("2_h1dio")]
+offset_left = -10.0
+offset_top = -19.0
+offset_right = 11.0
+offset_bottom = -12.0

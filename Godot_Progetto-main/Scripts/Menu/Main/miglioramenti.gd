@@ -7,15 +7,15 @@ extends Panel
 # Dizionario: contiene Icone OFF e ON
 var ship_data = {
 	0: {
-		"u1": {"nome": "Triple Shot", "costo": 500, "key": "triple_shot", "icon_off": preload("res://Sprites/Buttons/triple_shoot_off.png"), "icon_on": preload("res://Sprites/Buttons/triple_shoot_on.png")},
-		"u2": {"nome": "Speed Boost", "costo": 750, "key": "speed_boost", "icon_off": preload("res://Sprites/Buttons/speed_boost_off.png"), "icon_on": preload("res://Sprites/Buttons/speed_boost_on.png")}
+		"u1": {"nome": "Triple Shot", "costo": 100, "key": "triple_shot", "icon_off": preload("res://Sprites/Buttons/triple_shoot_off.png"), "icon_on": preload("res://Sprites/Buttons/triple_shoot_on.png")},
+		"u2": {"nome": "Speed Boost", "costo": 150, "key": "speed_boost", "icon_off": preload("res://Sprites/Buttons/speed_boost_off.png"), "icon_on": preload("res://Sprites/Buttons/speed_boost_on.png")}
 	},
 	1: {
 		"u1": {"nome": "Homing", "costo": 500, "key": "homing", "icon_off": preload("res://Sprites/Buttons/homing_target_off.png"), "icon_on": preload("res://Sprites/Buttons/homing_target_on.png")},
 		"u2": {"nome": "Big Bullet", "costo": 750, "key": "big_bullet", "icon_off": preload("res://Sprites/Buttons/charged_shot_off.png"), "icon_on": preload("res://Sprites/Buttons/charged_shot_on.png")}
 	},
 	2: {
-		"u1": {"nome": "Shield", "costo": 500, "key": "shield", "icon_off": preload("res://Sprites/Buttons/shield_off.png"), "icon_on": preload("res://Sprites/Buttons/shield_on.png")},
+		"u1": {"nome": "Shield", "costo": 500, "key": "shield", "icon_off": preload("res://Sprites/Buttons/vampirism_off.png"), "icon_on": preload("res://Sprites/Buttons/vampirism_on.png")},
 		"u2": {"nome": "Super Shield", "costo": 750, "key": "super_shield", "icon_off": preload("res://Sprites/Buttons/bouncing_shield_off.png"), "icon_on": preload("res://Sprites/Buttons/bouncing_shield_on.png")}
 	}
 }
