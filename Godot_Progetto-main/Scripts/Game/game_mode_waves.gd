@@ -16,8 +16,8 @@ var max_waves: int = 3
 
 var waves_data = [
 	{"enemies": 3, "spawn_interval": 2.0},
-	{"enemies": 6, "spawn_interval": 1.8},
-	{"enemies": 10, "spawn_interval": 1.0},
+	{"enemies": 6, "spawn_interval": 1.6},
+	{"enemies": 12, "spawn_interval": 2.0},
 ]
 
 var DEBUG := true

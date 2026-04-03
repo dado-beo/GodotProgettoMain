@@ -27,12 +27,12 @@ func _ready():
 func mostra_popup(id_achievement: String):
 	# Prepariamo testi e immagine
 	if testi_achievements.has(id_achievement):
-		lbl_titolo.text = "🏆 " + testi_achievements[id_achievement]["titolo"]
+		lbl_titolo.text = "" + testi_achievements[id_achievement]["titolo"]
 		lbl_descrizione.text = testi_achievements[id_achievement]["desc"]
 		# Cambiamo l'immagine assegnando quella del dizionario:
 		icona_achievement.texture = testi_achievements[id_achievement]["icona"]
 	else:
-		lbl_titolo.text = "🏆 Sbloccato!"
+		lbl_titolo.text = "Sbloccato!"
 		lbl_descrizione.text = id_achievement
 		# Un'immagine di default nel caso ci scordassimo di metterla nel dizionario
 		icona_achievement.texture = null 

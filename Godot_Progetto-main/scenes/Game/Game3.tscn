@@ -66,28 +66,28 @@ theme = SubResource("Theme_gopwb")
 script = ExtResource("7_dwhnb")
 
 [node name="Timer" type="Timer" parent="NinjaSpawner" unique_id=975288008]
-wait_time = 10.0
+wait_time = 8.0
 autostart = true
 
 [node name="TurtleSpawner" type="Node2D" parent="." unique_id=1917273925]
 script = ExtResource("8_2mg1e")
 
 [node name="Timer" type="Timer" parent="TurtleSpawner" unique_id=41928302]
-wait_time = 5.0
+wait_time = 2.0
 autostart = true
 
 [node name="AsteroidSpawner" type="Node2D" parent="." unique_id=415212560]
 script = ExtResource("8_uny1n")
 
 [node name="EventAsteroidTimer" type="Timer" parent="AsteroidSpawner" unique_id=1168965625]
-wait_time = 15.0
+wait_time = 12.0
 autostart = true
 
 [node name="PurpleDevilSpawner" type="Node2D" parent="." unique_id=331859440]
 script = ExtResource("9_25krs")
 
 [node name="EventPurpleDevil" type="Timer" parent="PurpleDevilSpawner" unique_id=689633618]
-wait_time = 17.5
+wait_time = 14.0
 autostart = true
 
 [connection signal="timeout" from="NinjaSpawner/Timer" to="NinjaSpawner" method="_on_timer_timeout"]

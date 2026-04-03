@@ -1,15 +1,13 @@
 extends Node2D
 
-# Trascina qui il tuo timer o usa il nome esatto che hai nella scena
 @onready var timer = $EventAsteroidTimer 
 
-# Carica la scena dell'asteroide (Verifica che il percorso sia giusto!)
+# Carica la scena dell'asteroide
 var asteroid_scene = preload("res://scenes/Game/asteroid.tscn")
 
 func _ready() -> void:
 	randomize()
 	
-	# Colleghiamo il segnale del timer via codice per sicurezza
 	if not timer.timeout.is_connected(_on_event_asteroid_timer_timeout):
 		timer.timeout.connect(_on_event_asteroid_timer_timeout)
 	
@@ -29,7 +27,7 @@ func _on_event_asteroid_timer_timeout() -> void:
 
 func _spawn_wave():
 	# Spawna 6 asteroidi
-	for i in range(6):
+	for i in range(8):
 		_spawn_single_asteroid()
 
 func _spawn_single_asteroid():

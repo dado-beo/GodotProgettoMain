@@ -4,7 +4,7 @@ const ENEMY_SCENE = preload("res://scenes/Spaceships/Enemies/Purple_Devil.tscn")
 
 const SCREEN_WIDTH = 1152
 const SCREEN_HEIGHT = 648
-const SPAWN_INTERVAL = 17.5 # ogni 17.5 secondi
+const SPAWN_INTERVAL = 14 # ogni 14 secondi
 
 func _ready():
 	randomize()

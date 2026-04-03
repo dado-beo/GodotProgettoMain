@@ -1301,9 +1301,14 @@ size_flags_horizontal = 3
 [node name="Stats" type="VBoxContainer" parent="LeaderboardAndAchievementsMenu/ScrollContainer/ContenitoreScorrevole" unique_id=179882252]
 layout_mode = 2
 
-[node name="TitoloStats" type="Label" parent="LeaderboardAndAchievementsMenu/ScrollContainer/ContenitoreScorrevole/Stats" unique_id=287861322]
+[node name="TitoloStats" type="Label" parent="LeaderboardAndAchievementsMenu/ScrollContainer/ContenitoreScorrevole/Stats" unique_id=1078672626]
+texture_filter = 1
 layout_mode = 2
-text = "STATISTICHE"
+theme_override_colors/font_shadow_color = Color(0.36862746, 0.21176471, 0.49411765, 1)
+theme_override_constants/shadow_offset_x = 9
+theme_override_fonts/font = ExtResource("2_t8dpg")
+theme_override_font_sizes/font_size = 40
+text = "Statistiche"
 horizontal_alignment = 1
 
 [node name="Lbl_Mode1" type="Label" parent="LeaderboardAndAchievementsMenu/ScrollContainer/ContenitoreScorrevole/Stats" unique_id=1622062035]
@@ -1315,8 +1320,13 @@ layout_mode = 2
 [node name="Lbl_Mode3" type="Label" parent="LeaderboardAndAchievementsMenu/ScrollContainer/ContenitoreScorrevole/Stats" unique_id=1059325941]
 layout_mode = 2
 
-[node name="TitoloObiettivi" type="Label" parent="LeaderboardAndAchievementsMenu/ScrollContainer/ContenitoreScorrevole" unique_id=1613819464]
+[node name="TitoloObiettivi" type="Label" parent="LeaderboardAndAchievementsMenu/ScrollContainer/ContenitoreScorrevole" unique_id=141803918]
+texture_filter = 1
 layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0.36862746, 0.21176471, 0.49411765, 1)
+theme_override_constants/shadow_offset_x = 9
+theme_override_fonts/font = ExtResource("2_t8dpg")
+theme_override_font_sizes/font_size = 40
 text = "Obbiettivi"
 horizontal_alignment = 1
 

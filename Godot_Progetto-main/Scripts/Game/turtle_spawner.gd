@@ -3,7 +3,7 @@ extends Node2D
 const ENEMY_SCENE = preload("res://scenes/Spaceships/Enemies/Turtle.tscn")
 const SCREEN_WIDTH = 1152
 const SCREEN_HEIGHT = 648
-const SPAWN_INTERVAL = 5.0 # ogni 5 secondi
+const SPAWN_INTERVAL = 2.0 # ogni 2 secondi
 
 func _ready():
 	randomize()
