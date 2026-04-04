@@ -15,7 +15,6 @@ func _ready() -> void:
 	if timer.is_stopped():
 		timer.start()
 
-
 func _on_event_asteroid_timer_timeout() -> void:
 	# 75% di possibilità
 	if randf() > 0.75:
@@ -26,23 +25,27 @@ func _on_event_asteroid_timer_timeout() -> void:
 	_spawn_wave()
 
 func _spawn_wave():
-	# Spawna 6 asteroidi
-	for i in range(8):
+	# Sceglie un numero casuale di asteroidi per questa ondata (da 1 a 6).
+	var num_asteroids = randi_range(5, 10)
+	
+	for i in range(num_asteroids):
 		_spawn_single_asteroid()
+		
+		# Aggiunge una pausa casuale (tra 0.3 e 1.2 secondi) prima di spawnare il prossimo asteroide.
+		# In questo modo non compaiono tutti nello stesso esatto momento!
+		var spawn_delay = randf_range(0.3, 1.2)
+		await get_tree().create_timer(spawn_delay).timeout
 
 func _spawn_single_asteroid():
 	var asteroid = asteroid_scene.instantiate()
 	
-	# IMPORTANTE: Aggiungiamo l'asteroide alla scena principale (il padre di questo nodo)
-	# o direttamente a questo nodo se AsteroidSpawner è in posizione (0,0).
-	# Usiamo add_child(asteroid) su questo nodo per semplicità.
+	# Aggiungiamo l'asteroide alla scena principale (il padre di questo nodo)
 	add_child(asteroid)
 	
 	# Calcoliamo i dati di spawn
 	var spawn_data = _get_random_spawn_trajectory()
 	
 	# Impostiamo l'asteroide
-	# Nota: dato che add_child è locale, usiamo global_position per essere sicuri
 	asteroid.global_position = spawn_data.start 
 	asteroid.setup(spawn_data.start, spawn_data.end)
 

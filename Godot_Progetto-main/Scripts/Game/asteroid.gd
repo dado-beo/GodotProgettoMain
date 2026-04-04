@@ -38,10 +38,11 @@ func _process(delta):
 func _on_body_entered(body):
 	# Se colpisce il giocatore e non è già esploso
 	if body.is_in_group("player") and !is_exploded:
+		# Infligge 2 di danno al giocatore
+		if body.has_method("take_damage"):
+			body.take_damage(2)
+			
 		call_deferred("explode")
-		# Qui potresti chiamare una funzione di danno sul giocatore, es:
-		# if body.has_method("take_damage"):
-		# 	body.take_damage()
 
 func explode():
 	is_exploded = true

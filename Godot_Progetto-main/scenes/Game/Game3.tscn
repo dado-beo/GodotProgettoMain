@@ -66,7 +66,7 @@ theme = SubResource("Theme_gopwb")
 script = ExtResource("7_dwhnb")
 
 [node name="Timer" type="Timer" parent="NinjaSpawner" unique_id=975288008]
-wait_time = 8.0
+wait_time = 12.0
 autostart = true
 
 [node name="TurtleSpawner" type="Node2D" parent="." unique_id=1917273925]
@@ -89,6 +89,25 @@ script = ExtResource("9_25krs")
 [node name="EventPurpleDevil" type="Timer" parent="PurpleDevilSpawner" unique_id=689633618]
 wait_time = 14.0
 autostart = true
+
+[node name="InvasionLabel" type="Label" parent="." unique_id=1991908181]
+visible = false
+texture_filter = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 382.0
+offset_top = 8.0
+offset_right = 775.0
+offset_bottom = 49.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0.36862746, 0.21176471, 0.49411765, 1)
+theme_override_constants/shadow_offset_x = 9
+theme_override_fonts/font = ExtResource("3_wd4dk")
+theme_override_font_sizes/font_size = 40
+text = "BRECCIA DIMENSIONALE"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="timeout" from="NinjaSpawner/Timer" to="NinjaSpawner" method="_on_timer_timeout"]
 [connection signal="timeout" from="TurtleSpawner/Timer" to="TurtleSpawner" method="_on_timer_timeout"]

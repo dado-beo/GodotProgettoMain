@@ -31,8 +31,8 @@ func _ready() -> void:
 		set_parameters(450, 4)
 		is_it_player = false
 		
-	elif bullet_name == "Bullet_Green_Flesh": # <-- Questo è quello del Flash
-		set_parameters(700, 2) 
+	elif bullet_name == "Bullet_Green_Flesh": 
+		set_parameters(800, 2) 
 		is_it_player = true
 		
 	elif bullet_name == "Bullet_Yellow_StarChaser":
@@ -40,7 +40,7 @@ func _ready() -> void:
 		is_it_player = true
 		
 	elif bullet_name == "Bullet_Yellow_Aqua":
-		set_parameters(900, 3)
+		set_parameters(1400, 3)
 		is_it_player = true
 	
 	# Orienta graficamente il proiettile alla partenza
@@ -49,7 +49,8 @@ func _ready() -> void:
 	# Se il proiettile NON è del player, aggiungilo in automatico al gruppo!
 	if is_it_player == false:
 		add_to_group("enemy_bullets")
-	# ----------------------------------------
+	else:
+		add_to_group("player_bullets")
 	
 	# Orienta graficamente il proiettile alla partenza
 	rotation = direction.angle()

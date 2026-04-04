@@ -4,10 +4,10 @@ extends CharacterBody2D
 # COSTANTI E PARAMETRI
 # ==========================================
 const SPEED = 450
-const CHARGE_DELAY: float = 0.30  # Tempo per distinguere "click" da "tieni premuto"
+const CHARGE_DELAY: float = 0.00  # Tempo per distinguere "click" da "tieni premuto"
 const SHIELD_DURATION: float = 8.0 # Quanto dura lo scudo acceso
 const SHIELD_COOLDOWN: float = 8.0 # Tempo di ricarica dello scudo
-const MAX_HEALTH: int = 22 # Vita massima per non curarsi all'infinito
+const MAX_HEALTH: int = 24 # Vita massima per non curarsi all'infinito
 
 # ==========================================
 # VARIABILI DI STATO
@@ -22,6 +22,9 @@ var is_shield_active: bool = false
 var hit_counter: int = 0
 
 var bullet_scene = preload("res://scenes/Bullets/Player/Bullet_Yellow_StarChaser.tscn")
+
+const FIRE_RATE: float = 0.3
+var time_since_last_shot: float = 0.3
 
 # ==========================================
 # NODI (Onready)
@@ -68,34 +71,37 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func _process(delta: float) -> void:
-	# ORA LO SCUDO È LEGATO AL SECONDO UPGRADE ("super_shield")
 	var can_shield = GameData.upgrades["super_shield"]["enabled"]
 	
-	# Mostra/Nascondi l'indicatore UI in base all'acquisto della SECONDA mod
 	if shield_ui:
 		shield_ui.visible = can_shield
 	
-	# 1. INPUT APPENA PREMUTO (Sparo)
-	if Input.is_action_just_pressed("shoot"):
+	# ==========================================
+	# FUOCO AUTOMATICO (Tasto Sinistro)
+	# ==========================================
+	time_since_last_shot += delta
+	if Input.is_action_pressed("shoot") and time_since_last_shot >= FIRE_RATE:
 		fire()
-		
-		# Se hai lo scudo, il timer è fermo, e lo scudo NON è già attivo, inizia a prepararlo
-		if can_shield and cooldown_timer.is_stopped() and not is_shield_active:
-			is_preparing_charge = true
-			charge_timer = 0.0
+		time_since_last_shot = 0.0
 
 	# ==========================================
-	# LOGICA ATTIVAZIONE SCUDO (Hold to cast)
+	# LOGICA ATTIVAZIONE SCUDO (Tasto Destro)
 	# ==========================================
 	if can_shield:
-		# 2. TENERE PREMUTO
-		if Input.is_action_pressed("shoot") and is_preparing_charge:
+		# 1. APPENA PREMUTO IL TASTO DESTRO
+		if Input.is_action_just_pressed("ability"):
+			if cooldown_timer.is_stopped() and not is_shield_active:
+				is_preparing_charge = true
+				charge_timer = 0.0
+
+		# 2. MENTRE SI TIENE PREMUTO IL TASTO DESTRO
+		if Input.is_action_pressed("ability") and is_preparing_charge:
 			charge_timer += delta
 			if charge_timer >= CHARGE_DELAY and not is_charging:
 				start_charging()
 
-		# 3. RILASCIO DEL TASTO (Esecuzione Scudo)
-		if Input.is_action_just_released("shoot"):
+		# 3. RILASCIO DEL TASTO DESTRO
+		if Input.is_action_just_released("ability"):
 			if is_charging:
 				activate_shield()
 			
@@ -103,24 +109,20 @@ func _process(delta: float) -> void:
 			is_charging = false
 			charge_timer = 0.0
 			
-		# 4. AGGIORNAMENTO UI COOLDOWN
+		# 4. AGGIORNAMENTO UI
 		if shield_ui:
 			if is_shield_active:
-				# Se lo scudo è attualmente acceso, UI mostra che è in uso
 				shield_ui.value = 0
 				shield_ui.tint_progress = Color(0.8, 0.2, 0.2, 1.0) 
 			elif not cooldown_timer.is_stopped():
-				# In Ricarica
 				shield_ui.max_value = cooldown_timer.wait_time
 				shield_ui.value = cooldown_timer.wait_time - cooldown_timer.time_left
 				shield_ui.tint_progress = Color(0.2, 0.8, 1.0, 1.0)
 			else:
-				# Pronto all'uso
 				shield_ui.max_value = 1.0
 				shield_ui.value = 1.0 
 				shield_ui.tint_progress = Color(0.2, 0.8, 1.0, 1.0)
 	else:
-		# Reset di sicurezza
 		is_preparing_charge = false
 		is_charging = false
 
@@ -217,11 +219,6 @@ func _trova_nemico_piu_vicino() -> Node2D:
 # ==========================================
 # SISTEMA CURA (PRIMA ABILITÀ) E DANNI
 # ==========================================
-
-# ==========================================
-# SISTEMA CURA (PRIMA ABILITÀ) E DANNI
-# ==========================================
-
 func register_enemy_hit() -> void:
 	if GameData.upgrades["shield"]["enabled"]:
 		hit_counter += 1
@@ -236,6 +233,12 @@ func heal(amount: int) -> void:
 		
 	if healthbar:
 		healthbar.health = health
+		
+	# --- EFFETTO VISIVO CURA ---
+	# Crea un lampo verde per far capire al giocatore che si è curato
+	var flash = create_tween()
+	flash.tween_property(self, "modulate", Color(0.5, 1.5, 0.5), 0.2)
+	flash.tween_property(self, "modulate", Color(1, 1, 1), 0.2)
 
 func take_damage(amount: int) -> void:
 	# --- FIX CRUCIALE: INVULNERABILITÀ ---

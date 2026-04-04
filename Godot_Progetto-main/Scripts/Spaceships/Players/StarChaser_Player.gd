@@ -5,7 +5,7 @@ extends CharacterBody2D
 # ==========================================
 const BASE_SPEED: float = 420.0  # Base aumentata per maggiore fluidità
 const EXTRA_SPEED: float = 100.0
-const FIRE_RATE: float = 0.3     # Tempo tra uno sparo e l'altro in secondi
+const FIRE_RATE: float = 0.5    # Tempo tra uno sparo e l'altro in secondi
 const CHARGE_DELAY: float = 0.30 # Tempo per distinguere un "click" da un "tieni premuto"
 
 # ==========================================
@@ -24,7 +24,7 @@ const CHARGE_DELAY: float = 0.30 # Tempo per distinguere un "click" da un "tieni
 # ==========================================
 # VARIABILI DI STATO
 # ==========================================
-var health: int = 12
+var health: int = 25
 var time_since_last_shot: float = 0.0
 var is_charging: bool = false
 var dash_vector: Vector2 = Vector2.ZERO
@@ -75,39 +75,43 @@ func _physics_process(delta: float) -> void:
 	velocity = velocity.lerp(input_vector * speed, 0.1)
 	move_and_slide()
 
+# Sostituisci interamente la tua funzione _process:
 func _process(delta: float) -> void:
-	# Verifichiamo una volta sola se l'upgrade è attivo (più leggero per la CPU)
 	var can_dash = GameData.upgrades["speed_boost"]["enabled"]
 	
-	# Gestione visibilità UI in base all'upgrade
 	dash_ui.visible = can_dash
 
-	# 1. INPUT APPENA PREMUTO (Sparo Istantaneo Sempre Attivo)
-	if Input.is_action_just_pressed("shoot"):
+	# ==========================================
+	# FUOCO AUTOMATICO (Tasto Sinistro)
+	# ==========================================
+	time_since_last_shot += delta
+	if Input.is_action_pressed("shoot") and time_since_last_shot >= FIRE_RATE:
 		fire() 
-		
-		# Inizia la fase di preparazione al Dash SOLO se l'upgrade è abilitato e il timer è pronto
-		if can_dash and cooldown_timer.is_stopped():
-			is_preparing_charge = true
-			charge_timer = 0.0
+		time_since_last_shot = 0.0
 
 	# ==========================================
-	# LOGICA DASH (Protetta dall'Upgrade)
+	# LOGICA DASH (Tasto Destro)
 	# ==========================================
 	if can_dash:
-		# 2. GESTIONE DEL "TENERE PREMUTO"
-		if Input.is_action_pressed("shoot") and is_preparing_charge:
+		# 1. APPENA PREMUTO DESTRO: Preparazione al Dash se il timer è pronto
+		if Input.is_action_just_pressed("ability"):
+			if cooldown_timer.is_stopped():
+				is_preparing_charge = true
+				charge_timer = 0.0
+
+		# 2. MENTRE TENGO PREMUTO DESTRO: Caricamento
+		if Input.is_action_pressed("ability") and is_preparing_charge:
 			charge_timer += delta
 			
 			if charge_timer >= CHARGE_DELAY and not is_charging:
 				start_charging()
 
-		# 3. AGGIORNAMENTO TRAIETTORIA
+		# 3. AGGIORNAMENTO TRAIETTORIA (Mentre carica)
 		if is_charging:
 			update_charging()
 			
-		# 4. RILASCIO DEL TASTO (Esecuzione)
-		if Input.is_action_just_released("shoot"):
+		# 4. RILASCIO DEL TASTO DESTRO (Esecuzione Dash)
+		if Input.is_action_just_released("ability"):
 			if is_charging:
 				execute_dash()
 			
@@ -117,20 +121,15 @@ func _process(delta: float) -> void:
 			
 		# 5. AGGIORNAMENTO UI COOLDOWN
 		if not cooldown_timer.is_stopped():
-			# In Ricarica
 			dash_ui.max_value = cooldown_timer.wait_time
 			dash_ui.value = cooldown_timer.wait_time - cooldown_timer.time_left
-			# BUG FIX: Colore grigio scuro durante la ricarica
 			dash_ui.tint_progress = Color(0.2, 0.8, 1.0, 1.0)
 		else:
-			# Pronto all'uso
 			dash_ui.max_value = 1.0
 			dash_ui.value = 1.0 
-			# BUG FIX: Colore azzurro brillante quando è pronto
 			dash_ui.tint_progress = Color(0.2, 0.8, 1.0, 1.0)
 			
 	else:
-		# Reset di sicurezza se l'upgrade viene disattivato
 		is_preparing_charge = false
 		is_charging = false
 
@@ -141,9 +140,9 @@ func fire() -> void:
 	# --- ACHIEVEMENT PRIMO COLPO ---
 	if not primo_colpo_effettuato:
 		primo_colpo_effettuato = true
-		if GameData.has_method("sblocca_obiettivo"):
-			# NOTA: Cambia "primo_sparo" con l'ID esatto del tuo obiettivo se è diverso!
-			GameData.sblocca_obiettivo("primo_sparo")
+		# FIX: Il metodo corretto in GameData è "sblocca_achievement", non "sblocca_obiettivo"
+		if GameData.has_method("sblocca_achievement"):
+			GameData.sblocca_achievement("primo_sparo")
 	# -------------------------------
 
 	spawn_bullet(shooty_part)
@@ -292,6 +291,7 @@ func spawn_ghost_trail() -> void:
 		ghost_tween.tween_property(ghost, "modulate:a", 0.0, ghost_fade_time).set_trans(Tween.TRANS_SINE)
 		ghost_tween.tween_callback(ghost.queue_free)
 
+
 # ==========================================
 # SISTEMA VITA E DANNI
 # ==========================================
@@ -300,6 +300,23 @@ func take_damage(amount: int) -> void:
 	healthbar.health = health 
 	if health <= 0:
 		die()
+		
+# --- SISTEMA DI CURA ---
+func heal(amount: int) -> void:
+	var max_health = 25 # Assicurati che corrisponda alla vita iniziale
+	health += amount
+	
+	# Impediamo che la vita superi il massimo
+	health = clamp(health, 0, max_health)
+	
+	# Aggiorniamo la barra della vita nella UI
+	if healthbar:
+		healthbar.health = health
+	
+	# Effetto visivo: un lampo verde per far capire che si è curato
+	var flash = create_tween()
+	flash.tween_property(self, "modulate", Color(0.5, 1.5, 0.5), 0.2)
+	flash.tween_property(self, "modulate", Color(1, 1, 1), 0.2)
 
 func die() -> void:
 	get_tree().call_deferred("change_scene_to_file", "res://scenes/Menu/Main_Menu.tscn")

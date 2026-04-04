@@ -255,6 +255,8 @@ light_mask = 16
 position = Vector2(-2, -5.9604645e-08)
 scale = Vector2(0.35, 0.35)
 sprite_frames = SubResource("SpriteFrames_smeeq")
+frame = 11
+frame_progress = 1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=590764328]
 visible = false

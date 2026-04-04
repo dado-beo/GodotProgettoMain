@@ -5,7 +5,7 @@ const HEIGHT = 648
 const SPAWNING_ENEMY = preload("res://scenes/Game/spawning_enemy.tscn")
 
 var spawnArea = Rect2()
-var delta := 2.0
+var delta := 2.5 # Partiamo da 2.5 per una partenza tranquilla
 var offset := 0.5
 var current_game_time := 0
 
@@ -30,28 +30,27 @@ func _on_timer_timeout():
 	spawn_enemy()
 	set_next_spawn()
 
-# Aggiorna velocità di spawn in base al tempo di gioco
+# Aggiorna velocità di spawn in base al tempo di gioco (Totale 90 sec)
 func update_spawn_speed(current_time: int) -> void:
-	# Da 0 a 60 secondi: scende gradualmente da 2.0 a 1.5
-	if current_time < 60:
-		var progress: float = current_time / 60.0
-		delta = lerp(2.5, 2.0, progress)
+	
+	# Da 0 a 30 secondi (Fase Facile / Principianti)
+	if current_time <= 30:
+		var progress: float = current_time / 30.0
+		# Scende dolcemente da 2.5 a 1.5 secondi tra uno spawn e l'altro
+		delta = lerp(2.5, 1.5, progress)
 		
-	# Da 60 a 90 secondi: scende gradualmente da 1.5 a 1.0
-	elif current_time < 90:
+	# Da 30 a 60 secondi (Fase Media)
+	elif current_time <= 60:
+		var progress: float = (current_time - 30) / 30.0
+		# Scende da 1.5 a 0.8 secondi (inizia a farsi affollato)
+		delta = lerp(1.5, 0.8, progress)
+		
+	# Da 60 a 90 secondi (Fase Difficile / Sopravvivenza finale)
+	elif current_time <= 90:
 		var progress: float = (current_time - 60) / 30.0
-		delta = lerp(2.0, 1.5, progress)
+		# Scende da 0.8 a 0.35 secondi
+		delta = lerp(0.8, 0.35, progress)
 		
-	# Da 90 a 120 secondi: scende gradualmente da 1.0 a 0.75
-	elif current_time < 120:
-		var progress: float = (current_time - 90) / 30.0
-		delta = lerp(1.5, 1.0, progress)
-		
-	# Da 120 a 150 secondi: scende gradualmente da 0.75 a 0.5
-	elif current_time < 150:
-		var progress: float = (current_time - 120) / 30.0
-		delta = lerp(1.0, 0.75, progress)
-		
-	# Dopo 150 secondi (2.5 minuti) la velocità si ferma a 0.5
+	# Oltre i 90 secondi
 	else:
-		delta = 0.5
+		delta = 0.35

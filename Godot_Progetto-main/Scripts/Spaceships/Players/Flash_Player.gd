@@ -9,13 +9,16 @@ var counter = 0
 var charge_time: float = 0.0
 const CHARGE_DURATION: float = 1
 var is_charged_ready: bool = false # Per sapere se il colpo è pronto
-var health: int = 12
+var health: int = 22
+
+const FIRE_RATE: float = 0.2 
+var time_since_last_shot: float = 0.2
 
 func _ready():
 	add_to_group("player")
 	healthbar.init_healt(health)
 
-func _physics_process(delta: float) -> void: # Nota: rinominato _delta in delta perché lo usiamo
+func _physics_process(delta: float) -> void: 
 	# --- MOVIMENTO E ROTAZIONE ---
 	look_at(get_global_mouse_position())
 
@@ -27,33 +30,40 @@ func _physics_process(delta: float) -> void: # Nota: rinominato _delta in delta 
 	velocity = lerp(get_real_velocity(), input_vector * SPEED, 0.1)
 	move_and_slide()
 	
-	# --- LOGICA DI SPARO E CARICAMENTO ---
-	
-	# 1. APPENA PREMO: Spara il colpo normale (feedback istantaneo)
-	if Input.is_action_just_pressed("shoot"):
+	# ==========================================
+	# FUOCO AUTOMATICO (Tasto Sinistro)
+	# ==========================================
+	time_since_last_shot += delta
+	if Input.is_action_pressed("shoot") and time_since_last_shot >= FIRE_RATE:
 		shoot()
-		# Resettiamo il timer per sicurezza quando si inizia a cliccare
+		time_since_last_shot = 0.0
+
+	# ==========================================
+	# LOGICA CARICAMENTO COLPO (Tasto Destro)
+	# ==========================================
+	
+	# 1. APPENA PREMO DESTRO
+	if Input.is_action_just_pressed("ability"):
 		charge_time = 0.0
 		is_charged_ready = false
 
-	# 2. MENTRE TENGO PREMUTO: Calcolo il tempo di carica
-	if Input.is_action_pressed("shoot"):
+	# 2. MENTRE TENGO PREMUTO DESTRO
+	if Input.is_action_pressed("ability"):
 		charge_time += delta
 		
-		# Se superiamo il tempo e non siamo ancora pronti
 		if charge_time >= CHARGE_DURATION and not is_charged_ready:
 			is_charged_ready = true
 			modulate = Color(10, 10, 10) # Diventa luminosissimo
 
-	# 3. APPENA RILASCIO: Controllo se devo sparare il colpo speciale
-	if Input.is_action_just_released("shoot"):
+	# 3. RILASCIO DEL TASTO DESTRO
+	if Input.is_action_just_released("ability"):
 		if is_charged_ready:
 			fire_charged_shot()
 		
-		# RESET TOTALE (Sia che ho sparato il colpo caricato, sia che ho lasciato prima)
+		# RESET TOTALE 
 		charge_time = 0.0
 		is_charged_ready = false
-		modulate = Color(1, 1, 1) # Torna al colore normale
+		modulate = Color(1, 1, 1)
 
 # --- FUNZIONE SPARO NORMALE (con logica 1 su 5) ---
 func shoot():
@@ -88,6 +98,22 @@ func fire_charged_shot():
 	if bullet.has_method("setup_charged_shot"):
 		bullet.setup_charged_shot()
 
+# --- SISTEMA DI CURA ---
+func heal(amount: int) -> void:
+	var max_health = 25 # Assicurati che corrisponda alla vita iniziale
+	health += amount
+	
+	# Impediamo che la vita superi il massimo
+	health = clamp(health, 0, max_health)
+	
+	# Aggiorniamo la barra della vita nella UI
+	if healthbar:
+		healthbar.health = health
+	
+	# Effetto visivo: un lampo verde per far capire che si è curato
+	var flash = create_tween()
+	flash.tween_property(self, "modulate", Color(0.5, 1.5, 0.5), 0.2)
+	flash.tween_property(self, "modulate", Color(1, 1, 1), 0.2)
 
 func take_damage(amount: int) -> void:
 	health -= amount
