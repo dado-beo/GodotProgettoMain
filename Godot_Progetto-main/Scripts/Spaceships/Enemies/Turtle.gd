@@ -31,13 +31,16 @@ func _physics_process(delta: float) -> void:
 	if player == null:
 		return
 
+	# --- FIX bug SGUARDO ---
+	# La tartaruga deve guardare il giocatore SEMPRE, sia quando si muove che quando spara
+	look_at(player.global_position)
+
 	# Se sta sparando, frena e si ferma
 	if is_shooting:
 		velocity = velocity.move_toward(Vector2.ZERO, 200 * delta)
 	else:
-		# Se non sta sparando, punta e avanza verso il giocatore
+		# Se non sta sparando, avanza verso il giocatore
 		velocity = (player.global_position - global_position).normalized() * SPEED
-		look_at(player.global_position)
 		
 	move_and_slide()
 
@@ -96,7 +99,6 @@ func die() -> void:
 	var explosion = preload("res://scenes/AnimationAddOn/Explosion.tscn").instantiate()
 	explosion.global_position = global_position
 	
-	# Soluzione per CPUParticles2D applicata anche qui!
 	if explosion is CPUParticles2D:
 		explosion.emitting = true
 	elif explosion.has_node("CPUParticles2D"):

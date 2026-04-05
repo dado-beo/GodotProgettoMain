@@ -1,4 +1,5 @@
 extends CharacterBody2D
+signal preso_danno
 
 # ==========================================
 # COSTANTI
@@ -6,7 +7,7 @@ extends CharacterBody2D
 const BASE_SPEED: float = 420.0  # Base aumentata per maggiore fluidità
 const EXTRA_SPEED: float = 100.0
 const FIRE_RATE: float = 0.5    # Tempo tra uno sparo e l'altro in secondi
-const CHARGE_DELAY: float = 0.30 # Tempo per distinguere un "click" da un "tieni premuto"
+const CHARGE_DELAY: float = 0.0 # Tempo per distinguere un "click" da un "tieni premuto"
 
 # ==========================================
 # VARIABILI ESPORTATE (Modificabili dall'Inspector)
@@ -296,6 +297,7 @@ func spawn_ghost_trail() -> void:
 # SISTEMA VITA E DANNI
 # ==========================================
 func take_damage(amount: int) -> void:
+	preso_danno.emit() # Avvisa il gioco che sei stato colpito!
 	health -= amount
 	healthbar.health = health 
 	if health <= 0:

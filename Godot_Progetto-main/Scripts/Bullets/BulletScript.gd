@@ -27,6 +27,10 @@ func _ready() -> void:
 		set_parameters(700, 2)
 		is_it_player = false
 		
+	elif bullet_name == "Bullet_Hunter": # Assicurati che il nome del file della scena sia questo!
+		set_parameters(800, 1) # Velocità 800 (molto veloce) e Danno 1
+		is_it_player = false
+	
 	elif bullet_name == "Bullet_Yellow_Turtle":
 		set_parameters(450, 4)
 		is_it_player = false
@@ -127,6 +131,24 @@ func _on_body_entered(body: Node2D) -> void:
 		# Proiettile Nemico colpisce Player
 		if body.is_in_group("player"):
 			apply_damage_and_destroy(body)
+
+func _on_area_entered(area: Area2D) -> void:
+	# 1. Protezione Fuoco Amico (identica al body)
+	if is_it_player and area.is_in_group("player"):
+		return 
+	
+	if not is_it_player and area.is_in_group("enemies"):
+		return
+
+	# 2. Gestione Danno
+	if is_it_player:
+		# Proiettile Player colpisce Nemico Area2D (es. Hunter)
+		if area.is_in_group("enemies"):
+			apply_damage_and_destroy(area)
+	else:
+		# Proiettile Nemico colpisce Player (se mai il player diventasse un'area)
+		if area.is_in_group("player"):
+			apply_damage_and_destroy(area)
 
 func apply_damage_and_destroy(hit_target):
 	if hit_target.has_method("take_damage"):

@@ -49,7 +49,7 @@ var achievements = {
 	"killer_ufo": false, 
 	"killer_tartarughe": false, 
 	"killer_purpleDevil": false,  
-	"primaMod_MaiColpito": false, 
+	"secondaMod_MaiColpito": false, 
 	"stella_diamante": false,  
 	"primoAcquisto": false,
 	"tutteLeNavicelle": false, 

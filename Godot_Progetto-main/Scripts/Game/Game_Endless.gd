@@ -5,9 +5,10 @@ extends Node2D
 
 var time_survived: float = 0.0
 var is_game_active: bool = true
-var last_minute_healed: int = 0
 
-# --- VARIABILI INVASIONE ---
+# Variabile per tenere traccia dei minuti trascorsi (sia per cure che per monete)
+var last_minute_passed: int = 0
+
 # --- VARIABILI INVASIONE ---
 var next_invasion_time: float = 150.0 # 150 secondi = 2 minuti e 30 (Modificato!)
 var invasion_cooldown_min: float = 40.0 # Tempo minimo tra un'invasione e l'altra
@@ -27,14 +28,19 @@ func _process(delta: float) -> void:
 	if is_game_active:
 		time_survived += delta
 		
-		# --- LOGICA CURA OGNI MINUTO ---
+		# --- LOGICA EVENTI ALLO SCADERE DEL MINUTO ---
 		# Calcoliamo il minuto corrente (es: 65 secondi / 60 = minuto 1)
 		var current_minute = int(time_survived / 60)
 		
 		# Se è scattato un nuovo minuto (e non è il minuto 0 dell'inizio)
-		if current_minute > last_minute_healed:
-			last_minute_healed = current_minute
+		if current_minute > last_minute_passed:
+			last_minute_passed = current_minute
+			
+			# 1. Applica la cura
 			_apply_minute_heal(3)
+			
+			# 2. Calcola e assegna le monete
+			_reward_coins_for_survival(current_minute)
 			
 		# --- LOGICA TRIGGER INVASIONE ---
 		# Controlliamo se il tempo di sopravvivenza ha superato il tempo previsto per l'invasione
@@ -44,6 +50,21 @@ func _process(delta: float) -> void:
 			var cooldown = randf_range(invasion_cooldown_min, invasion_cooldown_max)
 			next_invasion_time = time_survived + cooldown
 
+# --- SISTEMA RICOMPENSE MONETE ---
+func _reward_coins_for_survival(minute: int) -> void:
+	var reward = 0
+	
+	if minute == 1:
+		reward = 5
+	elif minute == 2:
+		reward = 10
+	elif minute >= 3:
+		# Dal minuto 3 in poi: base 15 + 5 extra per ogni minuto oltre il terzo
+		reward = 15 + ((minute - 3) * 5)
+		
+	if reward > 0:
+		GameData.add_monete(reward)
+		print("Sopravvissuto ", minute, " minuti! Ricevute: ", reward, " monete.")
 
 func _apply_minute_heal(amount: int) -> void:
 	# Cerchiamo il player nel gruppo

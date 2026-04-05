@@ -2,6 +2,8 @@ extends Control
 
 @onready var main_buttons: VBoxContainer = $MainButtons
 @onready var options: Panel = $Options
+# Aggiungiamo il riferimento al bottone (basato sulla tua immagine)
+@onready var fullscreen_btn: CheckButton = $Options/FullscreenControl
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS   # continua a ricevere input anche se il gioco è in pausa
@@ -19,6 +21,14 @@ func _input(event: InputEvent) -> void:
 func open() -> void:
 	visible = true
 	get_tree().paused = true
+	
+	# --- FIX FULLSCREEN ---
+	# Controlliamo se il gioco è effettivamente in fullscreen e aggiorniamo il bottone
+	var current_mode = DisplayServer.window_get_mode()
+	var is_fullscreen = (current_mode == DisplayServer.WINDOW_MODE_FULLSCREEN or current_mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+	
+	if fullscreen_btn:
+		fullscreen_btn.set_pressed_no_signal(is_fullscreen)
 
 func close() -> void:
 	visible = false

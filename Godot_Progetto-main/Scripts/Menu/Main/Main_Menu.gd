@@ -3,6 +3,10 @@ extends Control
 @onready var monete_label := $MoneteLabel
 @onready var user := $PlayerInfo
 @export var profile_textures: Array[Texture2D]
+
+# Aggiungiamo il riferimento al bottone (basato sulla tua immagine)
+@onready var fullscreen_btn: CheckButton = $Options/VBoxContainer/FullscreenControl
+
 @onready var views = {
 	"main": $MainButtons,
 	"options": $Options,
@@ -22,6 +26,14 @@ func _ready() -> void:
 	# Aggiornamento Icona Profilo
 	GameData.profile_icon_changed.connect(_update_player_icon)
 	_update_player_icon() # Imposta subito l'icona salvata
+	
+	# --- FIX FULLSCREEN ---
+	# Sincronizza il bottone con lo stato reale all'avvio del menù
+	var current_mode = DisplayServer.window_get_mode()
+	var is_fullscreen = (current_mode == DisplayServer.WINDOW_MODE_FULLSCREEN or current_mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+	
+	if fullscreen_btn:
+		fullscreen_btn.set_pressed_no_signal(is_fullscreen)
 	
 func _update_monete_label():
 	monete_label.text = ": %d" % GameData.monete_stella
@@ -69,8 +81,6 @@ func fade_out_music(duration: float = 1.0):
 	var tween = create_tween()
 	tween.tween_property(musica, "volume_db", -80.0, duration)
 	tween.tween_callback(musica.stop)
-
-
 
 func _on_start_pressed(): switch_view("selection")
 func _on_settings1_pressed(): switch_view("options")

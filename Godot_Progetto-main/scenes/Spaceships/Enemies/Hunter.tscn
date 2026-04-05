@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://d0imfud6r0m17"]
+
+[ext_resource type="Texture2D" uid="uid://j6q2r13ya7mp" path="res://Sprites/Spaceships/Players/mille.png" id="1_qwv7n"]
+[ext_resource type="Script" uid="uid://drl84ge4c6bod" path="res://Scripts/Spaceships/Enemies/hunter.gd" id="1_vf48n"]
+[ext_resource type="PackedScene" uid="uid://bpq52llf0b1hw" path="res://scenes/Bullets/Enemies/Bullet_Hunter.tscn" id="2_n6dxq"]
+[ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="3_nmdq0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwv7n"]
+atlas = ExtResource("1_qwv7n")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vf48n"]
+atlas = ExtResource("1_qwv7n")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6dxq"]
+atlas = ExtResource("1_qwv7n")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmdq0"]
+atlas = ExtResource("1_qwv7n")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v71es"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qwv7n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vf48n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6dxq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nmdq0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yj6ch"]
+radius = 11.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vf48n"]
+particle_flag_disable_z = true
+angle_min = -179.99998
+angle_max = 180.00002
+initial_velocity_min = 500.0
+initial_velocity_max = 500.0
+gravity = Vector3(0, 0, 0)
+color = Color(0, 0.8745098, 0.8666667, 0.95686275)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nmdq0"]
+radius = 11.0
+
+[node name="Hunter" type="Area2D" unique_id=1453587179]
+script = ExtResource("1_vf48n")
+bullet_scene = ExtResource("2_n6dxq")
+
+[node name="HealtBar" parent="." unique_id=216703208 instance=ExtResource("3_nmdq0")]
+offset_left = -11.0
+offset_top = -21.0
+offset_right = 10.0
+offset_bottom = -14.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1728432643]
+texture_filter = 1
+rotation = 1.5603874
+sprite_frames = SubResource("SpriteFrames_v71es")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1205618701]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_yj6ch")
+
+[node name="DashParticles" type="GPUParticles2D" parent="." unique_id=1180836553]
+rotation = -3.1415927
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_vf48n")
+
+[node name="Hunter_ShootyPart" type="Node2D" parent="." unique_id=782656772]
+texture_filter = 1
+position = Vector2(11, 0)
+
+[node name="Line2D" type="Line2D" parent="." unique_id=1905043515]
+default_color = Color(0.40784314, 0, 0, 0.54901963)
+
+[node name="DashCast" type="ShapeCast2D" parent="." unique_id=2077687245]
+position = Vector2(-4, 1)
+scale = Vector2(1.2, 1.2)
+shape = SubResource("CircleShape2D_nmdq0")
+target_position = Vector2(10, 0)
+max_results = 100
+collide_with_areas = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

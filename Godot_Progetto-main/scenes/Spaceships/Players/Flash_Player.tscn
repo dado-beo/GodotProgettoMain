@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://bgihe4opj0och" path="res://Sprites/Spaceships/Players/Flash_Player.png" id="1_7chrc"]
 [ext_resource type="Script" uid="uid://bixqfy2lc8hma" path="res://Scripts/Spaceships/Players/Flash_Player.gd" id="1_bvtfc"]
 [ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="2_h1dio"]
+[ext_resource type="Texture2D" uid="uid://dbf23gie0dvx" path="res://Sprites/Buttons/Charge_Circle_Empty.png" id="4_dxxq0"]
+[ext_resource type="Texture2D" uid="uid://cbect8ffh86fe" path="res://Sprites/Buttons/Charge_Circle_Full.png" id="5_t8mr1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ksvxd"]
 atlas = ExtResource("1_7chrc")
@@ -64,3 +66,13 @@ offset_left = -10.0
 offset_top = -19.0
 offset_right = 11.0
 offset_bottom = -12.0
+
+[node name="ChargedShotCooldown" type="TextureProgressBar" parent="." unique_id=128143858]
+offset_left = 4.9999995
+offset_top = 14.0
+offset_right = 37.0
+offset_bottom = 46.0
+scale = Vector2(0.35, 0.35)
+fill_mode = 4
+texture_under = ExtResource("4_dxxq0")
+texture_progress = ExtResource("5_t8mr1")

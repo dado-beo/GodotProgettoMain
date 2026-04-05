@@ -1,4 +1,5 @@
 extends CharacterBody2D
+signal preso_danno
 
 # ==========================================
 # COSTANTI E PARAMETRI
@@ -246,7 +247,9 @@ func take_damage(amount: int) -> void:
 	if is_shield_active:
 		return 
 	# -------------------------------------
-
+	
+	preso_danno.emit() # Avvisa il gioco che sei stato colpito!
+	
 	health -= amount
 	if healthbar:
 		healthbar.health = health 

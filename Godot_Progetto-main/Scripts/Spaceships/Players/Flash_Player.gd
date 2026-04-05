@@ -1,22 +1,34 @@
 extends CharacterBody2D
+signal preso_danno
 
 const SPEED = 500
 var bullet_scene = preload("res://scenes/Bullets/Player/Bullet_Green_Flesh.tscn")
+
 @onready var Shooty_part = $ShootyPart
 @onready var healthbar = $HealtBar
+@onready var cooldown_ui = $ChargedShotCooldown # Collego la barra del cooldown!
 
 var counter = 0
-var charge_time: float = 0.0
-const CHARGE_DURATION: float = 1
-var is_charged_ready: bool = false # Per sapere se il colpo è pronto
 var health: int = 22
 
 const FIRE_RATE: float = 0.2 
 var time_since_last_shot: float = 0.2
 
+# --- VARIABILI ABILITÀ E COOLDOWN ---
+const CHARGE_DURATION: float = 0.0
+const COOLDOWN_DURATION: float = 4.0 
+var charge_time: float = 0.0
+var is_charged_ready: bool = false
+var current_cooldown: float = 0.0 # Tiene traccia del tempo rimanente
+
 func _ready():
 	add_to_group("player")
 	healthbar.init_healt(health)
+	
+	# Inizializza l'interfaccia del cooldown all'avvio
+	if cooldown_ui:
+		cooldown_ui.max_value = COOLDOWN_DURATION
+		cooldown_ui.value = COOLDOWN_DURATION
 
 func _physics_process(delta: float) -> void: 
 	# --- MOVIMENTO E ROTAZIONE ---
@@ -31,6 +43,19 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	# ==========================================
+	# GESTIONE COOLDOWN E UI
+	# ==========================================
+	if current_cooldown > 0:
+		current_cooldown -= delta
+		if cooldown_ui:
+			cooldown_ui.value = COOLDOWN_DURATION - current_cooldown
+			cooldown_ui.tint_progress = Color(0.2, 0.8, 1.0, 1.0) # Rosso: in ricarica
+	else:
+		if cooldown_ui:
+			cooldown_ui.value = COOLDOWN_DURATION
+			cooldown_ui.tint_progress = Color(0.2, 0.8, 1.0, 1.0) # Azzurro: pronto
+	
+	# ==========================================
 	# FUOCO AUTOMATICO (Tasto Sinistro)
 	# ==========================================
 	time_since_last_shot += delta
@@ -42,28 +67,39 @@ func _physics_process(delta: float) -> void:
 	# LOGICA CARICAMENTO COLPO (Tasto Destro)
 	# ==========================================
 	
-	# 1. APPENA PREMO DESTRO
-	if Input.is_action_just_pressed("ability"):
-		charge_time = 0.0
-		is_charged_ready = false
-
-	# 2. MENTRE TENGO PREMUTO DESTRO
-	if Input.is_action_pressed("ability"):
-		charge_time += delta
+	# Permettiamo di usare l'abilità SOLO se il cooldown ha raggiunto lo zero
+	if current_cooldown <= 0.0:
 		
-		if charge_time >= CHARGE_DURATION and not is_charged_ready:
-			is_charged_ready = true
-			modulate = Color(10, 10, 10) # Diventa luminosissimo
+		# 1. APPENA PREMO DESTRO
+		if Input.is_action_just_pressed("ability"):
+			charge_time = 0.0
+			is_charged_ready = false
 
-	# 3. RILASCIO DEL TASTO DESTRO
-	if Input.is_action_just_released("ability"):
-		if is_charged_ready:
-			fire_charged_shot()
-		
-		# RESET TOTALE 
-		charge_time = 0.0
-		is_charged_ready = false
-		modulate = Color(1, 1, 1)
+		# 2. MENTRE TENGO PREMUTO DESTRO
+		if Input.is_action_pressed("ability"):
+			charge_time += delta
+			
+			if charge_time >= CHARGE_DURATION and not is_charged_ready:
+				is_charged_ready = true
+				modulate = Color(10, 10, 10) # Diventa luminosissimo
+
+		# 3. RILASCIO DEL TASTO DESTRO
+		if Input.is_action_just_released("ability"):
+			if is_charged_ready:
+				fire_charged_shot()
+				current_cooldown = COOLDOWN_DURATION # Fai partire il Cooldown!
+			
+			# RESET TOTALE 
+			charge_time = 0.0
+			is_charged_ready = false
+			modulate = Color(1, 1, 1)
+			
+	else:
+		# Se rilascio il tasto mentre l'abilità è in cooldown, resettiamo lo stato visivo
+		if Input.is_action_just_released("ability"):
+			charge_time = 0.0
+			is_charged_ready = false
+			modulate = Color(1, 1, 1)
 
 # --- FUNZIONE SPARO NORMALE (con logica 1 su 5) ---
 func shoot():
@@ -116,6 +152,7 @@ func heal(amount: int) -> void:
 	flash.tween_property(self, "modulate", Color(1, 1, 1), 0.2)
 
 func take_damage(amount: int) -> void:
+	preso_danno.emit() # Avvisa il gioco che sei stato colpito!
 	health -= amount
 	healthbar.health = health 
 	if health <= 0:

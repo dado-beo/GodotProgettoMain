@@ -11,7 +11,7 @@ var is_exploding: bool = false
 var random_offset: float = 0.0 # Rende ogni kamikaze unico
 
 # --- VARIABILI MOVIMENTO ---
-@export var speed: float = 350.0        # Velocità di base
+@export var speed: float = 400        # Velocità di base
 @export var turn_speed: float = 4.0     # Quanto velocemente riescono a curvare (più è basso, più "giri" fanno)
 @export var wobble_speed: float = 8.0   # La velocità con cui serpeggiano
 @export var wobble_amplitude: float = 0.5 # L'ampiezza delle curve a zig-zag
