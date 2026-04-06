@@ -6,9 +6,13 @@ extends Node2D
 const SPAWN_WIDTH := 1152
 const SPAWN_HEIGHT := 648
 const ENEMY_SCENE := preload("res://scenes/Spaceships/Enemies/Ufo.tscn")
+const HUNTER_SCENE := preload("res://scenes/Spaceships/Enemies/Hunter.tscn") 
 
-const HUNTER_SCENE := preload("res://scenes/Spaceships/Enemies/Hunter.tscn") # Controlla il percorso!
+# --- NUOVO: SCENA UFO DIVINO ---
+const DIVINE_UFO_SCENE := preload("res://scenes/Spaceships/Enemies/Ufo_Divino.tscn") # Assicurati di aver creato questa scena!
+
 var boss_phase_triggered: bool = false
+var mai_colpito: bool = true # Variabile per l'achievement Intoccabile
 
 var current_wave: int = 0
 var enemies_alive: int = 0
@@ -16,8 +20,6 @@ var enemies_to_spawn: int = 0
 var is_spawning: bool = false
 var rewarded_waves: Array = []
 var max_waves: int = 3
-
-var mai_colpito: bool = true # Variabile per l'achievement
 
 var waves_data = [
 	{"enemies": 3, "spawn_interval": 2.0},
@@ -55,6 +57,8 @@ func _spawn_player() -> void:
 		player.preso_danno.connect(func(): mai_colpito = false)
 
 func start_next_wave():
+	if not is_inside_tree(): return
+
 	if current_wave >= max_waves:
 		if wave_label:
 			wave_label.text = "Tutte le ondate completate!"
@@ -62,7 +66,7 @@ func start_next_wave():
 			
 		GameData.check_and_save_record("mode_2", current_wave)
 		
-		# --- NUOVO: Controllo e Sblocco Achievement ---
+		# --- Controllo e Sblocco Achievement Intoccabile ---
 		if mai_colpito:
 			GameData.sblocca_achievement("secondaMod_MaiColpito")
 		
@@ -98,64 +102,71 @@ func start_next_wave():
 			return
 		await get_tree().process_frame
 
-	# --- NUOVO: FASE BOSS EXTRA PER L'ULTIMA ONDATA ---
+	# --- FASE BOSS EXTRA PER L'ULTIMA ONDATA ---
 	if current_wave == max_waves and not boss_phase_triggered:
 		boss_phase_triggered = true
 		
 		if wave_label:
 			wave_label.text = "CACCIATORI IN ARRIVO!"
 			wave_label.visible = true
-			wave_label.modulate.a = 1.0 # Assicura che l'opacità sia al massimo
+			wave_label.modulate.a = 1.0 
 			
-			# Usiamo lo stesso Tween dell'Endless mode per il lampeggio!
 			var tween = create_tween().set_loops(4)
 			tween.tween_property(wave_label, "modulate:a", 0.0, 0.3)
 			tween.tween_property(wave_label, "modulate:a", 1.0, 0.3)
 			
-			# Invece di un timer fisso, aspettiamo che finisca l'animazione di lampeggio
 			await tween.finished 
 			
 			if is_inside_tree() and wave_label:
 				wave_label.visible = false
 		else:
-			# Se per caso la label non c'è, aspettiamo comunque circa 2.5 secondi
 			await get_tree().create_timer(2.4).timeout
 		
-		# Esegui lo spawn speciale
 		if is_inside_tree():
 			_spawn_final_hunters()
 		
-		# Nuovo Loop: Aspettiamo che muoiano i Cacciatori
 		while get_tree().get_nodes_in_group("enemies").size() > 0:
 			if not is_inside_tree(): return
 			await get_tree().process_frame
 
-	# Se siamo arrivati qui, tutti i nemici (inclusi i boss se c'erano) sono morti
 	if is_inside_tree():
 		await get_tree().create_timer(0.5).timeout
 		_on_wave_finished()
 
 func spawn_wave(count: int, interval: float):
 	is_spawning = true
+	var divin_ufo_spawned = false # Tiene traccia se è già spawnato un Ufo Divino in questa ondata
+	
 	for i in range(count):
-		# --- FIX: Se cambiamo scena durante lo spawn, interrompi ---
 		if not is_inside_tree(): 
 			is_spawning = false
 			return
 			
-		spawn_enemy()
+		var spawn_divine = false
+		
+		# 10% di probabilità di spawnare l'Ufo Divino (se non è già spawnato)
+		if not divin_ufo_spawned and randf() <= 0.1:
+			spawn_divine = true
+			divin_ufo_spawned = true
+			
+		spawn_enemy(spawn_divine)
 		enemies_to_spawn = max(0, enemies_to_spawn - 1)
 		
-		# Timer tra un nemico e l'altro
 		await get_tree().create_timer(interval).timeout
 		
 	is_spawning = false
 
-func spawn_enemy() -> void:
-	# Un ultimo controllo di sicurezza
+# --- MODIFICATA: Ora accetta un parametro per decidere chi spawnare ---
+func spawn_enemy(is_divine: bool = false) -> void:
 	if not is_inside_tree(): return
 
-	var enemy = ENEMY_SCENE.instantiate()
+	var enemy
+	if is_divine:
+		enemy = DIVINE_UFO_SCENE.instantiate()
+		print("Spawnato UFO DIVINO!")
+	else:
+		enemy = ENEMY_SCENE.instantiate()
+		
 	enemy.position = Vector2(randi() % SPAWN_WIDTH, randi() % SPAWN_HEIGHT)
 	add_child(enemy)
 
@@ -173,7 +184,6 @@ func _on_enemy_died() -> void:
 	enemies_alive = max(0, enemies_alive - 1)
 
 func _on_wave_finished() -> void:
-	# Sicurezza
 	if not is_inside_tree(): return
 
 	_give_wave_reward(current_wave)
@@ -183,7 +193,6 @@ func _on_wave_finished() -> void:
 		wave_label.text = "Ondata %d completata!" % current_wave
 		wave_label.visible = true
 		
-	# --- FIX: Controllo Timer ---
 	if is_inside_tree():
 		await get_tree().create_timer(2.0).timeout
 	else:
@@ -192,7 +201,6 @@ func _on_wave_finished() -> void:
 	if wave_label:
 		wave_label.visible = false
 	
-	# Controlliamo ancora prima di chiamare la prossima ondata
 	if is_inside_tree():
 		start_next_wave()
 
@@ -202,7 +210,6 @@ func _spawn_final_hunters():
 	var left_hunter = HUNTER_SCENE.instantiate()
 	var right_hunter = HUNTER_SCENE.instantiate()
 	
-	# Li posizioniamo fuori dallo schermo a metà altezza
 	var mid_y = SPAWN_HEIGHT / 2.0
 	left_hunter.position = Vector2(-200, mid_y)
 	right_hunter.position = Vector2(SPAWN_WIDTH + 200, mid_y)
@@ -210,7 +217,6 @@ func _spawn_final_hunters():
 	add_child(left_hunter)
 	add_child(right_hunter)
 	
-	# Assicuriamoci che contino come nemici
 	left_hunter.add_to_group("enemies")
 	right_hunter.add_to_group("enemies")
 	
@@ -218,27 +224,18 @@ func _spawn_final_hunters():
 	right_hunter.tree_exited.connect(_on_enemy_died)
 	enemies_alive += 2
 	
-	# Punti di arrivo (un po' all'interno dello schermo)
 	var left_target = Vector2(200, mid_y)
 	var right_target = Vector2(SPAWN_WIDTH - 200, mid_y)
 	
-	# Avviamo il loro comportamento. 
-	# Il secondo parametro è il delay: il destro parte 0.5 sec dopo per creare il pattern sfalsato!
 	left_hunter.start_intro(left_target, 0.0)
 	right_hunter.start_intro(right_target, 0.5)
 
 func _on_player_died():
-	# PRINT MANTENUTO: Morte del giocatore
 	print("Player morto all'ondata: ", current_wave)
-	
 	GameData.check_and_save_record("mode_2", current_wave)
 	
-	# --- FIX: Controllo Timer ---
-	# Se il player esce subito dopo la morte ma prima dei 2 secondi, questo crasherà senza il controllo
 	if is_inside_tree():
 		await get_tree().create_timer(2.0).timeout
-		
-		# Controllo finale prima di cambiare scena
 		if is_inside_tree():
 			get_tree().change_scene_to_file("res://scenes/Menu/Main_Menu.tscn")
 
@@ -254,7 +251,6 @@ func _give_wave_reward(wave: int) -> void:
 	
 	if reward > 0:
 		GameData.add_monete(reward)
-
 		print("Ricompensa ondata %d: %d monete" % [wave, reward])
 		
 	rewarded_waves.append(wave)

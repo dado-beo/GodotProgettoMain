@@ -81,6 +81,16 @@ ability={
 
 locale/locale_filter_mode=0
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Muri"
+2d_physics/layer_3="Nemici_Normali"
+2d_physics/layer_4="Nemici_Grandi"
+2d_physics/layer_5="Proiettili_Player"
+2d_physics/layer_6="Proiettili_Nemici"
+2d_physics/layer_7="Asteroidi"
+
 [rendering]
 
 renderer/rendering_method="mobile"

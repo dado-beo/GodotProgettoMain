@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var turtle_spawner = $TurtleSpawner
-@onready var invasion_label = $InvasionLabel # Assicurati che il percorso sia corretto in base a dove l'hai messa!
+@onready var invasion_label = $InvasionLabel 
 
 var time_survived: float = 0.0
 var is_game_active: bool = true
@@ -10,13 +10,16 @@ var is_game_active: bool = true
 var last_minute_passed: int = 0
 
 # --- VARIABILI INVASIONE ---
-var next_invasion_time: float = 150.0 # 150 secondi = 2 minuti e 30 (Modificato!)
+var next_invasion_time: float = 150.0 # 150 secondi = 2 minuti e 30
 var invasion_cooldown_min: float = 40.0 # Tempo minimo tra un'invasione e l'altra
 var invasion_cooldown_max: float = 60.0 # Tempo massimo
 
 # Carichiamo in memoria i nemici "intrusi"
 var ufo_scene = preload("res://scenes/Spaceships/Enemies/Ufo.tscn")
+var ufo_divino_scene = preload("res://scenes/Spaceships/Enemies/Ufo_Divino.tscn") 
 var kamikaze_scene = preload("res://scenes/Spaceships/Enemies/Kamikaze.tscn")
+# --- IL CACCIATORE ---
+var hunter_scene = preload("res://scenes/Spaceships/Enemies/Hunter.tscn") 
 
 func _ready() -> void:
 	randomize()
@@ -103,24 +106,80 @@ func trigger_invasion():
 	if not is_game_active: 
 		return
 	
-	# 1. Scegliamo a caso tra Ufo e Kamikaze (50% di probabilità)
-	var enemy_to_spawn = ufo_scene if randf() > 0.5 else kamikaze_scene
-	
-	# 2. Scegliamo quanti nemici far spawnare (da 1 a 3)
-	var num_enemies = randi() % 3 + 1 
-	
 	var viewport_size = get_viewport().get_visible_rect().size
 	
-	for i in range(num_enemies):
-		var enemy = enemy_to_spawn.instantiate()
+	# Scegliamo a caso il tipo di invasione (0 = Ufo, 1 = Kamikaze, 2 = Hunter)
+	var event_type = randi() % 3 
+	
+	if event_type == 2:
+		# ==========================================
+		# INVASIONE SPECIALE: 2 CACCIATORI
+		# ==========================================
+		print("Invasione Endless: I Cacciatori sono arrivati!")
+		var left_hunter = hunter_scene.instantiate()
+		var right_hunter = hunter_scene.instantiate()
 		
-		# Facciamo spawnare i nemici leggermente fuori dallo schermo a sinistra o destra
-		# così arrivano verso il centro invece di comparire in faccia al giocatore
-		var spawn_x = -100 if randf() > 0.5 else viewport_size.x + 100
-		var spawn_y = randf_range(50, viewport_size.y - 50)
+		var mid_y = viewport_size.y / 2.0
+		left_hunter.position = Vector2(-200, mid_y)
+		right_hunter.position = Vector2(viewport_size.x + 200, mid_y)
 		
-		enemy.position = Vector2(spawn_x, spawn_y)
-		add_child(enemy)
+		add_child(left_hunter)
+		add_child(right_hunter)
+		
+		left_hunter.add_to_group("enemies")
+		right_hunter.add_to_group("enemies")
+		
+		var left_target = Vector2(200, mid_y)
+		var right_target = Vector2(viewport_size.x - 200, mid_y)
+		
+		# Animazione di entrata stile boss, sfasata di mezzo secondo
+		left_hunter.start_intro(left_target, 0.0)
+		right_hunter.start_intro(right_target, 0.5)
+		
+	elif event_type == 0:
+		# ==========================================
+		# INVASIONE UFO: Standard o Divino (50/50)
+		# ==========================================
+		if randf() <= 0.5:
+			# 50% di probabilità: Spawn di un singolo UFO Divino
+			print("Invasione Endless: È arrivato l'UFO DIVINO!")
+			var divine_ufo = ufo_divino_scene.instantiate()
+			
+			var spawn_x = -100 if randf() > 0.5 else viewport_size.x + 100
+			var spawn_y = randf_range(50, viewport_size.y - 50)
+			
+			divine_ufo.position = Vector2(spawn_x, spawn_y)
+			add_child(divine_ufo)
+			divine_ufo.add_to_group("enemies")
+		else:
+			# 50% di probabilità: Spawn da 1 a 3 UFO normali
+			var num_enemies = randi() % 3 + 1 
+			print("Invasione Endless: ", num_enemies, " UFO standard.")
+			
+			for i in range(num_enemies):
+				var enemy = ufo_scene.instantiate()
+				var spawn_x = -100 if randf() > 0.5 else viewport_size.x + 100
+				var spawn_y = randf_range(50, viewport_size.y - 50)
+				
+				enemy.position = Vector2(spawn_x, spawn_y)
+				add_child(enemy)
+				enemy.add_to_group("enemies")
+
+	elif event_type == 1:
+		# ==========================================
+		# INVASIONE KAMIKAZE: Da 1 a 3 navicelle
+		# ==========================================
+		var num_enemies = randi() % 3 + 1 
+		print("Invasione Endless: ", num_enemies, " Kamikaze.")
+		
+		for i in range(num_enemies):
+			var enemy = kamikaze_scene.instantiate()
+			var spawn_x = -100 if randf() > 0.5 else viewport_size.x + 100
+			var spawn_y = randf_range(50, viewport_size.y - 50)
+			
+			enemy.position = Vector2(spawn_x, spawn_y)
+			add_child(enemy)
+			enemy.add_to_group("enemies")
 
 func show_invasion_warning():
 	if not invasion_label:

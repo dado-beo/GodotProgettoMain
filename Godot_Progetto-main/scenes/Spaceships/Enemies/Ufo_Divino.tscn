@@ -1,23 +1,23 @@
-[gd_scene format=3 uid="uid://pbpm7y6ifvym"]
+[gd_scene format=3 uid="uid://dhmtxjl0wjxfj"]
 
-[ext_resource type="Script" uid="uid://dde5qomyi10j8" path="res://Scripts/Spaceships/Enemies/Ufo.gd" id="1_g4an1"]
-[ext_resource type="Texture2D" uid="uid://oax0okr5ithn" path="res://Sprites/Spaceships/Enemies/Ufo_Enemy.png" id="2_1lq2n"]
-[ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="3_bpf5a"]
+[ext_resource type="Script" uid="uid://dj6use2wifaff" path="res://Scripts/Spaceships/Enemies/ufo_divino.gd" id="1_qcubh"]
+[ext_resource type="Texture2D" uid="uid://oax0okr5ithn" path="res://Sprites/Spaceships/Enemies/Ufo_Enemy.png" id="2_4pxdg"]
+[ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="3_bpwt7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lfe5p"]
-atlas = ExtResource("2_1lq2n")
+atlas = ExtResource("2_4pxdg")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eo5id"]
-atlas = ExtResource("2_1lq2n")
+atlas = ExtResource("2_4pxdg")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0m5mc"]
-atlas = ExtResource("2_1lq2n")
+atlas = ExtResource("2_4pxdg")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rgdwi"]
-atlas = ExtResource("2_1lq2n")
+atlas = ExtResource("2_4pxdg")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nhano"]
@@ -43,21 +43,24 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ydpxu"]
 radius = 12.1655
 
-[node name="Enemy_Ufo" type="CharacterBody2D" unique_id=822089251]
+[node name="Enemy_Ufo_Divino" type="CharacterBody2D" unique_id=822089251]
 collision_layer = 4
 collision_mask = 71
-script = ExtResource("1_g4an1")
+script = ExtResource("1_qcubh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1738272896]
+modulate = Color(1, 0, 1, 1)
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_nhano")
 autoplay = "default"
-frame_progress = 0.372069
+frame = 2
+frame_progress = 0.84674335
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=60722127]
+visible = false
 shape = SubResource("CircleShape2D_ydpxu")
 
-[node name="HealtBar" parent="." unique_id=361155408 instance=ExtResource("3_bpf5a")]
+[node name="HealtBar" parent="." unique_id=361155408 instance=ExtResource("3_bpwt7")]
 offset_left = -10.0
 offset_top = -22.0
 offset_right = 11.0

@@ -23,6 +23,8 @@ animations = [{
 }]
 
 [node name="Bullet" type="Area2D" unique_id=755935199]
+collision_layer = 32
+collision_mask = 65
 script = ExtResource("1_biyln")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=214579946]

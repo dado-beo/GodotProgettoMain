@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://b8datf8m5kwhu"]
+
+[ext_resource type="Script" uid="uid://cav0iivy1rr38" path="res://Scripts/Spaceships/Enemies/ancora_gravitazionale.gd" id="1_snd2m"]
+[ext_resource type="Texture2D" uid="uid://csfkpud2aiebf" path="res://Sprites/AnimationAddOn/Hole.png" id="2_drnnq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bx82k"]
+atlas = ExtResource("2_drnnq")
+region = Rect2(0, 0, 138, 138)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_or4ck"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bx82k")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b5f30"]
+radius = 26.0
+height = 103.96525
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_drnnq"]
+radius = 93.04838
+
+[node name="GravWell" type="CharacterBody2D" unique_id=81165076]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1_snd2m")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=127276056]
+position = Vector2(-2, 1)
+sprite_frames = SubResource("SpriteFrames_or4ck")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=619995079]
+position = Vector2(0, 24)
+rotation = 1.5652679
+shape = SubResource("CapsuleShape2D_b5f30")
+
+[node name="GravityAura" type="Area2D" parent="." unique_id=1453787485]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityAura" unique_id=1570707966]
+shape = SubResource("CircleShape2D_drnnq")
+
+[node name="Sprite2D" type="Sprite2D" parent="GravityAura" unique_id=716816591]
+
+[connection signal="body_entered" from="GravityAura" to="." method="_on_gravity_aura_body_entered"]
+[connection signal="body_exited" from="GravityAura" to="." method="_on_gravity_aura_body_exited"]

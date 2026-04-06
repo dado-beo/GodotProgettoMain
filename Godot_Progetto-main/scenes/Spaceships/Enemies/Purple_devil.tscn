@@ -44,6 +44,8 @@ animations = [{
 radius = 14.142136
 
 [node name="Enemy_Purple_Devil" type="CharacterBody2D" unique_id=509663520]
+collision_layer = 4
+collision_mask = 67
 script = ExtResource("1_cdv03")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=229088122]

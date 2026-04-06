@@ -57,6 +57,8 @@ color = Color(0, 0.8745098, 0.8666667, 0.95686275)
 radius = 11.0
 
 [node name="Hunter" type="Area2D" unique_id=1453587179]
+collision_layer = 4
+collision_mask = 71
 script = ExtResource("1_vf48n")
 bullet_scene = ExtResource("2_n6dxq")
 

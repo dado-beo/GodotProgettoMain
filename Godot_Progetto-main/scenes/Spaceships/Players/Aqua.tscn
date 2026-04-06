@@ -235,6 +235,7 @@ radius = 14.0
 radius = 10.049875
 
 [node name="Aqua" type="CharacterBody2D" unique_id=696237405]
+collision_mask = 78
 script = ExtResource("1_ilcya")
 
 [node name="HealtBar" parent="." unique_id=56531350 instance=ExtResource("5_cleqx")]
@@ -293,6 +294,7 @@ texture_under = ExtResource("6_hwmf2")
 texture_progress = ExtResource("7_2xn2y")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1227982651]
+collision_mask = 108
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1506226620]
 position = Vector2(-2, 0)

@@ -538,27 +538,29 @@ texture = ExtResource("4_apcd8")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1451309919]
 texture_filter = 1
-position = Vector2(26, 18)
+position = Vector2(25, 25)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("23_apcd8")
 
 [node name="MoneteLabel" type="Label" parent="." unique_id=629084866]
 texture_filter = 1
 layout_mode = 0
-offset_left = 52.0
-offset_top = 4.0
-offset_right = 166.0
-offset_bottom = 21.0
+offset_left = 45.0
+offset_top = 12.0
+offset_right = 84.0
+offset_bottom = 29.0
 scale = Vector2(2, 2)
 theme_override_colors/font_color = Color(1, 0.81960785, 0.1254902, 1)
 text = ": 0"
 
 [node name="PlayerInfo" type="Button" parent="." unique_id=393074336]
-layout_mode = 0
-offset_left = 1036.0
-offset_top = 19.0
-offset_right = 1124.0
-offset_bottom = 107.0
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -88.0
+offset_bottom = 88.0
+grow_horizontal = 0
 theme_override_icons/icon = ExtResource("26_bt8s7")
 
 [node name="Title" type="Label" parent="." unique_id=1785242075]
@@ -651,18 +653,23 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_2ppkp")
 
-[node name="Label" type="Label" parent="Gioca" unique_id=1613031764]
+[node name="Seleziona_partita" type="Label" parent="Gioca" unique_id=292229898]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -266.0
-offset_top = -50.0
-offset_right = 268.0
-offset_bottom = -9.0
+offset_left = -269.0
+offset_top = -48.0
+offset_right = 265.0
+offset_bottom = 37.0
 grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0.36862746, 0.21176471, 0.49411765, 1)
+theme_override_constants/shadow_offset_x = 9
+theme_override_fonts/font = ExtResource("2_t8dpg")
 theme_override_font_sizes/font_size = 40
-text = "Seleziona partita"
+text = "MODALITA'"
+horizontal_alignment = 1
 
 [node name="Back" type="Button" parent="Gioca" unique_id=32800569]
 layout_mode = 1
@@ -731,6 +738,7 @@ offset_right = 168.42102
 offset_bottom = 331.57895
 
 [node name="Armadietto" type="Panel" parent="." unique_id=310373314]
+visible = false
 layout_mode = 0
 offset_left = 460.0
 offset_top = 395.0
@@ -1364,14 +1372,15 @@ autostart = true
 
 [node name="Label" type="Label" parent="." unique_id=1722811284]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 382.0
-offset_top = 629.0
-offset_right = 577.0
-offset_bottom = 652.0
-grow_horizontal = 2
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -195.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
 theme_override_constants/shadow_offset_x = 40
 theme_override_fonts/font = ExtResource("2_t8dpg")
 text = "©MEMBERS ONLY"

@@ -46,6 +46,8 @@ offset_bottom = 23.0
 text = "Stelle: 0"
 
 [node name="Walls" type="StaticBody2D" parent="." unique_id=66446979]
+collision_layer = 2
+collision_mask = 0
 
 [node name="Top" type="CollisionShape2D" parent="Walls" unique_id=574324037]
 position = Vector2(578, 0)

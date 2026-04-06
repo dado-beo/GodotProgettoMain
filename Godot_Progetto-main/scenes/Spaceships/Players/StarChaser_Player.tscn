@@ -94,6 +94,7 @@ color = Color(0, 0.8745098, 0.8666667, 0.95686275)
 
 [node name="Player" type="CharacterBody2D" unique_id=1154042791]
 texture_filter = 1
+collision_mask = 78
 script = ExtResource("1_a85rf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1033016257]
@@ -135,6 +136,7 @@ scale = Vector2(1.2, 1.2)
 shape = SubResource("CircleShape2D_cgtb6")
 target_position = Vector2(10, 0)
 max_results = 100
+collision_mask = 76
 collide_with_areas = true
 
 [node name="DashParticles" type="GPUParticles2D" parent="." unique_id=1703834191]

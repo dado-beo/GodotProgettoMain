@@ -87,7 +87,6 @@ func fire_spread():
 
 # --------------------
 func take_damage(amount: int) -> void:
-	print("TurtleEnemy prende danno:", amount)
 	health -= amount
 	if healthbar != null:
 		healthbar.health = health

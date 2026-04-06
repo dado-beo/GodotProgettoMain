@@ -35,6 +35,8 @@ offset_bottom = 654.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_5d5wl")
 
 [node name="Walls" type="StaticBody2D" parent="." unique_id=819997405]
+collision_layer = 2
+collision_mask = 0
 
 [node name="Top" type="CollisionShape2D" parent="Walls" unique_id=1009408456]
 position = Vector2(578, 0)
