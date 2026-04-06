@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dwjb3k1jlfsi5"]
 
 [ext_resource type="Script" uid="uid://5jyfckcplbe2" path="res://Scripts/Game/Game.gd" id="1_0a0c1"]
-[ext_resource type="Texture2D" uid="uid://c40em1o7pf4xc" path="res://Sprites/Backgrounds/Space Background.png" id="2_drrmr"]
+[ext_resource type="Texture2D" uid="uid://cqv53pv2wisg5" path="res://Sprites/Backgrounds/TimedModeBackground.png" id="2_f8ls4"]
 [ext_resource type="Script" uid="uid://cx4e78qyg2j0s" path="res://Scripts/Game/enemy_spawner.gd" id="2_w0w6r"]
 [ext_resource type="PackedScene" uid="uid://c316ek4x22v2p" path="res://scenes/Menu/Main_Menu.tscn" id="3_8mpqd"]
 [ext_resource type="PackedScene" uid="uid://cgvw14xt7tjt4" path="res://scenes/Menu/Paused_Menu.tscn" id="4_hy3bo"]
@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://egg81frtoxxt" path="res://audio/Tame Impala - Nangs (Original Instrumental).mp3" id="9_i6kj0"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_322ga"]
-texture = ExtResource("2_drrmr")
+texture = ExtResource("2_f8ls4")
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3xcid"]
 normal = Vector2(0, 1)

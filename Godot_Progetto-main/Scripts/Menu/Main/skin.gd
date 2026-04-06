@@ -5,8 +5,8 @@ extends Panel
 # Struttura dati per gestire le navi in modo ciclico
 @onready var ship_slots = [
 	{"btn": $HBoxContainer/Seleziona, "lock": null, "price_label": null, "cost": 0},
-	{"btn": $HBoxContainer/Seleziona2, "lock": $Sprite2D3, "price_label": $MoneteLabel, "cost": 80},
-	{"btn": $HBoxContainer/Seleziona3, "lock": $Sprite2D4, "price_label": $MoneteLabel2, "cost": 140}
+	{"btn": $HBoxContainer/Seleziona2, "lock": $Sprite2D3, "price_label": $MoneteLabel, "cost": 60},
+	{"btn": $HBoxContainer/Seleziona3, "lock": $Sprite2D4, "price_label": $MoneteLabel2, "cost": 80}
 ]
 
 func _ready():

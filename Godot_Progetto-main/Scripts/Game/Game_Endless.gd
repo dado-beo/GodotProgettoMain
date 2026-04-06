@@ -58,12 +58,12 @@ func _reward_coins_for_survival(minute: int) -> void:
 	var reward = 0
 	
 	if minute == 1:
-		reward = 5
-	elif minute == 2:
 		reward = 10
+	elif minute == 2:
+		reward = 15
 	elif minute >= 3:
-		# Dal minuto 3 in poi: base 15 + 5 extra per ogni minuto oltre il terzo
-		reward = 15 + ((minute - 3) * 5)
+		# Dal minuto 3 in poi: base 20 + 10 extra per ogni minuto oltre il terzo
+		reward = 20 + ((minute - 3) * 10)
 		
 	if reward > 0:
 		GameData.add_monete(reward)

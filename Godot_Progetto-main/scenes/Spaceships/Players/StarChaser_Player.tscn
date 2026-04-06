@@ -135,8 +135,8 @@ position = Vector2(-4, 1)
 scale = Vector2(1.2, 1.2)
 shape = SubResource("CircleShape2D_cgtb6")
 target_position = Vector2(10, 0)
-max_results = 100
-collision_mask = 76
+max_results = 1000
+collision_mask = 68
 collide_with_areas = true
 
 [node name="DashParticles" type="GPUParticles2D" parent="." unique_id=1703834191]

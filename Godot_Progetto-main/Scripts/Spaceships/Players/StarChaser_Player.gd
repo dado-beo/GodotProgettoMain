@@ -26,7 +26,7 @@ var speed_multiplier: float = 1.0 # 1.0 = velocità normale, 0.5 = rallentato de
 # ==========================================
 # VARIABILI DI STATO
 # ==========================================
-var health: int = 10000
+var health: int = 25
 var time_since_last_shot: float = 0.0
 var is_charging: bool = false
 var dash_vector: Vector2 = Vector2.ZERO
@@ -36,6 +36,9 @@ var is_preparing_charge: bool = false
 var primo_colpo_effettuato: bool = false
 
 var bullet_scene: PackedScene = preload("res://scenes/Bullets/Player/Bullet_Yellow_StarChaser.tscn")
+
+# Array per ricordare chi abbiamo già affettato con il dash corrente
+var nemici_colpiti_nel_dash: Array = []
 
 # ==========================================
 # NODI
@@ -58,7 +61,7 @@ func _ready() -> void:
 	healthbar.init_healt(health)
 	dash_particles.emitting = false
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	look_at(get_global_mouse_position())
 
 	var input_vector = Input.get_vector("left", "right", "up", "down")
@@ -173,21 +176,33 @@ func execute_dash() -> void:
 	spawn_ghost_trail()
 	
 	# ==========================================
-	# FIX: Rilevamento Singolo (Molto più sicuro per Vulkan)
+	# FIX DEFINITIVO: Il Dash Trapano!
 	# ==========================================
 	dash_cast.target_position = to_local(global_position + dash_vector)
-	# Un solo aggiornamento fisico, sicuro e performante
+	
+	# 1. Resettiamo la memoria del raggio ad ogni scatto
+	dash_cast.clear_exceptions()
 	dash_cast.force_shapecast_update()
 
 	var enemies_killed: int = 0
 
-	# Lo ShapeCast rileva già bersagli multipli! Basta ciclare i risultati.
-	for i in range(dash_cast.get_collision_count()):
-		var collider = dash_cast.get_collider(i)
-		# Aggiunto controllo di validità per evitare crash se l'oggetto è già distrutto
-		if is_instance_valid(collider) and collider.has_method("take_damage"):
-			if collider.take_damage(dash_damage):
-				enemies_killed += 1
+	# 2. Ciclo while: "Finché c'è qualcosa da colpire..."
+	while dash_cast.is_colliding():
+		for i in range(dash_cast.get_collision_count()):
+			var collider = dash_cast.get_collider(i)
+			
+			if is_instance_valid(collider):
+				if collider.has_method("take_damage"):
+					if collider.take_damage(dash_damage):
+						enemies_killed += 1
+				
+				# 3. IL SEGRETO: Diciamo al cast di diventare "fantasma" 
+				# per questo nemico specifico, così lo trapassa!
+				dash_cast.add_exception(collider)
+		
+		# 4. Aggiorniamo di nuovo il cast. Avendo ignorato i nemici
+		# di prima, ora rileverà quelli che stavano dietro!
+		dash_cast.force_shapecast_update()
 	# ==========================================
 				
 	var distance_ratio = dash_vector.length() / max_dash_distance
@@ -210,15 +225,11 @@ func start_iframes() -> void:
 	blink_tween.tween_property(self, "modulate:a", 0.2, 0.05)
 	blink_tween.tween_property(self, "modulate:a", 1.0, 0.05)
 
-	# Deleghiamo la fine dell'invulnerabilità a un timer scollegato,
-	# in questo modo non dobbiamo usare "await" bloccando l'esecuzione.
 	get_tree().create_timer(0.4).timeout.connect(_end_iframes)
 
-# Funzione triggerata dal timer di start_iframes
 func _end_iframes() -> void:
 	set_collision_layer_value(1, true)
 	set_collision_mask_value(2, true)
-	# Assicuriamoci che non sovrascriva il colore viola dell'Ancora se siamo dentro l'aura
 	if speed_multiplier == 1.0:
 		modulate = Color(1, 1, 1, 1)
 	else:
@@ -265,7 +276,6 @@ func heal(amount: int) -> void:
 	
 	var flash = create_tween()
 	flash.tween_property(self, "modulate", Color(0.5, 1.5, 0.5), 0.2)
-	# Torna al colore giusto a seconda se siamo rallentati o meno
 	var final_color = Color(1, 1, 1) if speed_multiplier == 1.0 else Color(0.7, 0.5, 1.0)
 	flash.tween_property(self, "modulate", final_color, 0.2)
 
@@ -277,8 +287,8 @@ func die() -> void:
 # ==========================================
 func apply_slow(amount: float) -> void:
 	speed_multiplier = amount
-	modulate = Color(0.7, 0.5, 1.0) # La navicella diventa leggermente violacea
+	modulate = Color(0.7, 0.5, 1.0) 
 
 func remove_slow() -> void:
 	speed_multiplier = 1.0
-	modulate = Color(1, 1, 1) # La navicella torna al colore originale
+	modulate = Color(1, 1, 1)
