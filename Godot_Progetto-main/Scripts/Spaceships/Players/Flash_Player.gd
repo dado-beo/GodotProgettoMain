@@ -1,7 +1,8 @@
 extends CharacterBody2D
 signal preso_danno
+signal died
 
-const SPEED = 500
+const SPEED = 550
 var bullet_scene = preload("res://scenes/Bullets/Player/Bullet_Green_Flesh.tscn")
 
 @onready var Shooty_part = $ShootyPart
@@ -156,7 +157,8 @@ func take_damage(amount: int) -> void:
 	health -= amount
 	healthbar.health = health 
 	if health <= 0:
-		die()
+		died.emit()
+		#die()
 		
 func die() -> void:
 	get_tree().call_deferred("change_scene_to_file", "res://scenes/Menu/Main_Menu.tscn")

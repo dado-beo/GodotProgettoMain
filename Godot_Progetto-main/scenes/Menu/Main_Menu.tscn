@@ -581,7 +581,6 @@ theme_override_font_sizes/font_size = 60
 text = "Tempera Biscotti"
 
 [node name="MainButtons" type="VBoxContainer" parent="." unique_id=1695438600]
-visible = false
 light_mask = 2
 visibility_layer = 2
 layout_mode = 1

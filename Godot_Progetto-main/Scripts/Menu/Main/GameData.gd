@@ -15,10 +15,12 @@ var ship_scenes: Array[PackedScene] = [
 var selected_ship_scene: PackedScene = ship_scenes[0]
 var selected_ship_index: int = 0
 
+var tab_negozio_da_aprire: String = ""
+
 # --- GESTIONE SKIN E NAVI ---
 var current_icon_index: int = 0
 # FIX: Portato a 4 elementi invece di 5
-var unlocked_icons: Array = [true, false, false, false] 
+var unlocked_icons: Array = [true, false, false, false, false]
 
 var unlocked_ships: Array = [true, false, false] 
 

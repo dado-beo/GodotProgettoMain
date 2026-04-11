@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dygm058dn02aq"
-path="res://.godot/imported/Button_disabled_spd.png-7d1d1b0fbf1b67c33d37a979060846a1.ctex"
+uid="uid://uvbf7rhux1pc"
+path="res://.godot/imported/game_over_frame.png-1f3f3f41be4f64e212906111e7d4f748.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Buttons/Button_disabled_spd.png"
-dest_files=["res://.godot/imported/Button_disabled_spd.png-7d1d1b0fbf1b67c33d37a979060846a1.ctex"]
+source_file="res://Sprites/Backgrounds/game_over_frame.png"
+dest_files=["res://.godot/imported/game_over_frame.png-1f3f3f41be4f64e212906111e7d4f748.ctex"]
 
 [params]
 

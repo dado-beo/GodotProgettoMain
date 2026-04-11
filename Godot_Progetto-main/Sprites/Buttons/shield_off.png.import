@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bx3pgdgf1rwwp"
-path="res://.godot/imported/Button_enabled_spd.png-289c932ad7b1fdd87d4d0471bbdca1c0.ctex"
+uid="uid://chyvrk3j0gv6a"
+path="res://.godot/imported/shield_off.png-2c1554a53ba6b111e6489cdf6a80b88d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Buttons/Button_enabled_spd.png"
-dest_files=["res://.godot/imported/Button_enabled_spd.png-289c932ad7b1fdd87d4d0471bbdca1c0.ctex"]
+source_file="res://Sprites/Buttons/shield_off.png"
+dest_files=["res://.godot/imported/shield_off.png-2c1554a53ba6b111e6489cdf6a80b88d.ctex"]
 
 [params]
 

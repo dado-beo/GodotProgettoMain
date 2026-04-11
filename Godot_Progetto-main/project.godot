@@ -93,6 +93,5 @@ locale/locale_filter_mode=0
 
 [rendering]
 
-renderer/rendering_method="mobile"
 anti_aliasing/quality/msaa_2d=2
 environment/defaults/default_clear_color=Color(0.0348023, 0.0604793, 0.132851, 1)

@@ -22,8 +22,19 @@ func _ready() -> void:
 	# Collega automaticamente tutti i bottoni dentro il VBoxContainer
 	for button in $VBoxContainer.get_children():
 		if button is Button:
-			# Passiamo il bottone stesso come argomento al segnale 
 			button.pressed.connect(_on_menu_button_pressed.bind(button))
+			
+	# --- NUOVO: CONTROLLA SE ARRIVIAMO DAL GAME OVER ---
+	if GameData.tab_negozio_da_aprire != "":
+		var tab = GameData.tab_negozio_da_aprire
+		GameData.tab_negozio_da_aprire = "" # Resetta subito per le prossime volte
+		
+		# Nascondiamo la UI principale e apriamo direttamente il tab giusto
+		if panels.has(tab):
+			panels[tab].visible = true
+			if tab == "Upgrades" and panels[tab].has_method("update_ui_elements"):
+				panels[tab].update_ui_elements()
+			_toggle_main_ui(false)
 
 # Funzione universale per aprire i sottomenu
 func _on_menu_button_pressed(btn: Button) -> void:

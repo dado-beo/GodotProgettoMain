@@ -1,24 +1,6 @@
-extends Node2D
 
-const WIDTH = 1152
-const HEIGHT = 648
-const SPAWNING_ENEMY = preload("res://scenes/Game/spawning_enemy.tscn")
 
-var spawnArea = Rect2()
-var delta := 2.5 # Partiamo da 2.5 per una partenza tranquilla
-var offset := 0.5
-var current_game_time := 0
 
-func _ready():
-	randomize()
-	spawnArea = Rect2(0, 0, WIDTH, HEIGHT)
-	set_next_spawn()
-
-func spawn_enemy():
-	var spawn_pos = Vector2(randi() % WIDTH, randi() % HEIGHT)
-	var spawn_anim = SPAWNING_ENEMY.instantiate()
-	spawn_anim.position = spawn_pos
-	get_parent().add_child(spawn_anim)
 
 func set_next_spawn():
 	var nextTime = delta + (randf() - 0.5) * 2 * offset

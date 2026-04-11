@@ -86,5 +86,6 @@ stream = ExtResource("9_i6kj0")
 
 [node name="GameOver" parent="." unique_id=1619941871 instance=ExtResource("8_lfncv")]
 visible = false
+script = null
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

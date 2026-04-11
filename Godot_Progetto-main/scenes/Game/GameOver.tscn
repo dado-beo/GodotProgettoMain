@@ -1,0 +1,205 @@
+[gd_scene format=3 uid="uid://d4kmcp8dng76k"]
+
+[ext_resource type="Script" uid="uid://cgrlw7hyh4ssl" path="res://Scripts/Game/GameOver.gd" id="1_icbwp"]
+[ext_resource type="Texture2D" uid="uid://uvbf7rhux1pc" path="res://Sprites/Backgrounds/game_over_frame.png" id="1_p7owx"]
+[ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="2_px800"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lyu6d"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u6c8m"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8cl4t"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.4)
+
+[node name="GameOver" type="CanvasLayer" unique_id=1102079020]
+script = ExtResource("1_icbwp")
+
+[node name="Panel" type="Panel" parent="." unique_id=2068700200]
+offset_left = 310.99997
+offset_top = 37.000004
+offset_right = 1012.0
+offset_bottom = 744.0
+scale = Vector2(0.8, 0.8)
+metadata/_edit_use_anchors_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Panel" unique_id=1176086681]
+position = Vector2(350, 354)
+texture = ExtResource("1_p7owx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1191014557]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -252.0
+offset_top = -303.49997
+offset_right = 252.0
+offset_bottom = 227.74988
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="TitoloLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1999818846]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0.36862746, 0.21176471, 0.49411765, 1)
+theme_override_constants/shadow_offset_x = 9
+theme_override_fonts/font = ExtResource("2_px800")
+theme_override_font_sizes/font_size = 60
+text = "GAME OVER	"
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="Panel/VBoxContainer" unique_id=1863182432]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="FraseLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1006949553]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_px800")
+theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Spacer2" type="Control" parent="Panel/VBoxContainer" unique_id=1748701556]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="StatisticheLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1099415800]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_px800")
+theme_override_font_sizes/font_size = 28
+text = "STATISTICHE"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TempoLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1674148821]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_px800")
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="UccisioniLabel" type="Label" parent="Panel/VBoxContainer" unique_id=826832572]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_px800")
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="MoneteLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1113940484]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_px800")
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Spacer3" type="Control" parent="Panel/VBoxContainer" unique_id=1045465556]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="TeaserContainer" type="VBoxContainer" parent="Panel/VBoxContainer" unique_id=876169986]
+layout_mode = 2
+
+[node name="TeaserFrase" type="Label" parent="Panel/VBoxContainer/TeaserContainer" unique_id=1959635098]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_px800")
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="BoxCostume" type="HBoxContainer" parent="Panel/VBoxContainer/TeaserContainer" unique_id=138907888]
+layout_mode = 2
+
+[node name="BtnCostume" type="TextureButton" parent="Panel/VBoxContainer/TeaserContainer/BoxCostume" unique_id=1511144524]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TestoCostume" type="Label" parent="Panel/VBoxContainer/TeaserContainer/BoxCostume" unique_id=1482686699]
+layout_mode = 2
+
+[node name="BoxUpgrade" type="HBoxContainer" parent="Panel/VBoxContainer/TeaserContainer" unique_id=1329235339]
+layout_mode = 2
+
+[node name="BtnUpgrade" type="TextureButton" parent="Panel/VBoxContainer/TeaserContainer/BoxUpgrade" unique_id=353311648]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TestoUpgrade" type="Label" parent="Panel/VBoxContainer/TeaserContainer/BoxUpgrade" unique_id=769262223]
+layout_mode = 2
+
+[node name="BoxIcona" type="HBoxContainer" parent="Panel/VBoxContainer/TeaserContainer" unique_id=1262840638]
+layout_mode = 2
+
+[node name="BtnIcona" type="TextureButton" parent="Panel/VBoxContainer/TeaserContainer/BoxIcona" unique_id=1147293843]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TestoIcona" type="Label" parent="Panel/VBoxContainer/TeaserContainer/BoxIcona" unique_id=839358978]
+layout_mode = 2
+
+[node name="Replay" type="Button" parent="Panel" unique_id=873250927]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 0
+offset_left = 67.50006
+offset_top = 627.5
+offset_right = 309.50006
+offset_bottom = 669.5
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_px800")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_lyu6d")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_u6c8m")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8cl4t")
+text = "Rigioca"
+
+[node name="Menu" type="Button" parent="Panel" unique_id=1692451177]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 0
+offset_left = 401.25
+offset_top = 627.49994
+offset_right = 643.25
+offset_bottom = 669.49994
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_px800")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_lyu6d")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_u6c8m")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8cl4t")
+text = "Menu"
+
+[connection signal="pressed" from="Panel/VBoxContainer/TeaserContainer/BoxCostume/BtnCostume" to="." method="_on_btn_costume_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/TeaserContainer/BoxUpgrade/BtnUpgrade" to="." method="_on_btn_upgrade_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/TeaserContainer/BoxIcona/BtnIcona" to="." method="_on_btn_icona_pressed"]
+[connection signal="pressed" from="Panel/Replay" to="." method="_on_replay_pressed"]
+[connection signal="pressed" from="Panel/Menu" to="." method="_on_menu_pressed"]

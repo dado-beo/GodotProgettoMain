@@ -1,10 +1,11 @@
 extends CharacterBody2D
 signal preso_danno
+signal died
 
 # ==========================================
 # COSTANTI E MODIFICATORI DI VELOCITÀ
 # ==========================================
-const BASE_SPEED: float = 420.0
+const BASE_SPEED: float = 500.0
 const EXTRA_SPEED: float = 100.0
 const FIRE_RATE: float = 0.5    
 const CHARGE_DELAY: float = 0.0 
@@ -260,11 +261,26 @@ func spawn_ghost_trail() -> void:
 # SISTEMA VITA E DANNI
 # ==========================================
 func take_damage(amount: int) -> void:
+	# 1. Se siamo già morti, ignoriamo ulteriori danni
+	if health <= 0:
+		return 
+		
 	preso_danno.emit()
 	health -= amount
-	healthbar.health = health 
+	
+	# 2. Sicurezza: Controlliamo che la healthbar esista ancora
+	if is_instance_valid(healthbar):
+		healthbar.health = health 
+		
 	if health <= 0:
-		die()
+		# 3. Disattiviamo le collisioni così i nemici non ci sbattono più contro
+		set_collision_layer_value(1, false)
+		set_collision_mask_value(2, false)
+		
+		visible = false # Nasconde lo sprite
+		set_physics_process(false) # Gli impedisce di muoversi ancora
+		
+		died.emit()
 		
 func heal(amount: int) -> void:
 	var max_health = 25 
