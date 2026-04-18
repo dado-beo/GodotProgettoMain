@@ -136,6 +136,7 @@ func _on_shoot_timeout():
 	if player == null:
 		return
 	var bullet = BulletScene.instantiate()
+	
 	bullet.global_position = global_position
 	bullet.direction = (player.global_position - global_position).normalized()
 	get_parent().add_child(bullet)

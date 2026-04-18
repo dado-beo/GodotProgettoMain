@@ -41,6 +41,7 @@ func fire():
 	spawn_bullet($Ninja_ShootyPart4, Vector2.LEFT)
 
 func spawn_bullet(part: Node2D, direction: Vector2):
+	
 	var bullet = bullet_scene.instantiate()
 	bullet.global_position = part.global_position
 	bullet.direction = direction.normalized()

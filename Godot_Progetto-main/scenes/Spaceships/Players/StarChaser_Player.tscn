@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="3_cgtb6"]
 [ext_resource type="Texture2D" uid="uid://dbf23gie0dvx" path="res://Sprites/Buttons/Charge_Circle_Empty.png" id="4_sk2sb"]
 [ext_resource type="Texture2D" uid="uid://cbect8ffh86fe" path="res://Sprites/Buttons/Charge_Circle_Full.png" id="5_vc3on"]
+[ext_resource type="AudioStream" uid="uid://dmywdhqjhf01l" path="res://audio/dash.mp3" id="7_duqa3"]
+[ext_resource type="AudioStream" uid="uid://5khkd3bnel6c" path="res://audio/shoot.mp3" id="7_nsngp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nsngp"]
 atlas = ExtResource("2_vc3on")
@@ -155,3 +157,11 @@ scale = Vector2(0.35, 0.35)
 fill_mode = 4
 texture_under = ExtResource("4_sk2sb")
 texture_progress = ExtResource("5_vc3on")
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="." unique_id=1820481403]
+stream = ExtResource("7_duqa3")
+pitch_scale = 0.9
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1505611871]
+stream = ExtResource("7_nsngp")
+pitch_scale = 0.9

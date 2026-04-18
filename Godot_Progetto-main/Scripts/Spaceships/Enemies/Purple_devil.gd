@@ -105,6 +105,7 @@ func _on_shoot_timeout():
 	spawn_bullet(Shooty_part3)
 
 func spawn_bullet(part: Node2D):
+	$AudioStreamPlayer2D.play()
 	var bullet = BulletScene.instantiate()
 	bullet.global_position = part.global_position
 	bullet.direction = transform.x.normalized() 

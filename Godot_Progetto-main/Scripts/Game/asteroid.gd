@@ -56,6 +56,7 @@ func _on_area_entered(area):
 		call_deferred("explode")
 
 func explode():
+	$AudioStreamPlayer2D.play()
 	if is_exploded: return # Evita esplosioni multiple simultanee
 	is_exploded = true
 	

@@ -524,6 +524,7 @@ profile_textures = Array[Texture2D]([ExtResource("26_bt8s7"), ExtResource("21_ge
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=356308363]
 position = Vector2(0, 30)
 stream = ExtResource("7_2ppkp")
+volume_db = 24.0
 bus = &"Music"
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=2144513771]

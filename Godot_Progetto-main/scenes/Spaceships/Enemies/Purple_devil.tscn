@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b1d4xrfpuin48" path="res://Scripts/Spaceships/Enemies/Purple_devil.gd" id="1_cdv03"]
 [ext_resource type="Texture2D" uid="uid://b3bge8nll82wl" path="res://Sprites/Spaceships/Enemies/PurpleDevil.png" id="2_cdv03"]
 [ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="3_bpf5a"]
+[ext_resource type="AudioStream" uid="uid://5khkd3bnel6c" path="res://audio/shoot.mp3" id="4_xmx44"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xmx44"]
 atlas = ExtResource("2_cdv03")
@@ -77,3 +78,7 @@ offset_left = -10.0
 offset_top = -22.0
 offset_right = 11.0
 offset_bottom = -15.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=47871669]
+stream = ExtResource("4_xmx44")
+pitch_scale = 1.3

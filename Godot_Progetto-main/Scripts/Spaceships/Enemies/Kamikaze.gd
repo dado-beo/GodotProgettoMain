@@ -90,7 +90,8 @@ func take_damage(amount: int) -> void:
 		trigger_explosion()
 
 # Gestisce la visuale dell'esplosione e i danni ad area
-func trigger_explosion() -> void: 	
+func trigger_explosion() -> void: 
+	$AudioStreamPlayer2D.play()
 	if is_exploding:
 		return
 	is_exploding = true

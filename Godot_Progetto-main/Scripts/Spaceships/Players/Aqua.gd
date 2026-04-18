@@ -133,6 +133,7 @@ func _process(delta: float) -> void:
 # SISTEMA ARMI E SCUDO
 # ==========================================
 func fire() -> void:
+	$AudioStreamPlayer2D2.play()
 	var bullet = bullet_scene.instantiate()
 	bullet.global_position = Shooty_part.global_position
 	bullet.direction = transform.x.normalized()
@@ -144,6 +145,7 @@ func start_charging() -> void:
 	create_tween().tween_property(self, "modulate", Color(1, 1, 1), 0.1)
 
 func activate_shield() -> void:
+	$AudioStreamPlayer2D.play()
 	is_shield_active = true
 	
 	anim_start.visible = true

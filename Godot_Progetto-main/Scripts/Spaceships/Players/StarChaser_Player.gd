@@ -126,6 +126,7 @@ func fire() -> void:
 		if GameData.has_method("sblocca_achievement"):
 			GameData.sblocca_achievement("primo_sparo")
 
+	$AudioStreamPlayer2D.play()
 	spawn_bullet(shooty_part)
 	if GameData.upgrades["triple_shot"]["enabled"]:
 		spawn_bullet(shooty_part2)
@@ -166,6 +167,7 @@ func update_charging() -> void:
 	trajectory_line.add_point(to_local(global_position + dash_vector))
 
 func execute_dash() -> void:
+	$AudioStreamPlayer2D2.play()
 	is_charging = false
 	trajectory_line.visible = false
 	start_iframes()

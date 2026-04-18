@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dsop68oeatg1a" path="res://Scripts/Spaceships/Enemies/Turtle.gd" id="1_11tvr"]
 [ext_resource type="Texture2D" uid="uid://h31d0ju3sw2e" path="res://Sprites/Spaceships/Enemies/Turtle.png" id="1_q5qvb"]
 [ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="2_3hha8"]
+[ext_resource type="AudioStream" uid="uid://5khkd3bnel6c" path="res://audio/shoot.mp3" id="4_uhe28"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yivtu"]
 atlas = ExtResource("1_q5qvb")
@@ -42,3 +43,7 @@ offset_left = -10.0
 offset_top = -19.0
 offset_right = 11.0
 offset_bottom = -12.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=290081298]
+stream = ExtResource("4_uhe28")
+pitch_scale = 0.8

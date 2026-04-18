@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://blssxmh2y8tqk" path="res://Scripts/Spaceships/Enemies/Kamikaze.gd" id="1_1j6np"]
 [ext_resource type="Texture2D" uid="uid://gdyoyn1kon7o" path="res://Sprites/Spaceships/Enemies/Evil ass skeleton.png" id="2_3akwe"]
 [ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="3_ww3mc"]
+[ext_resource type="AudioStream" uid="uid://pceog142x6v3" path="res://audio/explosion.mp3" id="4_ccfwl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ccfwl"]
 atlas = ExtResource("2_3akwe")
@@ -67,3 +68,6 @@ offset_left = -10.0
 offset_top = -19.0
 offset_right = 11.0
 offset_bottom = -12.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=948975626]
+stream = ExtResource("4_ccfwl")

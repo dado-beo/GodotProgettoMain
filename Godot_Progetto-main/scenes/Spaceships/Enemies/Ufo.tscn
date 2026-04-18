@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dde5qomyi10j8" path="res://Scripts/Spaceships/Enemies/Ufo.gd" id="1_g4an1"]
 [ext_resource type="Texture2D" uid="uid://oax0okr5ithn" path="res://Sprites/Spaceships/Enemies/Ufo_Enemy.png" id="2_1lq2n"]
 [ext_resource type="PackedScene" uid="uid://d3dj7xyf2qnss" path="res://scenes/AnimationAddOn/HealtBar.tscn" id="3_bpf5a"]
+[ext_resource type="AudioStream" uid="uid://5khkd3bnel6c" path="res://audio/shoot.mp3" id="4_f14j7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lfe5p"]
 atlas = ExtResource("2_1lq2n")
@@ -62,3 +63,7 @@ offset_left = -10.0
 offset_top = -22.0
 offset_right = 11.0
 offset_bottom = -15.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=2044074960]
+stream = ExtResource("4_f14j7")
+pitch_scale = 1.2

@@ -72,7 +72,7 @@ func start_firing_sequence():
 func fire_spread():
 	if player == null:
 		return
-		
+	$AudioStreamPlayer2D.play()
 	var base_direction = (player.global_position - global_position).normalized()
 	
 	# Angoli per i 3 proiettili (circa -15°, 0°, +15° espressi in radianti)

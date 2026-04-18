@@ -104,10 +104,11 @@ func _physics_process(delta: float) -> void:
 
 # --- FUNZIONE SPARO NORMALE (con logica 1 su 5) ---
 func shoot():
+	$AudioStreamPlayer2D.set_pitch_scale(1)
 	var bullet = bullet_scene.instantiate()
 	bullet.global_position = Shooty_part.global_position
 	bullet.direction = transform.x.normalized()
-	
+	$AudioStreamPlayer2D.play()
 	counter += 1
 	
 	if counter >= 5:
@@ -128,7 +129,8 @@ func fire_charged_shot():
 	var bullet = bullet_scene.instantiate()
 	bullet.global_position = Shooty_part.global_position
 	bullet.direction = transform.x.normalized()
-	
+	$AudioStreamPlayer2D.set_pitch_scale(0.4)
+	$AudioStreamPlayer2D.play()
 	get_tree().get_current_scene().add_child(bullet)
 	
 	# Trasformazione in colpo gigante

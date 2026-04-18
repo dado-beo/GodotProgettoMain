@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cgrlw7hyh4ssl" path="res://Scripts/Game/GameOver.gd" id="1_icbwp"]
 [ext_resource type="Texture2D" uid="uid://uvbf7rhux1pc" path="res://Sprites/Backgrounds/game_over_frame.png" id="1_p7owx"]
 [ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="2_px800"]
+[ext_resource type="Texture2D" uid="uid://bbyeqi7qtdcrq" path="res://Sprites/Buttons/pngtree-star-pixel-png-image_21050156-removebg-preview.png" id="4_lyu6d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lyu6d"]
 bg_color = Color(1, 1, 1, 1)
@@ -53,10 +54,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -252.0
-offset_top = -303.49997
-offset_right = 252.0
-offset_bottom = 227.74988
+offset_left = -327.99997
+offset_top = -308.37503
+offset_right = 333.24988
+offset_bottom = 232.625
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 8
@@ -139,6 +140,11 @@ stretch_mode = 5
 
 [node name="TestoCostume" type="Label" parent="Panel/VBoxContainer/TeaserContainer/BoxCostume" unique_id=1482686699]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_px800")
+
+[node name="Sprite2D" type="Sprite2D" parent="Panel/VBoxContainer/TeaserContainer/BoxCostume/TestoCostume" unique_id=713541316]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_lyu6d")
 
 [node name="BoxUpgrade" type="HBoxContainer" parent="Panel/VBoxContainer/TeaserContainer" unique_id=1329235339]
 layout_mode = 2
@@ -151,6 +157,12 @@ stretch_mode = 5
 
 [node name="TestoUpgrade" type="Label" parent="Panel/VBoxContainer/TeaserContainer/BoxUpgrade" unique_id=769262223]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_px800")
+
+[node name="Sprite2D" type="Sprite2D" parent="Panel/VBoxContainer/TeaserContainer/BoxUpgrade/TestoUpgrade" unique_id=1300672363]
+position = Vector2(0, 2)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_lyu6d")
 
 [node name="BoxIcona" type="HBoxContainer" parent="Panel/VBoxContainer/TeaserContainer" unique_id=1262840638]
 layout_mode = 2
@@ -163,6 +175,11 @@ stretch_mode = 5
 
 [node name="TestoIcona" type="Label" parent="Panel/VBoxContainer/TeaserContainer/BoxIcona" unique_id=839358978]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_px800")
+
+[node name="Sprite2D" type="Sprite2D" parent="Panel/VBoxContainer/TeaserContainer/BoxIcona/TestoIcona" unique_id=134187315]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_lyu6d")
 
 [node name="Replay" type="Button" parent="Panel" unique_id=873250927]
 light_mask = 2

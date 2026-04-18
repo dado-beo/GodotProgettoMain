@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b4t2yn7ltaau4" path="res://Scripts/Game/asteroid.gd" id="1_n3ebs"]
 [ext_resource type="Texture2D" uid="uid://bljv6uaida5ne" path="res://Sprites/Asteroids/AsteroidBase.png" id="2_6sf2d"]
 [ext_resource type="Texture2D" uid="uid://bj8lh5f0drppt" path="res://Sprites/Asteroids/AsteroidExplode.png" id="3_6ucxe"]
+[ext_resource type="AudioStream" uid="uid://pceog142x6v3" path="res://audio/explosion.mp3" id="4_6sf2d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bx5ix"]
 atlas = ExtResource("3_6ucxe")
@@ -88,3 +89,7 @@ frame_progress = 1.0
 shape = SubResource("CircleShape2D_0w1d8")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=656900308]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=304595899]
+stream = ExtResource("4_6sf2d")
+pitch_scale = 0.6
