@@ -1,7 +1,7 @@
 extends Node2D
 
 const GAME_DURATION := 90 # Cambiato da 180 a 90 (1 min e 30 sec)
-# Dizionario: Al secondo X dai Y monete
+# Dizionario: Al secondo X dai Y biscotti
 const REWARD_TIMINGS := {
 	30: 5,   # Prima stella (Facile)
 	60: 15,  # Seconda stella (Medio)
@@ -19,15 +19,19 @@ var offset := 0.5
 var current_time := 0
 var rewarded_minutes := []
 var enemies_killed := 0
-var monete_ottenute_partita := 0
+var biscotti_ottenuti_partita := 0 # Modificato da monete a biscotti
 
 # --- Tempi in cui spawna l'Ancora Gravitazionale ---
 var grav_well_spawn_times = [60] 
 
+# --- VARIABILI PER L'ANIMAZIONE UI ---
+var visual_biscotti: int = 0
+
 # --- REFERENZE AI NODI ---
 @onready var game_timer: Timer = $GameTimer
 @onready var time_label: Label = $GameTimer/TimeLabel 
-@onready var monete_label: Label = $MoneteLabel
+@onready var contenitore_ui = $"UI/Contenitore UI" # Riferimento aggiornato per l'animazione
+@onready var biscotti_label = $"UI/Contenitore UI/BiscottiLabel" # Riferimento aggiornato
 @onready var musica: AudioStreamPlayer = $AudioStreamPlayer
 @onready var spawn_timer: Timer = $Timer 
 @onready var game_over_screen = $GameOver
@@ -39,8 +43,15 @@ func _ready():
 	randomize()
 	spawnArea = Rect2(0, 0, WIDTH, HEIGHT)
 	
-	_update_monete_ui(GameData.monete_stella)
-	GameData.monete_aggiornate.connect(_update_monete_ui)
+	# Inizializza UI Biscotti e la rende invisibile all'inizio
+	visual_biscotti = GameData.biscotti
+	if contenitore_ui:
+		contenitore_ui.modulate.a = 0.0
+		if biscotti_label:
+			biscotti_label.text = ": %d" % visual_biscotti
+	
+	# Connette il segnale corretto da GameData
+	GameData.biscotti_aggiornati.connect(_update_biscotti_ui)
 
 	if time_label:
 		time_label.text = "Tempo: 00:00"
@@ -56,6 +67,53 @@ func _ready():
 	# Avvio i timer
 	game_timer.start()
 	set_next_spawn()
+
+# --- LOGICA ANIMAZIONE BISCOTTI ---
+func _update_biscotti_ui(nuovo_valore: int):
+	if nuovo_valore > visual_biscotti:
+		var guadagno = nuovo_valore - visual_biscotti
+		_esegui_animazione_biscotti(guadagno, nuovo_valore)
+	else:
+		visual_biscotti = nuovo_valore
+		if biscotti_label:
+			biscotti_label.text = ": %d" % visual_biscotti
+
+func _esegui_animazione_biscotti(quantita: int, totale_finale: int):
+	if not contenitore_ui or not biscotti_label: return
+	
+	var popup = Label.new()
+	popup.text = "+%d" % quantita
+	if biscotti_label.label_settings:
+		popup.label_settings = biscotti_label.label_settings
+	
+	popup.modulate = Color(1.0, 0.8, 0.0) # Giallo dorato
+	contenitore_ui.add_child(popup)
+	popup.position = biscotti_label.position + Vector2(100, -20)
+	
+	var tween = create_tween().set_parallel(true)
+	tween.tween_property(contenitore_ui, "modulate:a", 1.0, 0.3)
+	tween.tween_property(popup, "position:y", popup.position.y - 60, 1.2).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(popup, "modulate:a", 0.0, 0.4).set_delay(0.8)
+	
+	var count_tween = create_tween()
+	count_tween.tween_method(
+		func(v): biscotti_label.text = ": %d" % v, 
+		visual_biscotti, 
+		totale_finale, 
+		1.0
+	).set_delay(0.2)
+	
+	visual_biscotti = totale_finale
+	
+	await count_tween.finished
+	await get_tree().create_timer(1.5).timeout
+	
+	# Nasconde di nuovo se non ci sono stati altri aggiornamenti nel frattempo
+	if visual_biscotti == GameData.biscotti:
+		var fade_out = create_tween()
+		fade_out.tween_property(contenitore_ui, "modulate:a", 0.0, 0.5)
+	
+	popup.queue_free()
 
 # --- GESTIONE SPAWN NEMICI BASE ---
 func set_next_spawn():
@@ -118,9 +176,9 @@ func _on_timer_tick():
 	# Assegnazione Ricompense
 	if current_time in REWARD_TIMINGS and current_time not in rewarded_minutes:
 		var reward = REWARD_TIMINGS[current_time]
-		GameData.add_monete(reward)
-		monete_ottenute_partita += reward
-		print("Hai ricevuto %d monete!" % reward)
+		GameData.add_biscotti(reward) # Aggiornato per usare i biscotti
+		biscotti_ottenuti_partita += reward
+		print("Hai ricevuto %d biscotti!" % reward)
 		rewarded_minutes.append(current_time)
 		
 	# Controllo Spawn Ancora Gravitazionale
@@ -135,10 +193,6 @@ func _update_timer_label():
 	var seconds = current_time % 60
 	if time_label:
 		time_label.text = "Tempo: %02d:%02d" % [minutes, seconds]
-
-func _update_monete_ui(valore: int):
-	if monete_label:
-		monete_label.text = ": %d" % valore
 
 func _spawn_selected_player():
 	var player_scene = GameData.selected_ship_scene
@@ -219,7 +273,7 @@ func _on_player_died():
 	_game_over(false)
 	
 func _game_over(survived: bool):
-	print("Gioco terminato! Monete totali: %d" % GameData.monete_stella)
+	print("Gioco terminato! Biscotti totali: %d" % GameData.biscotti)
 	game_timer.stop()
 	spawn_timer.stop()
 	GameData.check_and_save_record("mode_1", current_time)
@@ -228,8 +282,6 @@ func _game_over(survived: bool):
 	# Passiamo i dati alla UI di Game Over e la rendiamo visibile
 	if game_over_screen and game_over_screen.has_method("setup_game_over"):
 		game_over_screen.visible = true
-		print(typeof(tempo_finale),typeof(monete_ottenute_partita),typeof(enemies_killed),typeof(survived))
-		game_over_screen.setup_game_over(monete_ottenute_partita, enemies_killed, tempo_finale, survived)
+		game_over_screen.setup_game_over(biscotti_ottenuti_partita, enemies_killed, tempo_finale, survived)
 	else:
-		print(typeof(tempo_finale),typeof(GameData.monete_stella),typeof(enemies_killed),typeof(survived))
 		push_error("Il nodo Game Over non è stato trovato o non ha il metodo setup_game_over")

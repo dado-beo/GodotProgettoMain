@@ -5,7 +5,7 @@ extends CanvasLayer
 @onready var label_frase: Label = $Panel/VBoxContainer/FraseLabel
 @onready var label_tempo: Label = $Panel/VBoxContainer/TempoLabel
 @onready var label_uccisioni: Label = $Panel/VBoxContainer/UccisioniLabel
-@onready var label_monete: Label = $Panel/VBoxContainer/MoneteLabel
+@onready var label_biscotti: Label = $Panel/VBoxContainer/BiscottiLabel # <-- MODIFICATO
 
 # --- NODI DEL TEASER (Lista Verticale) ---
 @onready var teaser_container = $Panel/VBoxContainer/TeaserContainer
@@ -46,10 +46,10 @@ func _ready() -> void:
 		blink_tween.tween_property(label_titolo, "modulate:a", 0.0, 0.8)
 		blink_tween.tween_property(label_titolo, "modulate:a", 1.0, 0.8)
 
-func setup_game_over(monete: int, uccisioni: int, tempo_testo: String, survived: bool) -> void:
+func setup_game_over(biscotti: int, uccisioni: int, tempo_testo: String, survived: bool) -> void: # <-- MODIFICATO
 	label_tempo.text = tempo_testo
 	label_uccisioni.text = "Nemici Distrutti: " + str(uccisioni)
-	label_monete.text = "Monete Ottenute: " + str(monete)
+	label_biscotti.text = "Biscotti Ottenuti: " + str(biscotti) # <-- MODIFICATO
 	
 	if survived:
 		label_frase.text = frasi_vittoria.pick_random()
@@ -63,11 +63,11 @@ func setup_game_over(monete: int, uccisioni: int, tempo_testo: String, survived:
 			blink_tween_frase.tween_property(label_frase, "modulate:a", 0.0, 0.8)
 			blink_tween_frase.tween_property(label_frase, "modulate:a", 1.0, 0.8)
 			
-	# NUOVO: Generiamo il teaser ORA, passandogli le monete appena vinte!
-	_genera_teaser_negozio(monete)
+	# NUOVO: Generiamo il teaser ORA, passandogli i biscotti appena vinti!
+	_genera_teaser_negozio(biscotti) # <-- MODIFICATO
 		
 # --- SISTEMA TEASER A LISTA ---
-func _genera_teaser_negozio(monete_partita: int):
+func _genera_teaser_negozio(biscotti_partita: int): # <-- MODIFICATO
 	var costumi_mancanti = []
 	var upgrades_mancanti = []
 	var icone_mancanti = []
@@ -117,25 +117,25 @@ func _genera_teaser_negozio(monete_partita: int):
 		return
 		
 	# --- AGGIORNAMENTO UI E CALCOLO FRASI ---
-	# Qui passiamo anche le monete_partita alla funzione che crea la frase
+	# Qui passiamo anche i biscotti_partita alla funzione che crea la frase
 	if costume_scelto:
 		box_costume.visible = true
 		btn_costume.texture_normal = costume_scelto["img"]
-		testo_costume.text = _get_frase_oggetto("Costumi", costume_scelto["costo"], monete_partita)
+		testo_costume.text = _get_frase_oggetto("Costumi", costume_scelto["costo"], biscotti_partita) # <-- MODIFICATO
 	else:
 		box_costume.visible = false 
 		
 	if upgrade_scelto:
 		box_upgrade.visible = true
 		btn_upgrade.texture_normal = upgrade_scelto["img"]
-		testo_upgrade.text = _get_frase_oggetto("Upgrades", upgrade_scelto["costo"], monete_partita)
+		testo_upgrade.text = _get_frase_oggetto("Upgrades", upgrade_scelto["costo"], biscotti_partita) # <-- MODIFICATO
 	else:
 		box_upgrade.visible = false
 		
 	if icona_scelta:
 		box_icona.visible = true
 		btn_icona.texture_normal = icona_scelta["img"]
-		testo_icona.text = _get_frase_oggetto("Icone", icona_scelta["costo"], monete_partita)
+		testo_icona.text = _get_frase_oggetto("Icone", icona_scelta["costo"], biscotti_partita) # <-- MODIFICATO
 	else:
 		box_icona.visible = false
 
@@ -143,26 +143,26 @@ func _genera_teaser_negozio(monete_partita: int):
 	teaser_frase.text = "Nuovi oggetti ti aspettano al negozio!"
 	teaser_frase.modulate = Color(1, 0.9, 0)
 
-# Funzione che calcola le monete mancanti e genera la frase per ogni riga
-func _get_frase_oggetto(tab: String, costo: int, monete_partita: int) -> String:
+# Funzione che calcola i biscotti mancanti e genera la frase per ogni riga
+func _get_frase_oggetto(tab: String, costo: int, biscotti_partita: int) -> String: # <-- MODIFICATO
 	
 	# USA DIRETTAMENTE IL VALORE DI GAMEDATA (non sommare nulla!)
-	var monete_reali = GameData.monete_stella 
+	var biscotti_reali = GameData.biscotti # <-- MODIFICATO
 	
-	var puo_comprare = (monete_reali >= costo)
-	var monete_mancanti = costo - monete_reali
+	var puo_comprare = (biscotti_reali >= costo)
+	var biscotti_mancanti = costo - biscotti_reali # <-- MODIFICATO
 	var frasi = []
 	
 	if puo_comprare:
 		match tab:
 			"Costumi": frasi = ["Hai i fondi per questa bellezza!", "È il momento di sbloccarla!"]
 			"Upgrades": frasi = ["Te lo puoi permettere!", "Sblocco disponibile!"]
-			"Icone": frasi = ["Monete sufficienti!", "Nuovo stile pronto!"]
+			"Icone": frasi = ["Biscotti sufficienti!", "Nuovo stile pronto!"] # <-- MODIFICATO
 	else:
 		match tab:
-			"Costumi": frasi = ["Ti mancano %d monete!" % monete_mancanti, "Quasi tua, mancano %d monete!" % monete_mancanti]
-			"Upgrades": frasi = ["Ancora %d monete e sarà tuo!" % monete_mancanti]
-			"Icone": frasi = ["A %d monete dal nuovo stile!" % monete_mancanti]
+			"Costumi": frasi = ["Ti mancano %d biscotti!" % biscotti_mancanti, "Quasi tua, mancano %d biscotti!" % biscotti_mancanti] # <-- MODIFICATO
+			"Upgrades": frasi = ["Ancora %d biscotti e sarà tuo!" % biscotti_mancanti] # <-- MODIFICATO
+			"Icone": frasi = ["A %d biscotti dal nuovo stile!" % biscotti_mancanti] # <-- MODIFICATO
 			
 	return frasi.pick_random() + "\nPrezzo: " + str(costo)
 
@@ -182,11 +182,15 @@ func _on_btn_icona_pressed() -> void:
 
 # --- GESTIONE BOTTONI NORMALI ---
 func _on_replay_pressed() -> void:
-	var game_scene_path = "res://scenes/Game/Game.tscn" 
+	# Otteniamo il percorso della scena in cui ci troviamo attualmente (Endless, Waves, o Classica)
+	var current_scene_path = get_tree().current_scene.scene_file_path
+	
 	if FileAccess.file_exists("res://scenes/AnimationAddOn/fade_transition.tscn"):
-		FadeTransition.change_scene(game_scene_path)
+		# Usiamo la tua transizione fluida passandole la scena corrente
+		FadeTransition.change_scene(current_scene_path)
 	else:
-		get_tree().change_scene_to_file(game_scene_path)
+		# Metodo di riserva super sicuro di Godot per ricaricare la scena attuale
+		get_tree().reload_current_scene()
 	
 func _on_menu_pressed() -> void:
 	if FileAccess.file_exists("res://scenes/AnimationAddOn/fade_transition.tscn"):

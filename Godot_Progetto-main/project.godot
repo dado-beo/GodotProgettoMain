@@ -25,11 +25,16 @@ MoneteManager="*res://Scripts/Menu/Main/MoneteManager.gd"
 FadeTransition="*uid://d0cn3cmhxuujy"
 GameData="*uid://bi5ych4cvtdch"
 PopupAchivment="*uid://cpyh3ghboyldq"
+Firebase="*uid://cvb26atjckwlq"
 
 [display]
 
 window/size/mode=1
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot-firebase/plugin.cfg", "res://addons/http-sse-client/plugin.cfg")
 
 [global_group]
 

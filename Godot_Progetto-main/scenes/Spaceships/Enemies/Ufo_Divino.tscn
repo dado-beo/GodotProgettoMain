@@ -69,3 +69,4 @@ offset_bottom = -15.0
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1712789011]
 stream = ExtResource("4_4pxdg")
 pitch_scale = 0.85
+bus = &"SFX"

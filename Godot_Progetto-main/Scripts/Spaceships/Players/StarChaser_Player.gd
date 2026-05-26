@@ -57,7 +57,6 @@ var nemici_colpiti_nel_dash: Array = []
 
 func _ready() -> void:
 	add_to_group("player")
-	process_mode = Node.PROCESS_MODE_ALWAYS
 	trajectory_line.visible = false
 	healthbar.init_healt(health)
 	dash_particles.emitting = false
@@ -275,12 +274,13 @@ func take_damage(amount: int) -> void:
 		healthbar.health = health 
 		
 	if health <= 0:
-		# 3. Disattiviamo le collisioni così i nemici non ci sbattono più contro
+		# 3. Disattiviamo le collisioni
 		set_collision_layer_value(1, false)
 		set_collision_mask_value(2, false)
 		
 		visible = false # Nasconde lo sprite
-		set_physics_process(false) # Gli impedisce di muoversi ancora
+		set_physics_process(false) # Gli impedisce di muoversi (blocca _physics_process)
+		set_process(false) # FIX: Gli impedisce di sparare e usare abilità (blocca _process)
 		
 		died.emit()
 		

@@ -1,60 +1,125 @@
 extends Node2D
 
-@onready var turtle_spawner = $TurtleSpawner
+# --- REFERENZE AI NODI DELLA SCENA ---
 @onready var invasion_label = $InvasionLabel 
+@onready var game_over_screen = $GameOver
 
+# Riferimenti Animazione UI
+@onready var contenitore_ui = get_node_or_null("UI/Contenitore UI") 
+@onready var biscotti_label = get_node_or_null("UI/Contenitore UI/BiscottiLabel")
+
+# Spawners
+@onready var ninja_spawner = $NinjaSpawner
+@onready var turtle_spawner = $TurtleSpawner
+@onready var asteroid_spawner = $AsteroidSpawner
+@onready var purple_devil_spawner = $PurpleDevilSpawner
+
+# --- VARIABILI DI GIOCO ---
 var time_survived: float = 0.0
 var is_game_active: bool = true
 
-# Variabile per tenere traccia dei minuti trascorsi (sia per cure che per monete)
+# Statistiche della partita attuale
 var last_minute_passed: int = 0
+var enemies_killed: int = 0
+var biscotti_ottenuti_partita: int = 0 
+
+# Variabile per l'animazione visiva
+var visual_biscotti: int = 0
 
 # --- VARIABILI INVASIONE ---
-var next_invasion_time: float = 150.0 # 150 secondi = 2 minuti e 30
-var invasion_cooldown_min: float = 40.0 # Tempo minimo tra un'invasione e l'altra
-var invasion_cooldown_max: float = 60.0 # Tempo massimo
+var next_invasion_time: float = 150.0 
+var invasion_cooldown_min: float = 40.0 
+var invasion_cooldown_max: float = 60.0 
 
 # Carichiamo in memoria i nemici "intrusi"
 var ufo_scene = preload("res://scenes/Spaceships/Enemies/Ufo.tscn")
 var ufo_divino_scene = preload("res://scenes/Spaceships/Enemies/Ufo_Divino.tscn") 
 var kamikaze_scene = preload("res://scenes/Spaceships/Enemies/Kamikaze.tscn")
-# --- IL CACCIATORE ---
 var hunter_scene = preload("res://scenes/Spaceships/Enemies/Hunter.tscn") 
 
 func _ready() -> void:
 	randomize()
 	if invasion_label:
-		invasion_label.hide() # Ci assicuriamo che sia nascosta all'avvio
+		invasion_label.hide() 
+		
+	# --- SETUP ANIMAZIONE BISCOTTI ---
+	visual_biscotti = GameData.biscotti
+	if contenitore_ui:
+		contenitore_ui.modulate.a = 0.0 # Nascondiamo all'inizio
+		if biscotti_label:
+			biscotti_label.text = ": %d" % visual_biscotti
+			
+	GameData.biscotti_aggiornati.connect(_update_biscotti_ui) 
+	
 	_spawn_player()
 
 func _process(delta: float) -> void:
 	if is_game_active:
 		time_survived += delta
 		
-		# --- LOGICA EVENTI ALLO SCADERE DEL MINUTO ---
-		# Calcoliamo il minuto corrente (es: 65 secondi / 60 = minuto 1)
 		var current_minute = int(time_survived / 60)
 		
-		# Se è scattato un nuovo minuto (e non è il minuto 0 dell'inizio)
 		if current_minute > last_minute_passed:
 			last_minute_passed = current_minute
 			
 			# 1. Applica la cura
 			_apply_minute_heal(3)
 			
-			# 2. Calcola e assegna le monete
-			_reward_coins_for_survival(current_minute)
+			# 2. Calcola e assegna i biscotti (attiverà in automatico l'animazione)
+			_reward_biscotti_for_survival(current_minute)
 			
-		# --- LOGICA TRIGGER INVASIONE ---
-		# Controlliamo se il tempo di sopravvivenza ha superato il tempo previsto per l'invasione
 		if time_survived >= next_invasion_time:
 			trigger_invasion()
-			# Calcola un nuovo tempo casuale per la PROSSIMA invasione aggiungendolo al tempo attuale
 			var cooldown = randf_range(invasion_cooldown_min, invasion_cooldown_max)
 			next_invasion_time = time_survived + cooldown
 
-# --- SISTEMA RICOMPENSE MONETE ---
-func _reward_coins_for_survival(minute: int) -> void:
+# --- LOGICA ANIMAZIONE BISCOTTI ---
+
+func _update_biscotti_ui(nuovo_valore: int):
+	if nuovo_valore > visual_biscotti:
+		var guadagno = nuovo_valore - visual_biscotti
+		_esegui_animazione_biscotti(guadagno, nuovo_valore)
+	else:
+		visual_biscotti = nuovo_valore
+		if biscotti_label:
+			biscotti_label.text = ": %d" % visual_biscotti
+
+func _esegui_animazione_biscotti(quantita: int, totale_finale: int):
+	if not contenitore_ui or not biscotti_label: return
+
+	var popup = Label.new()
+	popup.text = "+%d" % quantita
+	if biscotti_label.label_settings:
+		popup.label_settings = biscotti_label.label_settings
+	
+	popup.modulate = Color(1.0, 0.8, 0.0) 
+	contenitore_ui.add_child(popup)
+	popup.position = biscotti_label.position + Vector2(80, -20)
+	
+	var tween = create_tween().set_parallel(true)
+	tween.tween_property(contenitore_ui, "modulate:a", 1.0, 0.3)
+	tween.tween_property(popup, "position:y", popup.position.y - 60, 1.2).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(popup, "modulate:a", 0.0, 0.4).set_delay(0.8)
+	
+	var count_tween = create_tween()
+	count_tween.tween_method(func(v): biscotti_label.text = ": %d" % v, visual_biscotti, totale_finale, 1.0).set_delay(0.2)
+	
+	visual_biscotti = totale_finale
+	await count_tween.finished
+	await get_tree().create_timer(1.5).timeout
+	
+	if visual_biscotti == GameData.biscotti:
+		create_tween().tween_property(contenitore_ui, "modulate:a", 0.0, 0.5)
+	popup.queue_free()
+
+# --- FORMATTAZIONE TEMPO INTERNA ---
+func _format_time(time_in_seconds: float) -> String:
+	var minutes = int(time_in_seconds) / 60
+	var seconds = int(time_in_seconds) % 60
+	return "%02d:%02d" % [minutes, seconds]
+
+# --- SISTEMA RICOMPENSE BISCOTTI ---
+func _reward_biscotti_for_survival(minute: int) -> void:
 	var reward = 0
 	
 	if minute == 1:
@@ -62,15 +127,14 @@ func _reward_coins_for_survival(minute: int) -> void:
 	elif minute == 2:
 		reward = 15
 	elif minute >= 3:
-		# Dal minuto 3 in poi: base 20 + 10 extra per ogni minuto oltre il terzo
 		reward = 20 + ((minute - 3) * 10)
 		
 	if reward > 0:
-		GameData.add_monete(reward)
-		print("Sopravvissuto ", minute, " minuti! Ricevute: ", reward, " monete.")
+		GameData.add_biscotti(reward)
+		biscotti_ottenuti_partita += reward 
+		print("Sopravvissuto ", minute, " minuti! Ricevuti: ", reward, " biscotti.")
 
 func _apply_minute_heal(amount: int) -> void:
-	# Cerchiamo il player nel gruppo
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		var player = players[0]
@@ -80,7 +144,6 @@ func _apply_minute_heal(amount: int) -> void:
 
 func _spawn_player() -> void:
 	var player_scene = GameData.selected_ship_scene
-	
 	if not player_scene: 
 		push_error("Nessuna scena player selezionata in GameData")
 		return
@@ -98,115 +161,111 @@ func _spawn_player() -> void:
 # --- SISTEMA INVASIONE ---
 func trigger_invasion():
 	show_invasion_warning()
-	
-	# Aspettiamo 2.5 secondi (mentre la scritta lampeggia) prima di far spawnare i nemici
 	await get_tree().create_timer(2.5).timeout
 	
-	# Se il giocatore è morto nel frattempo, interrompiamo tutto
 	if not is_game_active: 
 		return
 	
 	var viewport_size = get_viewport().get_visible_rect().size
-	
-	# Scegliamo a caso il tipo di invasione (0 = Ufo, 1 = Kamikaze, 2 = Hunter)
 	var event_type = randi() % 3 
 	
 	if event_type == 2:
-		# ==========================================
 		# INVASIONE SPECIALE: 2 CACCIATORI
-		# ==========================================
-		print("Invasione Endless: I Cacciatori sono arrivati!")
 		var left_hunter = hunter_scene.instantiate()
 		var right_hunter = hunter_scene.instantiate()
-		
 		var mid_y = viewport_size.y / 2.0
 		left_hunter.position = Vector2(-200, mid_y)
 		right_hunter.position = Vector2(viewport_size.x + 200, mid_y)
 		
 		add_child(left_hunter)
 		add_child(right_hunter)
-		
 		left_hunter.add_to_group("enemies")
 		right_hunter.add_to_group("enemies")
 		
-		var left_target = Vector2(200, mid_y)
-		var right_target = Vector2(viewport_size.x - 200, mid_y)
+		left_hunter.tree_exited.connect(_on_enemy_died)
+		right_hunter.tree_exited.connect(_on_enemy_died)
 		
-		# Animazione di entrata stile boss, sfasata di mezzo secondo
-		left_hunter.start_intro(left_target, 0.0)
-		right_hunter.start_intro(right_target, 0.5)
+		left_hunter.start_intro(Vector2(200, mid_y), 0.0)
+		right_hunter.start_intro(Vector2(viewport_size.x - 200, mid_y), 0.5)
 		
 	elif event_type == 0:
-		# ==========================================
-		# INVASIONE UFO: Standard o Divino (50/50)
-		# ==========================================
-		if randf() <= 0.5:
-			# 50% di probabilità: Spawn di un singolo UFO Divino
-			print("Invasione Endless: È arrivato l'UFO DIVINO!")
-			var divine_ufo = ufo_divino_scene.instantiate()
-			
-			var spawn_x = -100 if randf() > 0.5 else viewport_size.x + 100
-			var spawn_y = randf_range(50, viewport_size.y - 50)
-			
-			divine_ufo.position = Vector2(spawn_x, spawn_y)
-			add_child(divine_ufo)
-			divine_ufo.add_to_group("enemies")
-		else:
-			# 50% di probabilità: Spawn da 1 a 3 UFO normali
-			var num_enemies = randi() % 3 + 1 
-			print("Invasione Endless: ", num_enemies, " UFO standard.")
-			
-			for i in range(num_enemies):
-				var enemy = ufo_scene.instantiate()
-				var spawn_x = -100 if randf() > 0.5 else viewport_size.x + 100
-				var spawn_y = randf_range(50, viewport_size.y - 50)
-				
-				enemy.position = Vector2(spawn_x, spawn_y)
-				add_child(enemy)
-				enemy.add_to_group("enemies")
+		# INVASIONE UFO
+		_spawn_random_enemies(ufo_scene if randf() > 0.2 else ufo_divino_scene, viewport_size)
 
 	elif event_type == 1:
-		# ==========================================
-		# INVASIONE KAMIKAZE: Da 1 a 3 navicelle
-		# ==========================================
-		var num_enemies = randi() % 3 + 1 
-		print("Invasione Endless: ", num_enemies, " Kamikaze.")
-		
-		for i in range(num_enemies):
-			var enemy = kamikaze_scene.instantiate()
-			var spawn_x = -100 if randf() > 0.5 else viewport_size.x + 100
-			var spawn_y = randf_range(50, viewport_size.y - 50)
-			
-			enemy.position = Vector2(spawn_x, spawn_y)
-			add_child(enemy)
-			enemy.add_to_group("enemies")
+		# INVASIONE KAMIKAZE
+		_spawn_random_enemies(kamikaze_scene, viewport_size)
+
+func _spawn_random_enemies(scene: PackedScene, viewport_size: Vector2):
+	var num = randi() % 3 + 1
+	for i in range(num):
+		var e = scene.instantiate()
+		var spawn_x = -100 if randf() > 0.5 else viewport_size.x + 100
+		e.position = Vector2(spawn_x, randf_range(50, viewport_size.y - 50))
+		add_child(e)
+		e.add_to_group("enemies")
+		e.tree_exited.connect(_on_enemy_died)
+
+func _on_enemy_died():
+	if is_game_active:
+		enemies_killed += 1
 
 func show_invasion_warning():
-	if not invasion_label:
-		push_error("InvasionLabel non trovata! Controlla il nome del nodo.")
-		return
-		
+	if not invasion_label: return
 	invasion_label.show()
-	invasion_label.modulate.a = 1.0 # Assicuriamoci che l'opacità sia al massimo
-	
-	# Usiamo un Tween per far lampeggiare la scritta (Animazione via codice)
-	var tween = create_tween().set_loops(4) # Ripete l'animazione 4 volte
-	tween.tween_property(invasion_label, "modulate:a", 0.0, 0.3) # Svanisce in 0.3 sec
-	tween.tween_property(invasion_label, "modulate:a", 1.0, 0.3) # Riappare in 0.3 sec
-	
-	# Quando ha finito di lampeggiare, nascondiamo la label
+	invasion_label.modulate.a = 1.0 
+	var tween = create_tween().set_loops(4)
+	tween.tween_property(invasion_label, "modulate:a", 0.0, 0.3)
+	tween.tween_property(invasion_label, "modulate:a", 1.0, 0.3)
 	tween.finished.connect(func(): invasion_label.hide())
-# ------------------------
+
+
+# --- GESTIONE FINE PARTITA ---
 
 func _on_player_died():
+	if not is_game_active: return
 	is_game_active = false
+	
+	# 1. FERMIAMO TUTTI GLI SPAWNER IN SCENA
+	if ninja_spawner and ninja_spawner.has_node("Timer"):
+		ninja_spawner.get_node("Timer").stop()
+		
+	if turtle_spawner and turtle_spawner.has_node("Timer"):
+		turtle_spawner.get_node("Timer").stop()
+		
+	if asteroid_spawner and asteroid_spawner.has_node("EventAsteroidTimer"):
+		asteroid_spawner.get_node("EventAsteroidTimer").stop()
+		
+	if purple_devil_spawner and purple_devil_spawner.has_node("EventPurpleDevil"):
+		purple_devil_spawner.get_node("EventPurpleDevil").stop()
+	
+	# 2. EFFETTO SLOW MOTION
+	Engine.time_scale = 0.1
+	
+	# 3. PULIZIA TOTALE DEI GRUPPI
+	var gruppi_da_pulire = ["enemies", "asteroids", "projectiles"]
+	for gruppo in gruppi_da_pulire:
+		get_tree().call_group(gruppo, "queue_free")
+	
+	# 4. ATTESA E CARICAMENTO GAME OVER
+	await get_tree().create_timer(1.0, true, false, true).timeout
+	
+	Engine.time_scale = 1.0
 	_game_over()
 
 func _game_over():
-	print("Gioco terminato! Monete totali: %d" % GameData.monete_stella)
+	print("Endless terminata! Record salvato.")
+	
+	# 1. Salviamo il record di tempo (che internamente farà il save_data locale)
 	GameData.check_and_save_record("mode_3", time_survived)
-
-	if FileAccess.file_exists("res://scenes/AnimationAddOn/fade_transition.tscn"):
-		FadeTransition.change_scene("res://scenes/Menu/Main_Menu.tscn")
+	
+	# 2. SINCRONIZZAZIONE CLOUD FORZATA
+	GameData.save_data(true)
+	
+	var tempo_formattato = _format_time(time_survived)
+	
+	if game_over_screen and game_over_screen.has_method("setup_game_over"):
+		game_over_screen.visible = true
+		game_over_screen.setup_game_over(biscotti_ottenuti_partita, enemies_killed, "Tempo: " + tempo_formattato, false)
 	else:
-		get_tree().change_scene_to_file("res://scenes/Menu/Main_Menu.tscn")
+		push_error("Nodo GameOver non trovato nella scena Endless!")

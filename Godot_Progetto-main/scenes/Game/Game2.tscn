@@ -5,6 +5,9 @@
 [ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="3_070rt"]
 [ext_resource type="PackedScene" uid="uid://c316ek4x22v2p" path="res://scenes/Menu/Main_Menu.tscn" id="4_m6p30"]
 [ext_resource type="PackedScene" uid="uid://cgvw14xt7tjt4" path="res://scenes/Menu/Paused_Menu.tscn" id="5_qt4lh"]
+[ext_resource type="PackedScene" uid="uid://d4kmcp8dng76k" path="res://scenes/Game/GameOver.tscn" id="6_3x6nm"]
+[ext_resource type="AudioStream" uid="uid://c0hqfsub76qaj" path="res://audio/game_mode_2_music.mp3" id="7_crus2"]
+[ext_resource type="Texture2D" uid="uid://cteljlqa88c50" path="res://Sprites/Buttons/biscotto.png" id="8_qyj7n"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5d5wl"]
 texture = ExtResource("2_3f3yh")
@@ -78,3 +81,39 @@ theme_override_fonts/font = ExtResource("3_070rt")
 theme_override_font_sizes/font_size = 40
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="GameOver" parent="." unique_id=1102079020 instance=ExtResource("6_3x6nm")]
+visible = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1986935821]
+stream = ExtResource("7_crus2")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=251936482]
+
+[node name="Contenitore UI" type="Control" parent="UI" unique_id=1247613075]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 135.0
+offset_bottom = 51.0
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/Contenitore UI" unique_id=2529732]
+texture_filter = 1
+position = Vector2(30.75, 27.8)
+scale = Vector2(0.77500004, 0.7928571)
+texture = ExtResource("8_qyj7n")
+
+[node name="BiscottiLabel" type="Label" parent="UI/Contenitore UI" unique_id=588015966]
+texture_filter = 1
+layout_mode = 0
+offset_left = 67.0
+offset_top = 9.0
+offset_right = 102.0
+offset_bottom = 28.0
+scale = Vector2(2, 2)
+theme_override_colors/font_color = Color(1, 0.81960785, 0.1254902, 1)
+theme_override_fonts/font = ExtResource("3_070rt")
+text = ": 0"

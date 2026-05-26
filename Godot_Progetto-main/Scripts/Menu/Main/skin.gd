@@ -11,6 +11,10 @@ extends Panel
 
 func _ready():
 	update_ui_state()
+	
+	# AGGIUNTA: Quando arrivano i dati dal Cloud, aggiorna i lucchetti e i bottoni!
+	if GameData.has_signal("dati_aggiornati"):
+		GameData.dati_aggiornati.connect(update_ui_state)
 
 func update_ui_state():
 	for i in range(ship_slots.size()):
@@ -28,7 +32,7 @@ func update_ui_state():
 			if slot.price_label: slot.price_label.visible = true
 			
 			# Disabilita se non hai abbastanza monete
-			slot.btn.disabled = (GameData.monete_stella < slot.cost)
+			slot.btn.disabled = (GameData.biscotti < slot.cost)
 
 # Unica funzione per tutti i tasti (passa l'indice dall'Editor)
 func _on_seleziona_generic(index: int) -> void:

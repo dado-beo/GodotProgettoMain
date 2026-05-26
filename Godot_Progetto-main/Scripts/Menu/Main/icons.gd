@@ -12,6 +12,10 @@ extends Panel
 
 func _ready():
 	update_ui_state()
+	
+	# AGGIUNTA: Quando arrivano i dati dal Cloud, aggiorna i lucchetti e i bottoni!
+	if GameData.has_signal("dati_aggiornati"):
+		GameData.dati_aggiornati.connect(update_ui_state)
 
 func update_ui_state():
 	# Usiamo un ciclo per aggiornare tutto senza errori di indice
@@ -28,28 +32,31 @@ func update_ui_state():
 			slot.lock.visible = true
 			slot.price.visible = true
 			# Abilita il tasto solo se hai abbastanza monete
-			slot.btn.disabled = (GameData.monete_stella < slot.cost)
+			slot.btn.disabled = (GameData.biscotti < slot.cost)
 
 func _on_btn_pressed(id: int) -> void:
 	if GameData.unlocked_icons[id]:
 		_equip_icon(id)
 	else:
 		var costo = icon_slots[id].cost
-		if GameData.spend_monete(costo):
+		# CORRETTO: spend_biscotti al posto di spend_monete
+		if GameData.spend_biscotti(costo):
 			GameData.unlocked_icons[id] = true
-			GameData.save_data()
+			GameData.save_data(true) # <-- FONDAMENTALE: Salva l'acquisto sul Cloud!
 			update_ui_state()
 			_equip_icon(id)
 			
-			# AGGIUNTA: Chiamata alla funzione universale che controlla sia le navi che le icone!
-			GameData.check_completamento_acquisti()
+			# Chiamata alla funzione universale che controlla sia le navi che le icone!
+			if GameData.has_method("check_completamento_acquisti"):
+				GameData.check_completamento_acquisti()
 
 func _equip_icon(id: int):
 	GameData.current_icon_index = id
-	GameData.save_data()
+	GameData.save_data(true) # <-- FONDAMENTALE: Salva l'icona selezionata sul Cloud!
+	
 	# Emette il segnale per aggiornare il Main_Menu
 	GameData.profile_icon_changed.emit()
-	print("Icona ", id, " equipaggiata!")
+	print("Icona ", id, " equipaggiata e salvata nel Cloud!")
 
 func _on_back_pressed() -> void:
 	if nodo_padre.has_method("turn_on"):

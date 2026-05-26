@@ -1,32 +1,42 @@
 extends Node
 
-signal monete_aggiornate(nuovo_valore)
+signal biscotti_aggiornati(nuovo_valore)
 signal profile_icon_changed
 signal achievement_sbloccato(nome_achievement)
+signal dati_aggiornati
 
 const SAVE_PATH = "user://game_data.save"
 
+var volume_music: float = 1.0
+var volume_sfx: float = 1.0
+
+# --- DATI ACCOUNT ---
+var current_user_id: String = ""
+var current_username: String = ""
+
+func format_time(seconds) -> String:
+	var m = int(seconds) / 60
+	var s = int(seconds) % 60
+	return "%02d:%02d" % [m, s]
+
 var ship_scenes: Array[PackedScene] = [
-	preload("res://scenes/Spaceships/Players/StarChaser_Player.tscn"), # Index 0
-	preload("res://scenes/Spaceships/Players/Flash_Player.tscn"),      # Index 1
-	preload("res://scenes/Spaceships/Players/Aqua.tscn")               # Index 2
+	preload("res://scenes/Spaceships/Players/StarChaser_Player.tscn"),
+	preload("res://scenes/Spaceships/Players/Flash_Player.tscn"),
+	preload("res://scenes/Spaceships/Players/Aqua.tscn")
 ]
 
 var selected_ship_scene: PackedScene = ship_scenes[0]
 var selected_ship_index: int = 0
-
 var tab_negozio_da_aprire: String = ""
 
 # --- GESTIONE SKIN E NAVI ---
 var current_icon_index: int = 0
-# FIX: Portato a 4 elementi invece di 5
-var unlocked_icons: Array = [true, false, false, false, false]
-
+var unlocked_icons = [true, false, false, false, false]
 var unlocked_ships: Array = [true, false, false] 
 
-# --- DATI DI GIOCO ---
-var monete_stella: int = 0
-var stelle_totali_ottenute: int = 0 # Serve per l'achievement delle 1000 stelle
+# --- DATI DI GIOCO (Biscotti Edition 🍪) ---
+var biscotti: int = 0
+var biscotti_totali_ottenuti: int = 0
 var records = { "mode_1": 0, "mode_2": 0, "mode_3": 0.0 }
 
 # --- SISTEMA UPGRADES ---
@@ -39,7 +49,7 @@ var upgrades = {
 	"super_shield":{"purchased": false, "enabled": false}
 }
 
-# ACHIEVEMENTS E STATISTICHE (Contatori Kill separati per nemico)
+# STATISTICHE KILL
 var kill_kamikaze: int = 0
 var kill_ufo: int = 0
 var kill_tartarughe: int = 0
@@ -50,41 +60,87 @@ var achievements = {
 	"killer_kamikaze": false, 
 	"killer_ufo": false, 
 	"killer_tartarughe": false, 
-	"killer_purpleDevil": false,  
+	"killer_purpleDevil": false,   
 	"secondaMod_MaiColpito": false, 
-	"stella_diamante": false,  
+	"biscotto_diamante": false,
 	"primoAcquisto": false,
 	"tutteLeNavicelle": false, 
-	"tutteLeIcone": false 
+	"tutteLeIcone": false  
 }
 
 func _ready():
 	load_data()
 
-# --- SALVATAGGIO ---
-func save_data():
+func test_account_sync():
+	# Diamo le monete di prova
+	biscotti += 1000
+	biscotti_totali_ottenuti += 1000
+	
+	# Salviamo e carichiamo su Firebase
+	# Usiamo 'true' perché nel tuo script save_data(true) attiva l'upload
+	save_data(true)
+	
+	print("TEST: 1000 monete aggiunte e inviate al Cloud!")
+
+# --- SALVATAGGIO LOCALE + OPZIONE CLOUD ---
+func save_data(sync_cloud: bool = false):
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file:
 		var data = {
-			"monete_stella": monete_stella,
-			"stelle_totali_ottenute": stelle_totali_ottenute,
+			"biscotti": biscotti, 
+			"biscotti_totali_ottenuti": biscotti_totali_ottenuti,
 			"records": records,
 			"current_icon_index": current_icon_index,
 			"unlocked_icons": unlocked_icons,
 			"selected_ship_index": selected_ship_index,
 			"unlocked_ships": unlocked_ships,
 			"upgrades": upgrades,
-			
-			# Salvataggio Statistiche Kill
 			"kill_kamikaze": kill_kamikaze,
 			"kill_ufo": kill_ufo,
 			"kill_tartarughe": kill_tartarughe,
 			"kill_purpleDevil": kill_purpleDevil,
-			
-			"achievements": achievements
+			"achievements": achievements,
+			"volume_music": volume_music,
+			"volume_sfx": volume_sfx,
+			# Dati Account
+			"current_user_id": current_user_id,
+			"current_username": current_username
 		}
 		file.store_string(JSON.stringify(data))
 		file.close()
+	
+	# Se richiesto, ed esiste un account valido connesso, lancia lo specchio sul Cloud
+	if sync_cloud and current_user_id != "":
+		sync_to_cloud()
+	dati_aggiornati.emit()
+
+# --- FUNZIONE DI SINCRONIZZAZIONE GENERALE ---
+func sync_to_cloud():
+	if current_user_id == "": return
+	
+	var dati_cloud = {
+		"nome_utente": current_username,
+		"biscotti": biscotti,
+		"biscotti_totali_ottenuti": biscotti_totali_ottenuti,
+		"records": records,
+		"current_icon_index": current_icon_index,
+		"unlocked_icons": unlocked_icons,
+		"selected_ship_index": selected_ship_index,
+		"unlocked_ships": unlocked_ships,
+		"upgrades": upgrades,
+		"kill_kamikaze": kill_kamikaze,
+		"kill_ufo": kill_ufo,
+		"kill_tartarughe": kill_tartarughe,
+		"kill_purpleDevil": kill_purpleDevil,
+		"achievements": achievements
+	}
+	
+	var database_reference = Firebase.Firestore.collection("giocatori")
+	var documento = FirestoreDocument.new()
+	documento.doc_name = current_user_id
+	documento.doc_fields = dati_cloud
+	database_reference.update(documento)
+	print("🔄 Sincronizzazione cloud completata per l'utente: ", current_username)
 
 # --- CARICAMENTO ---
 func load_data():
@@ -100,19 +156,16 @@ func load_data():
 		if parse_result == OK:
 			var data = json.get_data()
 			
-			monete_stella = data.get("monete_stella", 5)
-			stelle_totali_ottenute = data.get("stelle_totali_ottenute", monete_stella)
-			
+			biscotti = data.get("biscotti", data.get("monete_stella", 5))
+			biscotti_totali_ottenuti = data.get("biscotti_totali_ottenuti", biscotti)
 			current_icon_index = data.get("current_icon_index", 0)
-			var loaded_icons = data.get("unlocked_icons", [])
-			if loaded_icons.size() > 0: unlocked_icons = loaded_icons
-			
+			unlocked_icons = data.get("unlocked_icons", [true, false, false, false, false])
 			selected_ship_index = data.get("selected_ship_index", 0)
+			
 			if selected_ship_index < ship_scenes.size():
 				selected_ship_scene = ship_scenes[selected_ship_index]
 			
-			var loaded_ships = data.get("unlocked_ships", [])
-			if loaded_ships.size() > 0: unlocked_ships = loaded_ships
+			unlocked_ships = data.get("unlocked_ships", [true, false, false])
 			
 			if data.has("records"):
 				var loaded_records = data["records"]
@@ -126,7 +179,6 @@ func load_data():
 						upgrades[key]["purchased"] = loaded_upgrades[key].get("purchased", false)
 						upgrades[key]["enabled"] = loaded_upgrades[key].get("enabled", false)
 						
-			# Caricamento Statistiche Kill
 			kill_kamikaze = data.get("kill_kamikaze", 0)
 			kill_ufo = data.get("kill_ufo", 0)
 			kill_tartarughe = data.get("kill_tartarughe", 0)
@@ -137,38 +189,57 @@ func load_data():
 				for key in achievements.keys():
 					if loaded_achievements.has(key): 
 						achievements[key] = loaded_achievements[key]
+			
+			volume_music = data.get("volume_music", 1.0)
+			volume_sfx = data.get("volume_sfx", 1.0)
+			
+			var music_idx = AudioServer.get_bus_index("Music")
+			var sfx_idx = AudioServer.get_bus_index("SFX")
+			if music_idx != -1: AudioServer.set_bus_volume_db(music_idx, linear_to_db(volume_music))
+			if sfx_idx != -1: AudioServer.set_bus_volume_db(sfx_idx, linear_to_db(volume_sfx))
+			
+			# Caricamento Account
+			current_user_id = data.get("current_user_id", "")
+			current_username = data.get("current_username", "")
 				
 		file.close()
 
-# --- ACHIEVEMENTS ---
+# --- EFFETTUA LOGOUT ED AZZERA I DATI LOCALI PER IL NUOVO OSPITE ---
+func esegui_logout() -> void:
+	current_user_id = ""
+	current_username = ""
+	
+	# Reset totale di gioco ai valori iniziali di un Ospite pulito
+	biscotti = 0
+	biscotti_totali_ottenuti = 0
+	current_icon_index = 0
+	unlocked_icons = [true, false, false, false, false]
+	selected_ship_index = 0
+	selected_ship_scene = ship_scenes[0]
+	unlocked_ships = [true, false, false]
+	records = { "mode_1": 0, "mode_2": 0, "mode_3": 0.0 }
+	kill_kamikaze = 0
+	kill_ufo = 0
+	kill_tartarughe = 0
+	kill_purpleDevil = 0
+	
+	for key in upgrades.keys():
+		upgrades[key]["purchased"] = false
+		upgrades[key]["enabled"] = false
+	for key in achievements.keys():
+		achievements[key] = false
+		
+	save_data() # Salva il file locale vuoto
+	Firebase.Auth.logout() # Scollega le credenziali nel dispositivo
+	emit_signal("biscotti_aggiornati", biscotti)
+	print("🚫 Logout eseguito. Il file locale è stato resettato per un nuovo Ospite.")
+
 func sblocca_achievement(id_achievement: String):
 	if achievements.has(id_achievement) and achievements[id_achievement] == false:
 		achievements[id_achievement] = true
-		save_data() 
+		save_data(true) # Sincronizza l'achievement sbloccato nel Cloud
 		emit_signal("achievement_sbloccato", id_achievement)
-		print("🏆 ACHIEVEMENT SBLOCCATO: ", id_achievement, "!")
 
-# NUOVA FUNZIONE: Controlla se hai tutte le icone o le navicelle
-func check_completamento_acquisti():
-	# 1. Controlla le Icone (Devono essere 4 in totale)
-	var icone_sbloccate = 0
-	for icona in unlocked_icons:
-		if icona == true:
-			icone_sbloccate += 1
-			
-	if icone_sbloccate >= 4:
-		sblocca_achievement("tutteLeIcone")
-
-	# 2. Controlla le Navicelle (Devono essere 3 in totale)
-	var navi_sbloccate = 0
-	for nave in unlocked_ships:
-		if nave == true:
-			navi_sbloccate += 1
-			
-	if navi_sbloccate >= 3:
-		sblocca_achievement("tutteLeNavicelle")
-
-# Funzione Universale per le Kill
 func aggiungi_kill(tipo_nemico: String):
 	if tipo_nemico == "kamikaze":
 		kill_kamikaze += 1
@@ -182,43 +253,29 @@ func aggiungi_kill(tipo_nemico: String):
 	elif tipo_nemico == "purple_devil":
 		kill_purpleDevil += 1
 		if kill_purpleDevil >= 10: sblocca_achievement("killer_purpleDevil")
-		
-	save_data()
+	save_data() # Salvataggio standard locale delle statistiche
 
-# --- MONETE ---
-func add_monete(amount: int) -> void:
-	monete_stella += amount
-	stelle_totali_ottenute += amount # Aggiorna il record totale
-	
-	if stelle_totali_ottenute >= 1000:
-		sblocca_achievement("stella_diamante")
-		
-	save_data()
-	emit_signal("monete_aggiornate", monete_stella)
+func add_biscotti(amount: int) -> void:
+	biscotti += amount
+	biscotti_totali_ottenuti += amount
+	if biscotti_totali_ottenuti >= 1000: sblocca_achievement("biscotto_diamante")
+	save_data() # Nota: per i biscotti singoli salviamo solo in locale per non sovraccaricare Firebase. 
+	emit_signal("biscotti_aggiornati", biscotti)
 
-func spend_monete(amount: int) -> bool:
-	if monete_stella >= amount:
-		monete_stella -= amount
-		sblocca_achievement("primoAcquisto") # Sblocca achievement spesa
-		save_data()
-		emit_signal("monete_aggiornate", monete_stella)
+func spend_biscotti(amount: int) -> bool:
+	if biscotti >= amount:
+		biscotti -= amount
+		sblocca_achievement("primoAcquisto")
+		save_data(true) # Importante: Sincronizziamo l'acquisto (es: nel Negozio) subito sul Cloud!
+		emit_signal("biscotti_aggiornati", biscotti)
 		return true
-	else:
-		print("Non hai abbastanza monete!")
-		return false
+	return false
 
-# --- RECORDS ---
 func check_and_save_record(mode: String, value):
 	if value > records.get(mode, 0):
 		records[mode] = value
-		save_data()
+		save_data(true) # Sincronizziamo il nuovo Record sul Cloud!
 
-func format_time(seconds) -> String:
-	var m = int(seconds) / 60
-	var s = int(seconds) % 60
-	return "%02d:%02d" % [m, s]
-
-# --- PLAYER ---
 func get_selected_player_scene() -> PackedScene:
 	return selected_ship_scene
 
@@ -226,4 +283,40 @@ func set_player_ship(index: int):
 	if index < ship_scenes.size():
 		selected_ship_index = index
 		selected_ship_scene = ship_scenes[index]
-		save_data()
+		save_data(true) # Sincronizziamo il cambio navicella sul Cloud!
+
+func reset_to_guest() -> void:
+	current_user_id = ""
+	current_username = "Ospite"
+	
+	biscotti = 0
+	biscotti_totali_ottenuti = 0
+	current_icon_index = 0
+	selected_ship_index = 0
+	
+	unlocked_icons = [true, false, false, false, false] 
+	unlocked_ships = [true, false, false]
+	
+	# Struttura fissa per i record
+	records = {
+		"mode_1": 0.0,
+		"mode_2": 0,
+		"mode_3": 0.0
+	}
+	
+	achievements = {}
+	
+	upgrades = {
+		"triple_shot": {"purchased": false, "enabled": false},
+		"speed_boost": {"purchased": false, "enabled": false},
+		"homing": {"purchased": false, "enabled": false},
+		"big_bullet": {"purchased": false, "enabled": false},
+		"shield": {"purchased": false, "enabled": false},
+		"super_shield": {"purchased": false, "enabled": false}
+	}
+	
+	if ship_scenes.size() > 0:
+		selected_ship_scene = ship_scenes[0]
+	
+	save_data(false) 
+	print("Dati resettati.")

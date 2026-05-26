@@ -2,8 +2,7 @@ extends Control
 
 @onready var main_buttons: VBoxContainer = $MainButtons
 @onready var options: Panel = $Options
-# Aggiungiamo il riferimento al bottone (basato sulla tua immagine)
-@onready var fullscreen_btn: CheckButton = $Options/FullscreenControl
+@onready var fullscreen_btn: CheckButton = $Options/VBoxContainer/FullscreenControl
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS   # continua a ricevere input anche se il gioco è in pausa
@@ -40,6 +39,10 @@ func _on_resume_btn_pressed() -> void:
 
 func _on_quit_btn_pressed() -> void:
 	close()
+	
+	# Sincronizziamo i dati (anche sul Cloud)
+	GameData.save_data(true)
+	
 	FadeTransition.change_scene("res://scenes/Menu/Main_Menu.tscn")
 
 func _on_back_pressed() -> void:

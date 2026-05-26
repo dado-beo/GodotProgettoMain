@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://decovfmk1roo2" path="res://Sprites/Buttons/#TEMP4.png" id="7_nsoon"]
 [ext_resource type="Script" uid="uid://blniingo8w2rp" path="res://Scripts/AnimationsAddOn/MainMenuAnimations/ship_spawner.gd" id="8_0edrc"]
 [ext_resource type="Script" uid="uid://bphev5uy11o6" path="res://Scripts/Menu/Main/miglioramenti.gd" id="9_dsoak"]
+[ext_resource type="Texture2D" uid="uid://cteljlqa88c50" path="res://Sprites/Buttons/biscotto.png" id="11_nsoon"]
+[ext_resource type="FontFile" uid="uid://b0jtamuhtpdva" path="res://Sprites/Fonts/Silver.ttf" id="12_geude"]
 [ext_resource type="Script" uid="uid://c7jot6njhhrem" path="res://Scripts/Menu/Main/skin.gd" id="16_1xdl7"]
 [ext_resource type="Texture2D" uid="uid://byu5j8qpj1hv8" path="res://Sprites/Buttons/ship1_background.png" id="16_ptjyf"]
 [ext_resource type="Texture2D" uid="uid://5ys73oi10ejs" path="res://Sprites/Buttons/ship2_background(1).png" id="17_5664y"]
@@ -27,6 +29,7 @@
 [ext_resource type="Script" uid="uid://04j402qqbuqt" path="res://Scripts/Menu/leaderboard_menu.gd" id="25_q3361"]
 [ext_resource type="Texture2D" uid="uid://bljv6uaida5ne" path="res://Sprites/Asteroids/AsteroidBase.png" id="26_b3t1e"]
 [ext_resource type="Texture2D" uid="uid://dyt62ybo172d2" path="res://Sprites/Buttons/Player_icon.png" id="26_bt8s7"]
+[ext_resource type="PackedScene" uid="uid://b6plhnxwciqgl" path="res://scenes/account/SchermataLogin.tscn" id="28_2ppkp"]
 
 [sub_resource type="Theme" id="Theme_lrj6p"]
 default_font = ExtResource("2_t8dpg")
@@ -539,17 +542,17 @@ texture = ExtResource("4_apcd8")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1451309919]
 texture_filter = 1
-position = Vector2(25, 25)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("23_apcd8")
+position = Vector2(30, 26)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("11_nsoon")
 
-[node name="MoneteLabel" type="Label" parent="." unique_id=629084866]
+[node name="BiscottiLabel" type="Label" parent="." unique_id=629084866]
 texture_filter = 1
 layout_mode = 0
-offset_left = 45.0
-offset_top = 12.0
-offset_right = 84.0
-offset_bottom = 29.0
+offset_left = 63.0
+offset_top = 10.0
+offset_right = 102.0
+offset_bottom = 27.0
 scale = Vector2(2, 2)
 theme_override_colors/font_color = Color(1, 0.81960785, 0.1254902, 1)
 text = ": 0"
@@ -562,6 +565,8 @@ anchor_right = 1.0
 offset_left = -88.0
 offset_bottom = 88.0
 grow_horizontal = 0
+theme_override_fonts/font = ExtResource("12_geude")
+theme_override_font_sizes/font_size = 62
 theme_override_icons/icon = ExtResource("26_bt8s7")
 
 [node name="Title" type="Label" parent="." unique_id=1785242075]
@@ -1197,7 +1202,6 @@ theme_override_colors/font_color = Color(1, 0.81960785, 0.1254902, 1)
 text = ": 100"
 
 [node name="Options" type="Panel" parent="." unique_id=1171406860]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1207,7 +1211,7 @@ anchor_bottom = 0.5
 offset_left = -202.0
 offset_top = -128.0
 offset_right = 200.0
-offset_bottom = 141.0
+offset_bottom = 192.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -1228,14 +1232,15 @@ theme_override_font_sizes/font_size = 40
 text = "Opzioni"
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="HBoxContainer" parent="Options/VBoxContainer" unique_id=1477808568]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Options/VBoxContainer" unique_id=1477808568]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Options/VBoxContainer/VBoxContainer" unique_id=2065465609]
+[node name="Label" type="Label" parent="Options/VBoxContainer/HBoxContainer2" unique_id=2065465609]
+custom_minimum_size = Vector2(77, 17)
 layout_mode = 2
-text = "Volume"
+text = "Musica"
 
-[node name="AudioControl" type="HSlider" parent="Options/VBoxContainer/VBoxContainer" unique_id=1524789636]
+[node name="AudioControl" type="HSlider" parent="Options/VBoxContainer/HBoxContainer2" unique_id=1524789636]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
@@ -1247,6 +1252,27 @@ step = 0.05
 value = 1.0
 script = ExtResource("5_m17uk")
 audio_bus_name = "Music"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options/VBoxContainer" unique_id=711732174]
+layout_mode = 2
+
+[node name="SFX" type="Label" parent="Options/VBoxContainer/HBoxContainer" unique_id=685084597]
+custom_minimum_size = Vector2(77, 17)
+layout_mode = 2
+text = "SFX"
+
+[node name="AudioControl" type="HSlider" parent="Options/VBoxContainer/HBoxContainer" unique_id=1804643996]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+tooltip_text = "Audio Slider"
+theme_override_styles/slider = SubResource("StyleBoxLine_wt6vc")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_uxoih")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("5_m17uk")
+audio_bus_name = "SFX"
 
 [node name="FullscreenControl" type="CheckButton" parent="Options/VBoxContainer" unique_id=1056573104]
 layout_mode = 2
@@ -1273,16 +1299,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("25_q3361")
-
-[node name="AsteroideScrollBar" type="TextureRect" parent="LeaderboardAndAchievementsMenu" unique_id=673005430]
-visible = false
-layout_mode = 0
-offset_left = 896.0
-offset_top = 56.0
-offset_right = 992.0
-offset_bottom = 152.0
-mouse_filter = 0
-texture = ExtResource("26_b3t1e")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="LeaderboardAndAchievementsMenu" unique_id=44898747]
 layout_mode = 1
@@ -1349,9 +1365,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -157.0
-offset_top = -48.0
+offset_top = -67.0
 offset_right = 158.0
-offset_bottom = -13.0
+offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 3
@@ -1361,6 +1377,16 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_nmst4")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_fqffm")
 theme_override_styles/hover = SubResource("StyleBoxFlat_cc4n5")
 text = "Indietro"
+
+[node name="Logout" type="Button" parent="LeaderboardAndAchievementsMenu" unique_id=1437128166]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_bottom = 25.0
+grow_horizontal = 0
+text = "Esci dall'account"
 
 [node name="ShipSpawner" type="Node2D" parent="." unique_id=78565655]
 position = Vector2(0, 30)
@@ -1372,18 +1398,23 @@ autostart = true
 
 [node name="Label" type="Label" parent="." unique_id=1722811284]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -195.0
+offset_left = -97.5
 offset_top = -23.0
-grow_horizontal = 0
+offset_right = 97.5
+grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/shadow_offset_x = 40
 theme_override_fonts/font = ExtResource("2_t8dpg")
-text = "©MEMBERS ONLY"
+text = "V1.0 MEMBERSONLY"
+
+[node name="SchermataLogin" parent="." unique_id=1639078409 instance=ExtResource("28_2ppkp")]
+visible = false
+layout_mode = 1
 
 [connection signal="pressed" from="PlayerInfo" to="." method="_on_player_info_pressed"]
 [connection signal="pressed" from="MainButtons/Button1" to="." method="_on_start_pressed"]
@@ -1409,8 +1440,10 @@ text = "©MEMBERS ONLY"
 [connection signal="pressed" from="Armadietto/Icons/HBoxContainer/Btn4" to="Armadietto/Icons" method="_on_btn_pressed" binds= [4]]
 [connection signal="pressed" from="Armadietto/Icons/HBoxContainer/Btn3" to="Armadietto/Icons" method="_on_btn_pressed" binds= [3]]
 [connection signal="pressed" from="Armadietto/Icons/Back" to="Armadietto/Icons" method="_on_back_pressed"]
-[connection signal="value_changed" from="Options/VBoxContainer/VBoxContainer/AudioControl" to="." method="_on_audio_control_value_changed"]
-[connection signal="value_changed" from="Options/VBoxContainer/VBoxContainer/AudioControl" to="Options/VBoxContainer/VBoxContainer/AudioControl" method="_on_value_changed"]
+[connection signal="value_changed" from="Options/VBoxContainer/HBoxContainer2/AudioControl" to="." method="_on_audio_control_value_changed"]
+[connection signal="value_changed" from="Options/VBoxContainer/HBoxContainer2/AudioControl" to="Options/VBoxContainer/HBoxContainer2/AudioControl" method="_on_value_changed"]
+[connection signal="value_changed" from="Options/VBoxContainer/HBoxContainer/AudioControl" to="Options/VBoxContainer/HBoxContainer/AudioControl" method="_on_value_changed"]
 [connection signal="toggled" from="Options/VBoxContainer/FullscreenControl" to="Options/VBoxContainer/FullscreenControl" method="_on_toggled"]
 [connection signal="pressed" from="Options/VBoxContainer/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="LeaderboardAndAchievementsMenu/Back" to="LeaderboardAndAchievementsMenu" method="_on_back_pressed"]
+[connection signal="pressed" from="LeaderboardAndAchievementsMenu/Logout" to="LeaderboardAndAchievementsMenu" method="_on_logout_pressed"]

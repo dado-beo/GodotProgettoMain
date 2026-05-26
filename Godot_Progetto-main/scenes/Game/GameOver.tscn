@@ -108,7 +108,7 @@ theme_override_font_sizes/font_size = 21
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="MoneteLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1113940484]
+[node name="BiscottiLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1113940484]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_px800")
 theme_override_font_sizes/font_size = 21

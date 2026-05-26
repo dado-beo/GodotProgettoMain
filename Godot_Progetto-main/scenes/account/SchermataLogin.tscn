@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://b6plhnxwciqgl"]
+
+[ext_resource type="Script" uid="uid://cxnouh4oujxyl" path="res://Scripts/account/schermata_login.gd" id="1_n3hm2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3hm2"]
+
+[node name="SchermataLogin" type="Control" unique_id=1639078409]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n3hm2")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=3088671]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+
+[node name="Panel" type="Panel" parent="." unique_id=2065798380]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.503
+anchor_top = 0.50200003
+anchor_right = 0.503
+anchor_bottom = 0.50200003
+offset_left = -20.456055
+offset_top = -20.29602
+offset_right = 19.543945
+offset_bottom = 19.70398
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_n3hm2")
+
+[node name="TastoAccedi" type="Button" parent="Panel" unique_id=608861425]
+layout_mode = 0
+offset_left = -114.0
+offset_top = 20.0
+offset_right = -32.0
+offset_bottom = 51.0
+text = "Accedi"
+
+[node name="TastoRegistrati" type="Button" parent="Panel" unique_id=1166978258]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 21.0
+offset_right = 139.0
+offset_bottom = 52.0
+text = "Registrati"
+
+[node name="TastoChiudi" type="Button" parent="Panel" unique_id=1258206443]
+layout_mode = 0
+offset_left = -143.0
+offset_top = -138.0
+offset_right = -111.0
+offset_bottom = -107.0
+text = "X"
+
+[node name="UsernameInput" type="LineEdit" parent="Panel" unique_id=1518655994]
+visible = false
+layout_mode = 0
+offset_left = -115.0
+offset_top = -32.0
+offset_right = 141.0
+offset_bottom = -1.0
+placeholder_text = "Nome Giocatore"
+
+[node name="EmailInput" type="LineEdit" parent="Panel" unique_id=158219365]
+layout_mode = 0
+offset_left = -116.0
+offset_top = -93.0
+offset_right = 142.0
+offset_bottom = -62.0
+placeholder_text = "Email"
+
+[node name="PasswordInput" type="LineEdit" parent="Panel" unique_id=2004670443]
+layout_mode = 0
+offset_left = -116.0
+offset_top = -61.0
+offset_right = 141.0
+offset_bottom = -30.0
+placeholder_text = "Password"
+secret = true
+
+[node name="TestoAvvisi" type="Label" parent="Panel" unique_id=1845529134]
+layout_mode = 0
+offset_left = -95.0
+offset_top = -132.0
+offset_right = -55.0
+offset_bottom = -109.0

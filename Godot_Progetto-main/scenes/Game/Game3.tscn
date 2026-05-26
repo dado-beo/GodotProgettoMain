@@ -9,6 +9,9 @@
 [ext_resource type="Script" uid="uid://db33baxe03if3" path="res://Scripts/Game/turtle_spawner.gd" id="8_2mg1e"]
 [ext_resource type="Script" uid="uid://cl0fkviigoipd" path="res://Scripts/Game/asteroid_spawner.gd" id="8_uny1n"]
 [ext_resource type="Script" uid="uid://bjio47c8l06d3" path="res://Scripts/Game/purple_devil_spawner.gd" id="9_25krs"]
+[ext_resource type="PackedScene" uid="uid://d4kmcp8dng76k" path="res://scenes/Game/GameOver.tscn" id="10_bar5c"]
+[ext_resource type="AudioStream" uid="uid://egg81frtoxxt" path="res://audio/Tame Impala - Nangs (Original Instrumental).mp3" id="11_mvvu3"]
+[ext_resource type="Texture2D" uid="uid://cteljlqa88c50" path="res://Sprites/Buttons/biscotto.png" id="12_g1lsc"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qeqn8"]
 texture = ExtResource("1_hofhg")
@@ -110,6 +113,42 @@ theme_override_font_sizes/font_size = 40
 text = "BRECCIA DIMENSIONALE"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="GameOver" parent="." unique_id=1102079020 instance=ExtResource("10_bar5c")]
+visible = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1311344296]
+stream = ExtResource("11_mvvu3")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1871206109]
+
+[node name="Contenitore UI" type="Control" parent="UI" unique_id=1039319024]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 135.0
+offset_bottom = 51.0
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/Contenitore UI" unique_id=489965399]
+texture_filter = 1
+position = Vector2(30.75, 27.8)
+scale = Vector2(0.77500004, 0.7928571)
+texture = ExtResource("12_g1lsc")
+
+[node name="BiscottiLabel" type="Label" parent="UI/Contenitore UI" unique_id=1479605376]
+texture_filter = 1
+layout_mode = 0
+offset_left = 67.0
+offset_top = 9.0
+offset_right = 102.0
+offset_bottom = 28.0
+scale = Vector2(2, 2)
+theme_override_colors/font_color = Color(1, 0.81960785, 0.1254902, 1)
+theme_override_fonts/font = ExtResource("3_wd4dk")
+text = ": 0"
 
 [connection signal="timeout" from="NinjaSpawner/Timer" to="NinjaSpawner" method="_on_timer_timeout"]
 [connection signal="timeout" from="TurtleSpawner/Timer" to="TurtleSpawner" method="_on_timer_timeout"]

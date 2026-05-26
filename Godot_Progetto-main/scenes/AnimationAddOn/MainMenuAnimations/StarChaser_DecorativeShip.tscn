@@ -1,55 +1,54 @@
-[gd_scene load_steps=8 format=3 uid="uid://bagpnf82dgyyt"]
+[gd_scene format=3 uid="uid://bagpnf82dgyyt"]
 
 [ext_resource type="Script" uid="uid://drgj7huen5gl7" path="res://Scripts/AnimationsAddOn/MainMenuAnimations/ship_properties.gd" id="1_nujo5"]
-[ext_resource type="Texture2D" uid="uid://dlq7ua5g3asiw" path="res://Sprites/Spaceships/Players/StarChaser_Player.png" id="2_33vgf"]
+[ext_resource type="Texture2D" uid="uid://j6q2r13ya7mp" path="res://Sprites/Spaceships/Players/mille.png" id="2_nujo5"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3654n"]
-atlas = ExtResource("2_33vgf")
+[sub_resource type="AtlasTexture" id="AtlasTexture_l7b8q"]
+atlas = ExtResource("2_nujo5")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mqq12"]
-atlas = ExtResource("2_33vgf")
+[sub_resource type="AtlasTexture" id="AtlasTexture_vqfyw"]
+atlas = ExtResource("2_nujo5")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nusxg"]
-atlas = ExtResource("2_33vgf")
+[sub_resource type="AtlasTexture" id="AtlasTexture_b305g"]
+atlas = ExtResource("2_nujo5")
 region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_u6cjy"]
-atlas = ExtResource("2_33vgf")
+[sub_resource type="AtlasTexture" id="AtlasTexture_6umpo"]
+atlas = ExtResource("2_nujo5")
 region = Rect2(96, 0, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_ggs2a"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_an51h"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3654n")
+"texture": SubResource("AtlasTexture_l7b8q")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mqq12")
+"texture": SubResource("AtlasTexture_vqfyw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nusxg")
+"texture": SubResource("AtlasTexture_b305g")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_u6cjy")
+"texture": SubResource("AtlasTexture_6umpo")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
-[node name="DecorativeShip" type="Node2D"]
+[node name="DecorativeShip" type="Node2D" unique_id=183068459]
 script = ExtResource("1_nujo5")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=789559991]
 texture_filter = 1
 rotation = 1.56365
-sprite_frames = SubResource("SpriteFrames_ggs2a")
+sprite_frames = SubResource("SpriteFrames_an51h")
 autoplay = "default"
-frame_progress = 0.835134
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1244906632]
 rotation = 1.56365
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
