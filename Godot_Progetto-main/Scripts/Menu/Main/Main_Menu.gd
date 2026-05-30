@@ -7,6 +7,8 @@ extends Control
 
 @onready var fullscreen_btn: CheckButton = $Options/VBoxContainer/FullscreenControl
 
+@onready var fade_overlay = $FadeOverlay
+
 @onready var views = {
 	"main": $MainButtons,
 	"options": $Options,
@@ -47,6 +49,18 @@ func _ready() -> void:
 	var is_fullscreen = (current_mode == DisplayServer.WINDOW_MODE_FULLSCREEN or current_mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	if fullscreen_btn:
 		fullscreen_btn.set_pressed_no_signal(is_fullscreen)
+	
+	# --- EFFETTO FADE-IN DI ENTRATA ---
+	if fade_overlay:
+		fade_overlay.visible = true
+		fade_overlay.modulate.a = 1.0 # Partiamo col buio totale
+		
+		var tween = create_tween()
+		# La tendina svanisce dolcemente in 1.5 secondi
+		tween.tween_property(fade_overlay, "modulate:a", 0.0, 1.5).set_trans(Tween.TRANS_SINE)
+		
+		# Quando ha finito di svanire, la eliminiamo per non consumare memoria
+		tween.tween_callback(fade_overlay.queue_free)
 
 # --- FUNZIONI DI AGGIORNAMENTO INTERFACCIA ---
 

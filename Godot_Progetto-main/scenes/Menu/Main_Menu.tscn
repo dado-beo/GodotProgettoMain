@@ -1435,6 +1435,16 @@ text = "V1.0 MEMBERSONLY"
 visible = false
 layout_mode = 1
 
+[node name="FadeOverlay" type="ColorRect" parent="." unique_id=1223224306]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
 [connection signal="pressed" from="PlayerInfo" to="." method="_on_player_info_pressed"]
 [connection signal="pressed" from="MainButtons/Button1" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="MainButtons/Button2" to="." method="_on_settings2_pressed"]
