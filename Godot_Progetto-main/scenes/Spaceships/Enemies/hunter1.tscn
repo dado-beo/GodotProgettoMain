@@ -39,8 +39,20 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dto26"]
+radius = 8.0
+height = 43.99512
+
 [node name="Hunter" unique_id=1453587179 instance=ExtResource("1_dto26")]
 
 [node name="AnimatedSprite2D" parent="." index="1" unique_id=1728432643]
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_ku3bm")
 frame_progress = 0.4697336
+
+[node name="CollisionShape2D" parent="." index="2" unique_id=1205618701]
+rotation = 1.585693
+shape = SubResource("CapsuleShape2D_dto26")
+
+[node name="Hunter_ShootyPart" parent="." index="4" unique_id=782656772]
+position = Vector2(23, 0)

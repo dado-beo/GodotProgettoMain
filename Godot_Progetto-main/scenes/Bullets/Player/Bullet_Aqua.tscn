@@ -1,21 +1,21 @@
-[gd_scene format=3 uid="uid://b2aslkxdyxq1y"]
+[gd_scene format=3 uid="uid://b4p7qmeyogvua"]
 
-[ext_resource type="Script" uid="uid://bgoie0121jca4" path="res://Scripts/Bullets/BulletScript.gd" id="1_mynux"]
-[ext_resource type="Texture2D" uid="uid://cqm27ttym1pab" path="res://Sprites/Bullets/Bullet_Yellow.png" id="2_bgdsu"]
+[ext_resource type="Script" uid="uid://bgoie0121jca4" path="res://Scripts/Bullets/BulletScript.gd" id="1_dcofr"]
+[ext_resource type="Texture2D" uid="uid://btvvn6xm4ywkg" path="res://Sprites/Bullets/15.png" id="2_dcofr"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q7w3a"]
 radius = 1.75
-height = 8.0
+height = 14.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_j4s1i"]
-atlas = ExtResource("2_bgdsu")
-region = Rect2(0, 0, 119, 115)
+[sub_resource type="AtlasTexture" id="AtlasTexture_8oq43"]
+atlas = ExtResource("2_dcofr")
+region = Rect2(0, 0, 243, 140)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_oqi6d"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_pinfx"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_j4s1i")
+"texture": SubResource("AtlasTexture_8oq43")
 }],
 "loop": true,
 "name": &"default",
@@ -25,7 +25,7 @@ animations = [{
 [node name="Bullet" type="Area2D" unique_id=864858166]
 collision_layer = 16
 collision_mask = 76
-script = ExtResource("1_mynux")
+script = ExtResource("1_dcofr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1970345503]
 position = Vector2(0, 0.25)
@@ -33,12 +33,11 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_q7w3a")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=944815743]
+self_modulate = Color(0.54326147, 0.8386431, 0.97499245, 1)
 texture_filter = 1
 position = Vector2(0, -1.13687e-13)
-scale = Vector2(0.3, 0.311)
-sprite_frames = SubResource("SpriteFrames_oqi6d")
-autoplay = "default"
-frame_progress = 0.488664
+scale = Vector2(0.1, 0.104)
+sprite_frames = SubResource("SpriteFrames_pinfx")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=645641042]
 

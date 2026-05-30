@@ -1,52 +1,56 @@
-[gd_scene load_steps=8 format=3 uid="uid://yaquicgjd580"]
+[gd_scene format=3 uid="uid://yaquicgjd580"]
 
 [ext_resource type="Script" uid="uid://drgj7huen5gl7" path="res://Scripts/AnimationsAddOn/MainMenuAnimations/ship_properties.gd" id="1_by4wx"]
-[ext_resource type="Texture2D" uid="uid://bmdvly25plf0x" path="res://Sprites/Spaceships/Enemies/Ninja.png" id="2_p4yjf"]
+[ext_resource type="Texture2D" uid="uid://dst2qi4jmcv4h" path="res://Sprites/Spaceships/Enemies/boss_twin2.png" id="2_by4wx"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6b0sc"]
-atlas = ExtResource("2_p4yjf")
+[sub_resource type="AtlasTexture" id="AtlasTexture_cixfk"]
+atlas = ExtResource("2_by4wx")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4lggs"]
-atlas = ExtResource("2_p4yjf")
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mdfm"]
+atlas = ExtResource("2_by4wx")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1rcau"]
-atlas = ExtResource("2_p4yjf")
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5cf0"]
+atlas = ExtResource("2_by4wx")
 region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_su7o4"]
-atlas = ExtResource("2_p4yjf")
+[sub_resource type="AtlasTexture" id="AtlasTexture_oh1nn"]
+atlas = ExtResource("2_by4wx")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0ctnh"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6b0sc")
+"texture": SubResource("AtlasTexture_cixfk")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_4lggs")
+"texture": SubResource("AtlasTexture_5mdfm")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1rcau")
+"texture": SubResource("AtlasTexture_c5cf0")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_su7o4")
+"texture": SubResource("AtlasTexture_oh1nn")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
-[node name="NinjaDecorativeShip" type="Node2D"]
+[node name="NinjaDecorativeShip" type="Node2D" unique_id=1599331094]
 script = ExtResource("1_by4wx")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1164716375]
 texture_filter = 1
+rotation = 1.5760658
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_0ctnh")
 autoplay = "default"
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1592917593]
+rotation = 0.017064108
+rect = Rect2(-24.063059, -10, 46.935486, 20)
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

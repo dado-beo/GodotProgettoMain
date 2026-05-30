@@ -271,6 +271,22 @@ func spend_biscotti(amount: int) -> bool:
 		return true
 	return false
 
+# --- GESTIONE STATO UPGRADE ---
+func imposta_stato_upgrade(id_upgrade: String, abilitato: bool) -> void:
+	if upgrades.has(id_upgrade):
+		# Controlliamo che il giocatore lo abbia effettivamente comprato prima di poterlo attivare
+		if abilitato and not upgrades[id_upgrade]["purchased"]:
+			print("Errore: Impossibile attivare un upgrade non acquistato.")
+			return
+			
+		upgrades[id_upgrade]["enabled"] = abilitato
+		
+		# IL SEGRETO: Salviamo e inviamo immediatamente il nuovo stato al Cloud!
+		save_data(true) 
+		print("Upgrade '", id_upgrade, "' impostato su: ", abilitato)
+	else:
+		push_error("L'upgrade '" + id_upgrade + "' non esiste nel database!")
+
 func check_and_save_record(mode: String, value):
 	if value > records.get(mode, 0):
 		records[mode] = value

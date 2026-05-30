@@ -24,35 +24,35 @@ func init_healt(_health):
 	damage_bar.value = health
 
 # --- IL CUORE DEL SISTEMA ---
-# Questa funzione viene chiamata automaticamente ogni volta che 'health' cambia.
 func _set_health(new_health):
-	var prev_health = health # Salviamo la vita precedente per fare un confronto
+	var prev_health = health
 	
-	# Aggiorniamo la variabile interna, assicurandoci che non superi il massimo.
 	health = min(max_value, new_health)
-	
-	# Aggiorniamo SUBITO la barra principale (feedback istantaneo).
 	value = health
 	
-	# Controllo Morte: Se la vita è a zero, rimuoviamo la barra.
-	# (NOTA: Solitamente è l'entità a morire, non solo la barra, ma qui puliamo la UI).
 	if health <= 0:
 		queue_free()
 		
-	# --- LOGICA DELL'EFFETTO SCIA ---
+	# --- LOGICA DELL'EFFETTO SCIA E FLASH ---
 	if health < prev_health:
 		# CASO: Abbiamo preso DANNO.
-		# La barra principale scende subito (riga 35), ma la damage_bar resta ferma.
-		# Avviamo il timer: per un po' vedremo la differenza tra le due barre.
 		timer.start()
+		
+		# EFFETTO BRILLANTE
+		# Spariamo la luminosità della barra al massimo (effetto flash bianco/luminoso)
+		modulate = Color(2.5, 2.5, 2.5) 
+		
+		# E la facciamo tornare normale in 0.2 secondi
+		var flash_tween = create_tween()
+		flash_tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0), 0.2)
+		
 	else:
 		# CASO: Ci siamo CURATI.
-		# In questo caso non vogliamo l'effetto ritardo.
-		# Anche la damage_bar deve salire subito per coprire lo spazio vuoto.
 		damage_bar.value = health
 
 # Chiamata quando il Timer finisce (dopo aver preso danno).
 func _on_timer_timeout() -> void:
-	# Il tempo di "visualizzazione del danno" è finito.
-	# La barra del danno si allinea alla vita attuale.
-	damage_bar.value = health
+	# Invece di farla saltare di scatto, creiamo un Tween
+	# che fa scorrere la barra del danno fluidamente in 0.2 secondi!
+	var tween = create_tween()
+	tween.tween_property(damage_bar, "value", health, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)

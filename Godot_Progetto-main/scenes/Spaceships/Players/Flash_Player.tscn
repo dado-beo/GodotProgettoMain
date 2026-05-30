@@ -65,9 +65,9 @@ shape = SubResource("CircleShape2D_j20sa")
 
 [node name="HealtBar" parent="." unique_id=542158289 instance=ExtResource("2_h1dio")]
 offset_left = -10.0
-offset_top = -19.0
+offset_top = -24.0
 offset_right = 11.0
-offset_bottom = -12.0
+offset_bottom = -17.0
 
 [node name="ChargedShotCooldown" type="TextureProgressBar" parent="." unique_id=128143858]
 offset_left = 4.9999995

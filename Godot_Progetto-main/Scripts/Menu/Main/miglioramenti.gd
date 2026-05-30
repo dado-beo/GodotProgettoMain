@@ -40,12 +40,12 @@ func update_ui_elements():
 	# Gestione Upgrade 1
 	$Upgrade1/Price1.text = str(data["u1"]["costo"])
 	$Upgrade1/Price1.visible = not is_purchased_1 # Nasconde la label se acquistato
-	$Upgrade1/Sprite2D.visible = not is_purchased_1 # Nasconde la label se acquistato
+	$Upgrade1/Sprite2D.visible = not is_purchased_1 # Nasconde lo sprite se acquistato
 	
 	# Gestione Upgrade 2
 	$Upgrade2/Price2.text = str(data["u2"]["costo"])
 	$Upgrade2/Price2.visible = not is_purchased_2 # Nasconde la label se acquistato
-	$Upgrade2/Sprite2D.visible = not is_purchased_2 # Nasconde la label se acquistato
+	$Upgrade2/Sprite2D.visible = not is_purchased_2 # Nasconde lo sprite se acquistato
 
 func _setup_button(btn, info: Dictionary):
 	var key = info["key"]
@@ -69,8 +69,11 @@ func _handle_upgrade_click(u_id: String, btn: Button, toggled_on: bool):
 	
 	if not is_purchased:
 		if toggled_on and GameData.spend_biscotti(data["costo"]):
+			# 1. Segniamo l'upgrade come acquistato
 			GameData.upgrades[key]["purchased"] = true
-			GameData.upgrades[key]["enabled"] = true
+			
+			# 2. Usiamo la nuova funzione per attivarlo e salvare in cloud!
+			GameData.imposta_stato_upgrade(key, true)
 			
 			# AGGIUNTA: Controllo completamento acquisti dopo ogni acquisto andato a buon fine
 			# GameData.check_completamento_acquisti()
@@ -78,9 +81,10 @@ func _handle_upgrade_click(u_id: String, btn: Button, toggled_on: bool):
 			print("Monete insufficienti per: ", data["nome"])
 			btn.set_pressed_no_signal(false) 
 	else:
-		GameData.upgrades[key]["enabled"] = toggled_on
+		# 3. Se è già acquistato, usiamo la nuova funzione per accenderlo/spegnerlo e forzare il salvataggio Cloud
+		GameData.imposta_stato_upgrade(key, toggled_on)
 		
-	GameData.save_data()
+	# Nota: Ho rimosso GameData.save_data() da qui perché ci pensa già la funzione imposta_stato_upgrade!
 	update_ui_elements()
 
 func _on_upgrade_1_toggled(toggled_on: bool) -> void:

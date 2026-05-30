@@ -20,19 +20,19 @@ func _ready() -> void:
 		is_it_player = false
 		
 	elif bullet_name == "Bullet_Purple_Devil":
-		set_parameters(800, 3)
+		set_parameters(1100, 3)
 		is_it_player = false
 		
 	elif bullet_name == "Bullet_Yellow_Ufo":
-		set_parameters(700, 2)
+		set_parameters(800, 2)
 		is_it_player = false
 		
 	elif bullet_name == "Bullet_Hunter": # Assicurati che il nome del file della scena sia questo!
-		set_parameters(800, 1) # Velocità 800 (molto veloce) e Danno 1
+		set_parameters(1000, 1) # Velocità 800 (molto veloce) e Danno 1
 		is_it_player = false
 	
 	elif bullet_name == "Bullet_Yellow_Turtle":
-		set_parameters(450, 4)
+		set_parameters(650, 4)
 		is_it_player = false
 		
 	elif bullet_name == "Bullet_Green_Flesh": 
@@ -43,7 +43,7 @@ func _ready() -> void:
 		set_parameters(900, 3)
 		is_it_player = true
 		
-	elif bullet_name == "Bullet_Yellow_Aqua":
+	elif bullet_name == "Bullet_Aqua":
 		set_parameters(1400, 3)
 		is_it_player = true
 	
@@ -82,7 +82,18 @@ func _physics_process(delta: float) -> void:
 		# Se ha un target valido, sterza verso di lui
 		if target != null and is_instance_valid(target):
 			var desired = (target.global_position - global_position).normalized()
-			direction = direction.lerp(desired, turn_speed * delta).normalized()
+			
+			# --- FIX: GESTIONE STERZATA INTELLIGENTE ---
+			var distance_to_target = global_position.distance_to(target.global_position)
+			var current_turn_speed = turn_speed
+			
+			# Se il proiettile è molto vicino (meno di 150 pixel), sterza molto più bruscamente
+			# per evitare l'effetto "orbita"
+			if distance_to_target < 150.0:
+				current_turn_speed = turn_speed * 2.5 # Aumenta la sterzata del 250%
+				speed = min(speed, 350) # Rallenta leggermente per curvare meglio
+				
+			direction = direction.lerp(desired, current_turn_speed * delta).normalized()
 	
 	# Applica rotazione grafica
 	rotation = direction.angle()

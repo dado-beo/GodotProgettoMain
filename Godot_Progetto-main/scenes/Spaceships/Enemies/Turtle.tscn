@@ -39,10 +39,10 @@ rotation = 1.56428
 shape = SubResource("CapsuleShape2D_o3d5o")
 
 [node name="HealthBar" parent="." unique_id=1904526217 instance=ExtResource("2_3hha8")]
-offset_left = -10.0
-offset_top = -19.0
-offset_right = 11.0
-offset_bottom = -12.0
+offset_left = -9.001497
+offset_top = -19.999325
+offset_right = 11.998503
+offset_bottom = -12.999325
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=290081298]
 stream = ExtResource("4_uhe28")

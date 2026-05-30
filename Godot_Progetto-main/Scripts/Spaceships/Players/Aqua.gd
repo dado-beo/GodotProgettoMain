@@ -23,7 +23,7 @@ var is_shield_active: bool = false
 # Contatore per la prima abilità (Cura)
 var hit_counter: int = 0
 
-var bullet_scene = preload("res://scenes/Bullets/Player/Bullet_Yellow_StarChaser.tscn")
+var bullet_scene = preload("res://scenes/Bullets/Player/Bullet_Aqua.tscn")
 
 const FIRE_RATE: float = 0.3
 var time_since_last_shot: float = 0.3

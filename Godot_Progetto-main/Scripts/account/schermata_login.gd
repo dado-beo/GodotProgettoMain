@@ -214,6 +214,8 @@ func _avvia_recupero_dati() -> void:
 	var documento = await database_reference.get_doc(user_id)
 	_on_dati_scaricati(documento)
 
+# --- RECUPERO DATI CLOUD ---
+
 func _on_dati_scaricati(documento: FirestoreDocument) -> void:
 	if documento and documento.doc_fields != null:
 		var dati = documento.doc_fields
@@ -240,13 +242,19 @@ func _on_dati_scaricati(documento: FirestoreDocument) -> void:
 		_mostra_messaggio("Bentornato, " + GameData.current_username + "!", COLOR_SUCCESS)
 		await get_tree().create_timer(1.5).timeout
 		_blocca_interfaccia(false)
-		_on_tasto_chiudi_pressed()
+		
+		# FIX: Torna al main menu SOLO se il pannello di login è visibile!
+		if self.visible:
+			_on_tasto_chiudi_pressed()
 	else:
 		GameData.current_user_id = Firebase.Auth.auth.localid
 		GameData.current_username = "Giocatore"
 		GameData.save_data(true)
 		_blocca_interfaccia(false)
-		_on_tasto_chiudi_pressed()
+		
+		# FIX ANCHE QUI: Torna al main menu SOLO se il pannello è visibile!
+		if self.visible:
+			_on_tasto_chiudi_pressed()
 
 func _on_visibility_changed() -> void:
 	# Eseguiamo il reset SOLO quando la schermata diventa visibile
