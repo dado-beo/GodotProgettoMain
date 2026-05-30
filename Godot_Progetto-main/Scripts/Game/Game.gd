@@ -140,6 +140,7 @@ func spawn_enemy():
 		enemy_inst.tree_exited.connect(_on_enemy_died)
 		
 	add_child(enemy_inst)
+	enemy_inst.add_to_group("enemies") 
 
 # Aggiorna velocità di spawn in base al tempo di gioco (Totale 90 sec)
 func update_spawn_speed(c_time: int) -> void:
@@ -158,8 +159,8 @@ func update_spawn_speed(c_time: int) -> void:
 	# Da 60 a 90 secondi (Fase Difficile / Sopravvivenza finale)
 	elif c_time <= 90:
 		var progress: float = (c_time - 60) / 30.0
-		# Scende da 0.8 a 0.35 secondi
-		delta = lerp(0.8, 0.35, progress)
+		# Scende da 0.8 a 0.6 secondi
+		delta = lerp(0.8, 0.6, progress)
 		
 	# Oltre i 90 secondi
 	else:
@@ -185,8 +186,9 @@ func _on_timer_tick():
 	if current_time in grav_well_spawn_times:
 		_spawn_grav_well()
 
+	# VITTORIA ALLO SCADERE DEL TEMPO
 	if current_time >= GAME_DURATION:
-		_game_over(true) # True = ha vinto/sopravvissuto allo scadere del tempo
+		_avvia_sequenza_fine_gioco(true) # True = ha vinto/sopravvissuto
 
 func _update_timer_label():
 	var minutes = current_time / 60
@@ -215,7 +217,7 @@ func _spawn_grav_well():
 		return
 		
 	var viewport_size = get_viewport_rect().size
-	var margin = 80 
+	var margin = 360
 	
 	# Sceglie a caso l'asse da cui arrivano: 0 = Verticale (Su/Giù), 1 = Orizzontale (Sinistra/Destra)
 	var asse_spawn = randi() % 2 
@@ -254,32 +256,48 @@ func _on_enemy_died() -> void:
 	enemies_killed += 1
 
 func _on_player_died():
+	# SCONFITTA PER MORTE DEL GIOCATORE
+	_avvia_sequenza_fine_gioco(false) # False = è morto
+
+func _avvia_sequenza_fine_gioco(survived: bool):
+	# Evita che la funzione parta due volte (es. muori esattamente all'ultimo secondo)
+	if game_timer.is_stopped(): return 
+	
+	# 1. STOP AI TIMER
 	game_timer.stop()
 	spawn_timer.stop()
-	if musica: musica.pitch_scale = 0.4
 	
-	get_tree().call_group("enemies", "queue_free") # Questo comando dice a tutti i nodi nel gruppo "enemies" di autodistruggersi!
+	# 2. GESTIONE MUSICA: Pitch UP per Vittoria, Pitch DOWN per Sconfitta
+	if musica:
+		if survived:
+			musica.pitch_scale = 1.3 # Accelerato ed energico per la vittoria (puoi regolarlo!)
+		else:
+			musica.pitch_scale = 0.4 # Rallentato e drammatico per la sconfitta
 	
-	# Rallenta il tempo al 10%
+	# 3. EFFETTO SLOW MOTION
 	Engine.time_scale = 0.1
 	
-	# Aspettiamo 1 secondo REALE (ignorando il time_scale di Engine)
+	# 4. PAUSA CINEMATOGRAFICA (aspetta 1 sec reale)
 	await get_tree().create_timer(1.0, true, false, true).timeout
 	
-	# Riportiamo il tempo normale per la UI
+	# 5. CHIAMA LA SCHERMATA FINALE
+	_game_over(survived)
+
+func _game_over(survived: bool):
+	# 1. RIPRISTINO DEL TEMPO NORMALE
 	Engine.time_scale = 1.0
 	
-	# Ora chiamiamo la funzione che fa apparire il Game Over
-	_game_over(false)
-	
-func _game_over(survived: bool):
 	print("Gioco terminato! Biscotti totali: %d" % GameData.biscotti)
-	game_timer.stop()
-	spawn_timer.stop()
+	
+	# 2. PULIZIA SCHERMO (Elimina tutti i nemici, giocatore, proiettili)
+	var gruppi_da_pulire = ["enemies", "player", "projectiles", "asteroids", "grav_well"]
+	for gruppo in gruppi_da_pulire:
+		get_tree().call_group(gruppo, "queue_free")
+		
 	GameData.check_and_save_record("mode_1", current_time)
 	var tempo_finale = time_label.text if time_label else "Tempo: 00:00"
 		
-	# Passiamo i dati alla UI di Game Over e la rendiamo visibile
+	# 3. MOSTRA LA SCHERMATA UI
 	if game_over_screen and game_over_screen.has_method("setup_game_over"):
 		game_over_screen.visible = true
 		game_over_screen.setup_game_over(biscotti_ottenuti_partita, enemies_killed, tempo_finale, survived)

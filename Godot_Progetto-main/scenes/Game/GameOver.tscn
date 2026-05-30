@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cgrlw7hyh4ssl" path="res://Scripts/Game/GameOver.gd" id="1_icbwp"]
 [ext_resource type="Texture2D" uid="uid://uvbf7rhux1pc" path="res://Sprites/Backgrounds/game_over_frame.png" id="1_p7owx"]
 [ext_resource type="FontFile" uid="uid://dh8b3n051ubbv" path="res://Sprites/Fonts/MainFont.TTF" id="2_px800"]
-[ext_resource type="Texture2D" uid="uid://bbyeqi7qtdcrq" path="res://Sprites/Buttons/pngtree-star-pixel-png-image_21050156-removebg-preview.png" id="4_lyu6d"]
+[ext_resource type="Texture2D" uid="uid://cteljlqa88c50" path="res://Sprites/Buttons/biscotto.png" id="4_lyu6d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lyu6d"]
 bg_color = Color(1, 1, 1, 1)
@@ -68,7 +68,6 @@ theme_override_colors/font_shadow_color = Color(0.36862746, 0.21176471, 0.494117
 theme_override_constants/shadow_offset_x = 9
 theme_override_fonts/font = ExtResource("2_px800")
 theme_override_font_sizes/font_size = 60
-text = "GAME OVER	"
 horizontal_alignment = 1
 
 [node name="Spacer1" type="Control" parent="Panel/VBoxContainer" unique_id=1863182432]
@@ -131,6 +130,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="BoxCostume" type="HBoxContainer" parent="Panel/VBoxContainer/TeaserContainer" unique_id=138907888]
 layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="BtnCostume" type="TextureButton" parent="Panel/VBoxContainer/TeaserContainer/BoxCostume" unique_id=1511144524]
 custom_minimum_size = Vector2(64, 64)
@@ -138,13 +138,15 @@ layout_mode = 2
 ignore_texture_size = true
 stretch_mode = 5
 
+[node name="Sprite2D" type="Sprite2D" parent="Panel/VBoxContainer/TeaserContainer/BoxCostume" unique_id=713541316]
+visible = false
+position = Vector2(92.49999, 32.62506)
+scale = Vector2(0.59999996, 0.59999996)
+texture = ExtResource("4_lyu6d")
+
 [node name="TestoCostume" type="Label" parent="Panel/VBoxContainer/TeaserContainer/BoxCostume" unique_id=1482686699]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_px800")
-
-[node name="Sprite2D" type="Sprite2D" parent="Panel/VBoxContainer/TeaserContainer/BoxCostume/TestoCostume" unique_id=713541316]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("4_lyu6d")
 
 [node name="BoxUpgrade" type="HBoxContainer" parent="Panel/VBoxContainer/TeaserContainer" unique_id=1329235339]
 layout_mode = 2
@@ -160,8 +162,9 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("2_px800")
 
 [node name="Sprite2D" type="Sprite2D" parent="Panel/VBoxContainer/TeaserContainer/BoxUpgrade/TestoUpgrade" unique_id=1300672363]
-position = Vector2(0, 2)
-scale = Vector2(0.1, 0.1)
+visible = false
+position = Vector2(24.5, 2.625)
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("4_lyu6d")
 
 [node name="BoxIcona" type="HBoxContainer" parent="Panel/VBoxContainer/TeaserContainer" unique_id=1262840638]
@@ -178,7 +181,9 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("2_px800")
 
 [node name="Sprite2D" type="Sprite2D" parent="Panel/VBoxContainer/TeaserContainer/BoxIcona/TestoIcona" unique_id=134187315]
-scale = Vector2(0.1, 0.1)
+visible = false
+position = Vector2(24.5, 3.375)
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("4_lyu6d")
 
 [node name="Replay" type="Button" parent="Panel" unique_id=873250927]

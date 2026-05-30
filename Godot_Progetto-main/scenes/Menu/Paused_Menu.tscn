@@ -151,10 +151,10 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="Options" unique_id=979432556]
 layout_direction = 1
 layout_mode = 0
-offset_left = 40.0
-offset_top = 18.0
-offset_right = 362.0
-offset_bottom = 253.0
+offset_left = 42.0
+offset_top = 5.0
+offset_right = 364.0
+offset_bottom = 309.0
 theme_override_constants/separation = 40
 
 [node name="Label" type="Label" parent="Options/VBoxContainer" unique_id=2077981116]

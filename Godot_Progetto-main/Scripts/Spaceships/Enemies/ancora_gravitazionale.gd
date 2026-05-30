@@ -40,7 +40,7 @@ func _physics_process(delta: float) -> void:
 		pick_new_random_target()
 
 func pick_new_random_target() -> void:
-	var margin = 60 
+	var margin = 360
 	var rand_x = randf_range(margin, screen_rect.size.x - margin)
 	var rand_y = randf_range(margin, screen_rect.size.y - margin)
 	target_position = Vector2(rand_x, rand_y)

@@ -5,12 +5,14 @@ extends Node2D
 @onready var contenitore_ui = get_node_or_null("UI/Contenitore UI") 
 @onready var biscotti_label = get_node_or_null("UI/Contenitore UI/BiscottiLabel")
 @onready var game_over_screen = get_node_or_null("GameOver")
+@onready var musica: AudioStreamPlayer = get_node_or_null("AudioStreamPlayer") # <-- AGGIUNTO: Riferimento alla musica
 
 # --- COSTANTI E SCENE ---
 const SPAWN_WIDTH := 1152
 const SPAWN_HEIGHT := 648
 const ENEMY_SCENE := preload("res://scenes/Spaceships/Enemies/Ufo.tscn")
-const HUNTER_SCENE := preload("res://scenes/Spaceships/Enemies/Hunter.tscn") 
+const HUNTER1_SCENE := preload("res://scenes/Spaceships/Enemies/Hunter1.tscn") 
+const HUNTER2_SCENE := preload("res://scenes/Spaceships/Enemies/Hunter2.tscn") 
 const DIVINE_UFO_SCENE := preload("res://scenes/Spaceships/Enemies/Ufo_Divino.tscn")
 
 # --- VARIABILI ANIMAZIONE ---
@@ -39,6 +41,9 @@ var waves_data = [
 
 func _ready() -> void:
 	randomize()
+	
+	if musica:
+		musica.play()
 	
 	# Setup UI Animata
 	visual_biscotti = GameData.biscotti
@@ -119,7 +124,7 @@ func start_next_wave():
 		GameData.check_and_save_record("mode_2", current_wave)
 		if mai_colpito: GameData.sblocca_achievement("secondaMod_MaiColpito")
 		
-		await get_tree().create_timer(3.0).timeout
+		# Abbiamo rimosso il timer manuale qui per affidare tutto al nuovo regista della fine partita
 		if is_game_active: _vittoria_boss_finale()
 		return
 
@@ -215,8 +220,9 @@ func _on_wave_finished() -> void:
 
 func _spawn_final_hunters():
 	var mid_y = SPAWN_HEIGHT / 2.0
-	var left_hunter = HUNTER_SCENE.instantiate()
-	var right_hunter = HUNTER_SCENE.instantiate()
+	
+	var left_hunter = HUNTER1_SCENE.instantiate()
+	var right_hunter = HUNTER2_SCENE.instantiate()
 	
 	left_hunter.position = Vector2(-200, mid_y)
 	right_hunter.position = Vector2(SPAWN_WIDTH + 200, mid_y)
@@ -246,28 +252,44 @@ func _give_wave_reward(wave: int) -> void:
 		biscotti_ottenuti_partita += reward
 	rewarded_waves.append(wave)
 
-# --- FINE PARTITA ---
+# --- SEQUENZA FINE PARTITA UNIFICATA ---
 
 func _on_player_died():
-	if not is_game_active: return
-	is_game_active = false
-	is_spawning = false 
-	
-	Engine.time_scale = 0.1
-	for g in ["enemies", "asteroids", "projectiles"]:
-		get_tree().call_group(g, "queue_free")
-		
-	await get_tree().create_timer(1.0, true, false, true).timeout
-	Engine.time_scale = 1.0
-	_mostra_game_over(false)
+	_avvia_sequenza_fine_gioco(false)
 
 func _vittoria_boss_finale():
+	_avvia_sequenza_fine_gioco(true)
+
+func _avvia_sequenza_fine_gioco(survived: bool):
 	if not is_game_active: return
 	is_game_active = false
-	_mostra_game_over(true)
+	is_spawning = false
+	
+	# 1. GESTIONE MUSICA
+	if musica:
+		if survived:
+			musica.pitch_scale = 1.3
+		else:
+			musica.pitch_scale = 0.4
+			
+	# 2. EFFETTO SLOW MOTION
+	Engine.time_scale = 0.1
+	
+	# 3. PAUSA CINEMATOGRAFICA
+	await get_tree().create_timer(1.0, true, false, true).timeout
+	
+	# 4. PASSA AL GAME OVER
+	_mostra_game_over(survived)
 
 func _mostra_game_over(survived: bool):
+	# RIPRISTINO TEMPO E PULIZIA
+	Engine.time_scale = 1.0
+	var gruppi_da_pulire = ["enemies", "player", "projectiles", "asteroids", "grav_well"]
+	for gruppo in gruppi_da_pulire:
+		get_tree().call_group(gruppo, "queue_free")
+		
 	GameData.save_data(true) 
+	
 	if game_over_screen:
 		game_over_screen.visible = true
 		var testo = "Ondata: " + str(current_wave) if not survived else "VITTORIA!"

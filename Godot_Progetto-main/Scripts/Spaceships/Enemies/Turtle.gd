@@ -93,7 +93,6 @@ func take_damage(amount: int) -> void:
 	if health <= 0:
 		die()
 
-# --------------------
 func die() -> void:
 	var explosion = preload("res://scenes/AnimationAddOn/Explosion.tscn").instantiate()
 	explosion.global_position = global_position
@@ -106,5 +105,8 @@ func die() -> void:
 	get_parent().add_child(explosion)
 
 	GameData.aggiungi_kill("tartaruga")
+	
+	# --- NUOVO: Avvisiamo la Endless Mode che abbiamo fatto un'uccisione vera! ---
+	get_tree().call_group("endless_mode", "registra_kill")
 
 	queue_free()

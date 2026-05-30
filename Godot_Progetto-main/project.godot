@@ -14,10 +14,10 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Shooter"
+config/name="Tempera Biscotti"
 run/main_scene="res://scenes/Spaceships/Players/StarChaser_Player.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
-config/icon="uid://byu5j8qpj1hv8"
+config/icon="uid://ov7bai3xdisy"
 
 [autoload]
 
@@ -29,7 +29,7 @@ Firebase="*uid://cvb26atjckwlq"
 
 [display]
 
-window/size/mode=1
+window/size/mode=3
 window/stretch/mode="canvas_items"
 
 [editor_plugins]

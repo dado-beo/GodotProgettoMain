@@ -77,7 +77,8 @@ func switch_view(view_name: String) -> void:
 		views[key].visible = (key == view_name)
 		
 	$Options/VBoxContainer/Back.visible = (view_name != "main")
-
+	$Title.visible = (view_name != "main")
+	
 	var is_on_leaderboard = (view_name == "leaderboard")
 	for key in background_elements:
 		if background_elements[key]:
@@ -94,7 +95,8 @@ func _on_start_pressed(): switch_view("selection")
 func _on_settings1_pressed(): switch_view("options")
 func _on_settings2_pressed(): switch_view("armadietto")
 func _on_back_pressed(): switch_view("main")
-
+func _on_button_4_pressed(): get_tree().quit()
+	
 func _on_mod_pressed(mod: String) -> void:
 	var tween = create_tween()
 	tween.tween_property(musica, "volume_db", -80.0, 0.5)

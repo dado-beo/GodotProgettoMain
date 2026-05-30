@@ -250,15 +250,26 @@ func take_damage(amount: int) -> void:
 	if is_shield_active:
 		return 
 	# -------------------------------------
-	
-	preso_danno.emit() # Avvisa il gioco che sei stato colpito!
-	
-	health -= amount
-	if healthbar:
-		healthbar.health = health 
 	if health <= 0:
+		return 
+		
+	preso_danno.emit()
+	health -= amount
+	
+	# 2. Sicurezza: Controlliamo che la healthbar esista ancora
+	if is_instance_valid(healthbar):
+		healthbar.health = health 
+		
+	if health <= 0:
+		# 3. Disattiviamo le collisioni
+		set_collision_layer_value(1, false)
+		set_collision_mask_value(2, false)
+		
+		visible = false # Nasconde lo sprite
+		set_physics_process(false) # Gli impedisce di muoversi (blocca _physics_process)
+		set_process(false) # FIX: Gli impedisce di sparare e usare abilità (blocca _process)
+		
 		died.emit()
-		die()
 
 func die() -> void:
 	visible = false

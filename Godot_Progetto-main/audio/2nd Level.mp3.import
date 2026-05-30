@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cpf2mrjs65gt7"
+path="res://.godot/imported/2nd Level.mp3-2c32207ea5a54681468f11704c1b6953.mp3str"
+
+[deps]
+
+source_file="res://audio/2nd Level.mp3"
+dest_files=["res://.godot/imported/2nd Level.mp3-2c32207ea5a54681468f11704c1b6953.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

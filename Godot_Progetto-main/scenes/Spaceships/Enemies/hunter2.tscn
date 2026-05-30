@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://c8jfwdpxnvmyu"]
+
+[ext_resource type="PackedScene" uid="uid://d0imfud6r0m17" path="res://scenes/Spaceships/Enemies/Hunter.tscn" id="1_tvsrb"]
+[ext_resource type="Texture2D" uid="uid://dst2qi4jmcv4h" path="res://Sprites/Spaceships/Enemies/boss_twin2.png" id="2_0bfba"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rlq14"]
+atlas = ExtResource("2_0bfba")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55i1v"]
+atlas = ExtResource("2_0bfba")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7k4yp"]
+atlas = ExtResource("2_0bfba")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b47ye"]
+atlas = ExtResource("2_0bfba")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f3by8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rlq14")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55i1v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7k4yp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b47ye")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Hunter" unique_id=1453587179 instance=ExtResource("1_tvsrb")]
+
+[node name="AnimatedSprite2D" parent="." index="1" unique_id=1728432643]
+sprite_frames = SubResource("SpriteFrames_f3by8")
+frame_progress = 0.2547892

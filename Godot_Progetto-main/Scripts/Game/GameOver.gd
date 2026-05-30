@@ -33,11 +33,11 @@ var frasi_sconfitta = [
 	"Non sbriciolarti ora!", 
 	"La frolla cosmica si e' spezzata!", 
 	"Troppo inzuppo gravitazionale!",
-	"Il tuo biscotto è andato in frantumi!",
-	"Un pasticciere spaziale non \nsi arrende mai!"
+	"Il tuo biscotto\ne' andato in frantumi!",
+	"Un pasticciere spaziale non\nsi arrende mai!"
 ]
 var frasi_vittoria = [
-	"Biscotto temperato alla perfezione!", "Hai salvato la frolla cosmica!"
+	"Biscotto temperato \nalla perfezione!", "Hai salvato la frolla cosmica!"
 ]
 
 func _ready() -> void:
@@ -52,9 +52,11 @@ func setup_game_over(biscotti: int, uccisioni: int, tempo_testo: String, survive
 	label_biscotti.text = "Biscotti Ottenuti: " + str(biscotti) # <-- MODIFICATO
 	
 	if survived:
+		label_titolo.text = "VITTORIA!"
 		label_frase.text = frasi_vittoria.pick_random()
 		label_frase.modulate = Color(1, 0.8, 0)
 	else:
+		label_titolo.text = "GAME OVER" # <-- NUOVO: Mantiene Game Over in caso di sconfitta
 		label_frase.text = frasi_sconfitta.pick_random()
 		label_frase.modulate = Color(1, 0.3, 0.3) 
 		
@@ -63,8 +65,7 @@ func setup_game_over(biscotti: int, uccisioni: int, tempo_testo: String, survive
 			blink_tween_frase.tween_property(label_frase, "modulate:a", 0.0, 0.8)
 			blink_tween_frase.tween_property(label_frase, "modulate:a", 1.0, 0.8)
 			
-	# NUOVO: Generiamo il teaser ORA, passandogli i biscotti appena vinti!
-	_genera_teaser_negozio(biscotti) # <-- MODIFICATO
+	_genera_teaser_negozio(biscotti) 
 		
 # --- SISTEMA TEASER A LISTA ---
 func _genera_teaser_negozio(biscotti_partita: int): # <-- MODIFICATO

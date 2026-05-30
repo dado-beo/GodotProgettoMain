@@ -85,6 +85,7 @@ stream = ExtResource("6_f8ls4")
 bus = &"Music"
 
 [node name="GameOver" parent="." unique_id=1619941871 instance=ExtResource("8_lfncv")]
+process_mode = 3
 visible = false
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=104876688]

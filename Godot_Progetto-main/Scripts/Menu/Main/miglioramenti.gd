@@ -68,12 +68,12 @@ func _handle_upgrade_click(u_id: String, btn: Button, toggled_on: bool):
 	var is_purchased = GameData.upgrades[key]["purchased"]
 	
 	if not is_purchased:
-		if toggled_on and GameData.spend_monete(data["costo"]):
+		if toggled_on and GameData.spend_biscotti(data["costo"]):
 			GameData.upgrades[key]["purchased"] = true
 			GameData.upgrades[key]["enabled"] = true
 			
 			# AGGIUNTA: Controllo completamento acquisti dopo ogni acquisto andato a buon fine
-			GameData.check_completamento_acquisti()
+			# GameData.check_completamento_acquisti()
 		else:
 			print("Monete insufficienti per: ", data["nome"])
 			btn.set_pressed_no_signal(false) 
