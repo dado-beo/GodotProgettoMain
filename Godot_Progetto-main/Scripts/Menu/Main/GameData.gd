@@ -160,7 +160,7 @@ func load_data():
 			biscotti_totali_ottenuti = data.get("biscotti_totali_ottenuti", biscotti)
 			current_icon_index = data.get("current_icon_index", 0)
 			unlocked_icons = data.get("unlocked_icons", [true, false, false, false, false])
-			selected_ship_index = data.get("selected_ship_index", 0)
+			selected_ship_index = int(data.get("selected_ship_index", 0))
 			
 			if selected_ship_index < ship_scenes.size():
 				selected_ship_scene = ship_scenes[selected_ship_index]

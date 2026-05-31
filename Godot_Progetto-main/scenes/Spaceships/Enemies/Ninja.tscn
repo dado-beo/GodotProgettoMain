@@ -242,19 +242,19 @@ frame_progress = 0.21124557
 
 [node name="Ninja_ShootyPart1" type="Node2D" parent="." unique_id=1165736021]
 texture_filter = 1
-position = Vector2(15, 0)
+position = Vector2(18, 0)
 
 [node name="Ninja_ShootyPart2" type="Node2D" parent="." unique_id=1745678781]
 texture_filter = 1
-position = Vector2(0, 16)
+position = Vector2(0, 19)
 
 [node name="Ninja_ShootyPart3" type="Node2D" parent="." unique_id=940830427]
 texture_filter = 1
-position = Vector2(0, -16)
+position = Vector2(0, -17)
 
 [node name="Ninja_ShootyPart4" type="Node2D" parent="." unique_id=1828532447]
 texture_filter = 1
-position = Vector2(-15, 0)
+position = Vector2(-18, 0)
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=239494657]
 

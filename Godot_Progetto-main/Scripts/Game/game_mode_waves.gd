@@ -11,8 +11,8 @@ extends Node2D
 const SPAWN_WIDTH := 1152
 const SPAWN_HEIGHT := 648
 const ENEMY_SCENE := preload("res://scenes/Spaceships/Enemies/Ufo.tscn")
-const HUNTER1_SCENE := preload("res://scenes/Spaceships/Enemies/Hunter1.tscn") 
-const HUNTER2_SCENE := preload("res://scenes/Spaceships/Enemies/Hunter2.tscn") 
+const HUNTER1_SCENE := preload("res://scenes/Spaceships/Enemies/hunter1.tscn") 
+const HUNTER2_SCENE := preload("res://scenes/Spaceships/Enemies/hunter2.tscn") 
 const DIVINE_UFO_SCENE := preload("res://scenes/Spaceships/Enemies/Ufo_Divino.tscn")
 
 # --- VARIABILI ANIMAZIONE ---

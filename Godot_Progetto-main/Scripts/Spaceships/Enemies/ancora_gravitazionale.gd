@@ -17,7 +17,13 @@ func _ready() -> void:
 	add_to_group("enemies")
 	screen_rect = get_viewport_rect()
 	
-	# Disabilitiamo la collisione con i Muri (Layer 2) appena nasce per farla entrare
+	# 1. Fondamentale: scegliamo subito un target casuale appena nasce!
+	pick_new_random_target()
+	
+	# 2. Variamo leggermente la velocità di questa specifica ancora
+	# Così una sarà un po' più lenta/veloce dell'altra e non andranno a tempo
+	speed = randf_range(35.0, 50.0) 
+
 	set_collision_mask_value(2, false)
 
 func _physics_process(delta: float) -> void:
@@ -40,10 +46,22 @@ func _physics_process(delta: float) -> void:
 		pick_new_random_target()
 
 func pick_new_random_target() -> void:
-	var margin = 360
-	var rand_x = randf_range(margin, screen_rect.size.x - margin)
-	var rand_y = randf_range(margin, screen_rect.size.y - margin)
-	target_position = Vector2(rand_x, rand_y)
+	# 3. Usiamo un margine dinamico per non farle andare troppo ai bordi
+	var margin_x = screen_rect.size.x * 0.2
+	var margin_y = screen_rect.size.y * 0.2
+	
+	var rand_x = randf_range(margin_x, screen_rect.size.x - margin_x)
+	var rand_y = randf_range(margin_y, screen_rect.size.y - margin_y)
+	
+	# Creiamo il nuovo punto
+	var new_target = Vector2(rand_x, rand_y)
+	
+	# 4. Controllo di sicurezza: se il nuovo punto è troppo vicino a quello vecchio, 
+	# riprova (così eviti che scelga un punto a 2 pixel di distanza e sembri ferma)
+	if new_target.distance_to(target_position) < 200:
+		pick_new_random_target()
+	else:
+		target_position = new_target
 
 # ==========================================
 # GESTIONE AURA GRAVITAZIONALE

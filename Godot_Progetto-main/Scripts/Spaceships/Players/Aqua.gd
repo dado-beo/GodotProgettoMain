@@ -20,6 +20,9 @@ var is_charging: bool = false
 var charge_timer: float = 0.0
 var is_shield_active: bool = false
 
+# Moltiplicatore per il rallentamento (1.0 = normale, 0.4 = rallentato)
+var speed_multiplier: float = 1.0 
+
 # Contatore per la prima abilità (Cura)
 var hit_counter: int = 0
 
@@ -69,7 +72,8 @@ func _physics_process(_delta: float) -> void:
 		Input.get_axis("up", "down")
 	).normalized()
 
-	velocity = lerp(get_real_velocity(), input_vector * SPEED, 0.1)
+	# Aggiunto lo speed_multiplier al calcolo della velocità finale
+	velocity = lerp(get_real_velocity(), input_vector * (SPEED * speed_multiplier), 0.1)
 	move_and_slide()
 
 func _process(delta: float) -> void:
@@ -142,7 +146,9 @@ func fire() -> void:
 func start_charging() -> void:
 	is_charging = true
 	modulate = Color(2, 2, 2) 
-	create_tween().tween_property(self, "modulate", Color(1, 1, 1), 0.1)
+	# Ritorna al colore corretto in base allo status della gravità
+	var final_color = Color(1, 1, 1) if speed_multiplier == 1.0 else Color(0.7, 0.5, 1.0)
+	create_tween().tween_property(self, "modulate", final_color, 0.1)
 
 func activate_shield() -> void:
 	$AudioStreamPlayer2D.play()
@@ -182,8 +188,6 @@ func activate_shield() -> void:
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("enemy_bullets"):
 		
-		# Ora lo scudo si attiva SOLO se hai la SECONDA mod ("super_shield"),
-		# quindi se siamo qui, l'effetto riflettente parte in automatico!
 		var reflected_bullet = bullet_scene.instantiate()
 		reflected_bullet.global_position = area.global_position
 		
@@ -239,10 +243,11 @@ func heal(amount: int) -> void:
 		healthbar.health = health
 		
 	# --- EFFETTO VISIVO CURA ---
-	# Crea un lampo verde per far capire al giocatore che si è curato
 	var flash = create_tween()
 	flash.tween_property(self, "modulate", Color(0.5, 1.5, 0.5), 0.2)
-	flash.tween_property(self, "modulate", Color(1, 1, 1), 0.2)
+	# Assicuriamoci che, finita la cura, la navicella mantenga il colore viola se è rallentata
+	var final_color = Color(1, 1, 1) if speed_multiplier == 1.0 else Color(0.7, 0.5, 1.0)
+	flash.tween_property(self, "modulate", final_color, 0.2)
 
 func take_damage(amount: int) -> void:
 	# --- FIX CRUCIALE: INVULNERABILITÀ ---
@@ -256,18 +261,16 @@ func take_damage(amount: int) -> void:
 	preso_danno.emit()
 	health -= amount
 	
-	# 2. Sicurezza: Controlliamo che la healthbar esista ancora
 	if is_instance_valid(healthbar):
 		healthbar.health = health 
 		
 	if health <= 0:
-		# 3. Disattiviamo le collisioni
 		set_collision_layer_value(1, false)
 		set_collision_mask_value(2, false)
 		
-		visible = false # Nasconde lo sprite
-		set_physics_process(false) # Gli impedisce di muoversi (blocca _physics_process)
-		set_process(false) # FIX: Gli impedisce di sparare e usare abilità (blocca _process)
+		visible = false 
+		set_physics_process(false) 
+		set_process(false) 
 		
 		died.emit()
 
@@ -275,3 +278,14 @@ func die() -> void:
 	visible = false
 	set_process(false)
 	set_physics_process(false)
+
+# ==========================================
+# EFFETTI DI STATO ESTERNI (Ancora Gravitazionale)
+# ==========================================
+func apply_slow(amount: float) -> void:
+	speed_multiplier = amount
+	modulate = Color(0.7, 0.5, 1.0) 
+
+func remove_slow() -> void:
+	speed_multiplier = 1.0
+	modulate = Color(1, 1, 1)

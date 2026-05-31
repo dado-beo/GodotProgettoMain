@@ -36,8 +36,8 @@ var invasion_cooldown_max: float = 60.0
 var ufo_scene = preload("res://scenes/Spaceships/Enemies/Ufo.tscn")
 var ufo_divino_scene = preload("res://scenes/Spaceships/Enemies/Ufo_Divino.tscn") 
 var kamikaze_scene = preload("res://scenes/Spaceships/Enemies/Kamikaze.tscn")
-var hunter1_scene = preload("res://scenes/Spaceships/Enemies/Hunter1.tscn") # Modificato
-var hunter2_scene = preload("res://scenes/Spaceships/Enemies/Hunter2.tscn") # Modificato
+var hunter1_scene = preload("res://scenes/Spaceships/Enemies/hunter1.tscn") # Modificato
+var hunter2_scene = preload("res://scenes/Spaceships/Enemies/hunter2.tscn") # Modificato
 
 func _ready() -> void:
 	randomize()

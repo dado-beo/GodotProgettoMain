@@ -1,6 +1,6 @@
 extends Node2D
 
-const ENEMY_SCENE = preload("res://scenes/Spaceships/Enemies/Purple_Devil.tscn")
+const ENEMY_SCENE = preload("res://scenes/Spaceships/Enemies/Purple_devil.tscn")
 
 const SCREEN_WIDTH = 1152
 const SCREEN_HEIGHT = 648
