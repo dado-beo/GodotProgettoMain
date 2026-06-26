@@ -72,7 +72,11 @@ func _aggiorna_interfaccia_completa():
 
 func _update_player_name():
 	if user:
-		user.text = GameData.current_username
+		# Se il nome è vuoto (cioè l'utente non è loggato o ha fatto logout)
+		if GameData.current_username == "":
+			user.text = "Accedi" 
+		else:
+			user.text = GameData.current_username
 
 func _update_biscotti_label():
 	biscotti_label.text = ": %d" % GameData.biscotti

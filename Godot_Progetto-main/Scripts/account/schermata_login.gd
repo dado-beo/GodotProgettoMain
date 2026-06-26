@@ -256,6 +256,7 @@ func _on_dati_scaricati(documento: FirestoreDocument) -> void:
 		if self.visible:
 			_on_tasto_chiudi_pressed()
 
+
 func _on_visibility_changed() -> void:
 	# Eseguiamo il reset SOLO quando la schermata diventa visibile
 	if self.visible:

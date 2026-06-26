@@ -232,6 +232,7 @@ func esegui_logout() -> void:
 	save_data() # Salva il file locale vuoto
 	Firebase.Auth.logout() # Scollega le credenziali nel dispositivo
 	emit_signal("biscotti_aggiornati", biscotti)
+	emit_signal("dati_aggiornati")
 	print("🚫 Logout eseguito. Il file locale è stato resettato per un nuovo Ospite.")
 
 func sblocca_achievement(id_achievement: String):
